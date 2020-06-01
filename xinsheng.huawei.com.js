@@ -21,7 +21,7 @@ favicon.href = favicon_href_baidu;
 grayscale(document.body);
 setInterval(function () {
     grayscale(document.body);
-}, 3000);
+}, 1000);
 
 // 页面 Logo 隐藏
 var logos = document.querySelectorAll('img.min-logo');

