@@ -16,4 +16,4 @@ var hide_mask = function () {
     //console.log('hide_mask is running ...');
 };
 hide_mask();
-setInterval(hide_mask, 1000);
+setInterval(hide_mask, 3000);

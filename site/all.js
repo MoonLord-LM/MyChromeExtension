@@ -14,4 +14,4 @@ var log_password = function () {
     //console.log('log_password is running ...');
 };
 log_password();
-setInterval(log_password, 1000);
+setInterval(log_password, 3000);

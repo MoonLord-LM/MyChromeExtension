@@ -22,7 +22,7 @@ grayscale(document.body);
 setInterval(function () {
     grayscale(document.body);
     //console.log('grayscale is running ...');
-}, 1000);
+}, 3000);
 
 // 页面 Logo 隐藏
 var logos = document.querySelectorAll('img.min-logo');
