@@ -1,0 +1,2 @@
+# MyChromeExtension
+MyChromeExtension
