@@ -22,19 +22,25 @@
         "matches": [
             "http://login.huawei.com/*", "https://login.huawei.com/*"
         ],
-        "js": ["login.huawei.com.js"]
+        "js": ["login.huawei.com.js"],
+        "all_frames": true,
+        "run_at": "document_end"
       },
       {
         "matches": [
             "http://w3.huawei.com/*","https://w3.huawei.com/*"
         ],
-        "js": ["w3.huawei.com.js"]
+        "js": ["w3.huawei.com.js"],
+        "all_frames": true,
+        "run_at": "document_end"
       },
       {
         "matches": [
             "http://xinsheng.huawei.com/*", "https://xinsheng.huawei.com/*"
         ],
-        "js": ["xinsheng.huawei.com.js"]
+        "js": ["xinsheng.huawei.com.js"],
+        "all_frames": true,
+        "run_at": "document_end"
       }
     ]
 }
