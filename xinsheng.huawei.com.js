@@ -21,6 +21,7 @@ favicon.href = favicon_href_baidu;
 grayscale(document.body);
 setInterval(function () {
     grayscale(document.body);
+    //console.log('grayscale is running ...');
 }, 1000);
 
 // 页面 Logo 隐藏

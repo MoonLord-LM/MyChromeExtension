@@ -13,7 +13,7 @@ var hide_mask = function () {
     if(hide_count > 0){
         console.log('hide_mask hide_count: ' + hide_count);
     }
-    console.log('hide_mask is running ...');
+    //console.log('hide_mask is running ...');
 };
 hide_mask();
 setInterval(hide_mask, 1000);

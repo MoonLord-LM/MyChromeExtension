@@ -20,6 +20,12 @@
       },
       {
         "matches": [
+            "http://login.huawei.com/*", "https://login.huawei.com/*"
+        ],
+        "js": ["login.huawei.com.js"]
+      },
+      {
+        "matches": [
             "http://w3.huawei.com/*","https://w3.huawei.com/*"
         ],
         "js": ["w3.huawei.com.js"]
