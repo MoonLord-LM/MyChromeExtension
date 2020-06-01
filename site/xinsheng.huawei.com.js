@@ -52,6 +52,24 @@ for (i = 0; i < group_icons.length; i++) {
     group_icons[i].style.display = 'none';
 }
 
+// 帖子列表修改排版
+var html_body = document.querySelector('div.html_body');
+if (html_body !== null) {
+    html_body.style.width = '100%';
+}
+var bbs_left = document.querySelector('div.bbs_left');
+if (bbs_left !== null) {
+    bbs_left.style.width = '100%';
+}
+var list_titles = document.querySelectorAll('div.bbs_list ul li div.font_box div.title');
+for (i = 0; i < list_titles.length; i++) {
+    list_titles[i].style.fontSize = '14px';
+}
+var list_operates = document.querySelectorAll('div.bbs_list ul li div.font_box div.pro p.pro_operate');
+for (i = 0; i < list_operates.length; i++) {
+    list_operates[i].style.float = 'left';
+}
+
 // 帖子详情隐藏右侧工具栏
 var scrolls = document.querySelectorAll('div.bbsinfoscroll');
 for (i = 0; i < scrolls.length; i++) {

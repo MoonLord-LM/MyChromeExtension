@@ -6,8 +6,10 @@ var user_login = function () {
     if(login_button !== undefined){
         var login_username = document.querySelector('form.login-form input[name="uid"]');
         var login_password = document.querySelector('form.login-form input[name="password"]');
-        if(login_username.value !== '' && login_password.value !== ''){
-            login_button.click();
+        if(login_username !== undefined && login_password !== undefined){
+            if(login_username.value !== '' && login_password.value !== ''){
+                login_button.click();
+            }
         }
     }
     //console.log('user_login is running ...');
