@@ -18,45 +18,38 @@
     },
     "content_scripts": [
       {
-        "matches": ["<all_urls>"],
-        "js": ["site/all.js"],
+        "matches": [ "<all_urls>" ],
+        "js": [ "site/all.js" ],
         "all_frames": true,
         "run_at": "document_end"
       },
       {
-        "matches": [
-            "http://login.huawei.com/*", "https://login.huawei.com/*"
-        ],
-        "js": ["site/login.huawei.com.js"],
+        "matches": [ "http://bs-icsl.huawei.com/*", "https://bs-icsl.huawei.com/*" ],
+        "js": [ "site/bs-icsl.huawei.com.js" ],
         "all_frames": true,
         "run_at": "document_end"
       },
       {
-        "matches": [
-            "http://w3.huawei.com/*","https://w3.huawei.com/*"
-        ],
-        "js": ["site/w3.huawei.com.js"],
+        "matches": [ "http://login.huawei.com/*", "https://login.huawei.com/*" ],
+        "js": [ "site/login.huawei.com.js" ],
         "all_frames": true,
         "run_at": "document_end"
       },
       {
-        "matches": [
-            "http://xinsheng.huawei.com/*", "https://xinsheng.huawei.com/*"
-        ],
-        "js": [
-          "lib/grayscale.js",
-          "site/xinsheng.huawei.com.js"
-        ],
+        "matches": [ "http://w3.huawei.com/*","https://w3.huawei.com/*" ],
+        "js": [ "site/w3.huawei.com.js" ],
         "all_frames": true,
         "run_at": "document_end"
       },
       {
-        "matches": [
-            "http://www.douyu.com/*", "https://www.douyu.com/*"
-        ],
-        "js": [
-          "site/www.douyu.com.js"
-        ],
+        "matches": [ "http://xinsheng.huawei.com/*", "https://xinsheng.huawei.com/*" ],
+        "js": [ "site/xinsheng.huawei.com.js", "lib/grayscale.js" ],
+        "all_frames": true,
+        "run_at": "document_end"
+      },
+      {
+        "matches": [ "http://www.douyu.com/*", "https://www.douyu.com/*" ],
+        "js": [ "site/www.douyu.com.js" ],
         "all_frames": true,
         "run_at": "document_end"
       }
