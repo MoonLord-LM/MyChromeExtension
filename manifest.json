@@ -52,6 +52,12 @@
         "js": [ "site/www.douyu.com.js" ],
         "all_frames": true,
         "run_at": "document_end"
+      },
+      {
+        "matches": [ "http://www.zhihu.com/*", "https://www.zhihu.com/*" ],
+        "js": [ "site/www.zhihu.com.js" ],
+        "all_frames": true,
+        "run_at": "document_end"
       }
     ]
 }
