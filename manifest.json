@@ -30,6 +30,12 @@
         "run_at": "document_end"
       },
       {
+        "matches": [ "http://ilearning.huawei.com/*", "https://ilearning.huawei.com/*" ],
+        "js": [ "site/ilearning.huawei.com.js" ],
+        "all_frames": true,
+        "run_at": "document_end"
+      },
+      {
         "matches": [ "http://login.huawei.com/*", "https://login.huawei.com/*" ],
         "js": [ "site/login.huawei.com.js" ],
         "all_frames": true,
