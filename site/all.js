@@ -23,7 +23,7 @@ window.document.body.onmouseover = function(event){
   if(event_target['title'] === null || event_target['title'] === ''){
     event_target['title'] = 'onmouseover : ' + event_target.innerHTML.replace(' ', '');
   }
-  else if(event_target['title'].indexOf('onmouseover : ') === -1){
+  else if(event_target['title'] !== null && event_target['title'].indexOf('onmouseover : ') === -1){
     event_target['title'] += "\r\n\r\n" + 'onmouseover : ' + event_target.innerHTML.replace(' ', '');
   }
 }
