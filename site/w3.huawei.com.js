@@ -17,3 +17,21 @@ var hide_mask = function () {
 };
 hide_mask();
 setInterval(hide_mask, 3000);
+
+// 不限制富文本框的高度
+var unlimit_richtext_height = function () {
+    var richtexts = document.querySelectorAll('div.richText');
+    var unlimit_count = 0;
+    for (i = 0; i < richtexts.length; i++) {
+        if(richtexts[i].style.maxHeight !== 'none'){
+            richtexts[i].style.maxHeight = 'none';
+            unlimit_count += 1;
+        }
+    }
+    if(unlimit_count > 0){
+        console.log('unlimit_richtext_height unlimit_count: ' + unlimit_count);
+    }
+    //console.log('unlimit_richtext_height is running ...');
+};
+unlimit_richtext_height();
+setInterval(unlimit_richtext_height, 3000);
