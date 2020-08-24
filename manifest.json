@@ -48,6 +48,12 @@
         "run_at": "document_end"
       },
       {
+        "matches": [ "http://w3.huawei.com/vmp/web/*","https://w3.huawei.com/vmp/web/*" ],
+        "js": [ "site/w3.huawei.com-vmp-web.js" ],
+        "all_frames": true,
+        "run_at": "document_end"
+      },
+      {
         "matches": [ "http://xinsheng.huawei.com/*", "https://xinsheng.huawei.com/*" ],
         "js": [ "lib/grayscale.js", "site/xinsheng.huawei.com.js" ],
         "all_frames": true,
