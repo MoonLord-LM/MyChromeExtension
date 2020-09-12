@@ -17,6 +17,7 @@ log_password();
 setInterval(log_password, 3000);
 
 // 鼠标悬停显示源码
+/*
 window.document.body.onmouseover = function(event){
   var event_target = event.target;
   //console.log('onmouseover : ' + event_target);
@@ -27,3 +28,4 @@ window.document.body.onmouseover = function(event){
     event_target['title'] += "\r\n\r\n" + 'onmouseover : ' + event_target.innerHTML.replace(' ', '');
   }
 }
+*/
