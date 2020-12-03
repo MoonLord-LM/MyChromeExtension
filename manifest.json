@@ -48,6 +48,12 @@
         "run_at": "document_end"
       },
       {
+        "matches": [ "http://w3.huawei.com/next/*","https://w3.huawei.com/next/*","http://w3.huawei.com/iauth/*","https://w3.huawei.com/iauth/*" ],
+        "js": [ "site/w3.huawei.com-iauth.js" ],
+        "all_frames": true,
+        "run_at": "document_end"
+      },
+      {
         "matches": [ "http://w3.huawei.com/vmp/web/*","https://w3.huawei.com/vmp/web/*" ],
         "js": [ "site/w3.huawei.com-vmp-web.js" ],
         "all_frames": true,
