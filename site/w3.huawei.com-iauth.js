@@ -19,7 +19,7 @@ if(window.location.href.startsWith('http://w3.huawei.com/next/') || window.locat
     setInterval(click_iauth_task_url, 3000);
 }
 
-if(window.location.href.startsWith('http://w3.huawei.com/iauth/') || window.location.href.startsWith('https://w3.huawei.com/iauth/')){
+if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') || window.location.href.startsWith('https://w3.huawei.com/iauth/#/applyRouter')){
     // 自动审批 iAuth 的申请
     var auto_approve = function () {
         var comment_count = 0;
@@ -27,8 +27,8 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/') || window.loca
         for (i = 0; i < approval_comments.length; i++) {
             if(approval_comments[i].value == ''){
                 approval_comments[i].value = 'OK';
-                comment_count += 1;
             }
+            comment_count += 1;
         }
         if(comment_count > 0){
             console.log('auto_approve comment_count: ' + comment_count);
@@ -38,18 +38,20 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/') || window.loca
         for (i = 0; i < checkboxes.length; i++) {
             if(checkboxes[i].className.indexOf('checked') == -1){
                 checkboxes[i].click();
-                check_count += 1;
             }
+            check_count += 1;
         }
         if(check_count > 0){
             console.log('auto_approve check_count: ' + check_count);
         }
-        var primary_buttons = document.querySelectorAll('button[hue="primary"]');
-        for (i = 0; i < primary_buttons.length; i++) {
-            if(primary_buttons[i].innerText.startsWith('提交')){
-                primary_buttons[i].click();
-                console.log('auto_approve click: ' + primary_buttons[i].innerText);
-                break;
+        if(comment_count > 0 && check_count > 0){
+            var primary_buttons = document.querySelectorAll('div.footerBtn_css button[hue="primary"]');
+            for (i = 0; i < primary_buttons.length; i++) {
+                if(primary_buttons[i].innerText == '提交' || primary_buttons[i].innerText == '同意'){
+                    //primary_buttons[i].click();
+                    console.log('auto_approve click: ' + primary_buttons[i].innerText + ' ' + primary_buttons[i].innerHTML);
+                    break;
+                }
             }
         }
         //console.log('auto_approve is running ...');
