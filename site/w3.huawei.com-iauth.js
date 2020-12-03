@@ -13,10 +13,13 @@ if(window.location.href.startsWith('http://w3.huawei.com/next/') || window.locat
                 window.open(task_url);
             }
         }
+        if(iauth_task_count > 0){
+            window.location.reload();
+        }
         //console.log('click_iauth_task_url is running ...');
     };
     click_iauth_task_url();
-    setInterval(click_iauth_task_url, 3000);
+    setInterval(click_iauth_task_url, 30000);
 }
 
 if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') || window.location.href.startsWith('https://w3.huawei.com/iauth/#/applyRouter')){
@@ -48,7 +51,7 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') |
             var primary_buttons = document.querySelectorAll('div.footerBtn_css button[hue="primary"]');
             for (i = 0; i < primary_buttons.length; i++) {
                 if(primary_buttons[i].innerText == '提交' || primary_buttons[i].innerText == '同意'){
-                    //primary_buttons[i].click();
+                    primary_buttons[i].click();
                     console.log('auto_approve click: ' + primary_buttons[i].innerText + ' ' + primary_buttons[i].innerHTML);
                     break;
                 }
