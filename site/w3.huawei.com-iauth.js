@@ -14,7 +14,9 @@ if(window.location.href.startsWith('http://w3.huawei.com/next/') || window.locat
             }
         }
         if(iauth_task_count > 0){
-            window.location.reload();
+            setTimeout(function () {
+                window.location.reload();
+            }, 20000);
         }
         //console.log('click_iauth_task_url is running ...');
     };
@@ -26,35 +28,46 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') |
     // 自动审批 iAuth 的申请
     var auto_approve = function () {
         var comment_count = 0;
-        var approval_comments = document.querySelectorAll('div.approvalcomments div.idm-area div div div textarea');
-        for (i = 0; i < approval_comments.length; i++) {
-            if(approval_comments[i].value == ''){
-                approval_comments[i].value = 'OK';
-            }
-            comment_count += 1;
-        }
-        if(comment_count > 0){
-            console.log('auto_approve comment_count: ' + comment_count);
-        }
         var check_count = 0;
-        var checkboxes = document.querySelectorAll('div.approvalcomments div.idm-area div div div ul li span.hae-checkbox span');
-        for (i = 0; i < checkboxes.length; i++) {
-            if(checkboxes[i].className.indexOf('checked') == -1){
-                checkboxes[i].click();
-            }
-            check_count += 1;
-        }
-        if(check_count > 0){
-            console.log('auto_approve check_count: ' + check_count);
-        }
-        if(comment_count > 0 && check_count > 0){
-            var primary_buttons = document.querySelectorAll('div.footerBtn_css button[hue="primary"]');
-            for (i = 0; i < primary_buttons.length; i++) {
-                if(primary_buttons[i].innerText == '提交' || primary_buttons[i].innerText == '同意'){
-                    primary_buttons[i].click();
-                    console.log('auto_approve click: ' + primary_buttons[i].innerText + ' ' + primary_buttons[i].innerHTML);
-                    break;
+        var edit_area = document.querySelector('div.approvalcomments div.idm-area');
+        if(edit_area != null){
+            var items = edit_area.querySelectorAll('div.hae-form-item');
+            for (i = 0; i < items.length; i++) {
+                var item_label = items[i].querySelector('label.form-item-label');
+                if(item_label != null && item_label.innerText.endsWith('审批意见')){
+                    var approval_comment = items[i].querySelector('div.form-item-content div.hae-input textarea');
+                    if(approval_comment != null){
+                        if(approval_comment.value == ''){
+                            approval_comment.value = '审批 OK';
+                        }
+                        comment_count += 1;
+                    }
                 }
+            }
+            if(comment_count > 0){
+                console.log('auto_approve comment_count: ' + comment_count);
+            }
+            var checkboxes = edit_area.querySelectorAll('div.checkValue div div[widget="Selectgroup"] ul li span.hae-checkbox span');
+            for (i = 0; i < checkboxes.length; i++) {
+                if(checkboxes[i].className.indexOf('checked') == -1){
+                    checkboxes[i].click();
+                }
+                check_count += 1;
+            }
+            if(check_count > 0){
+                console.log('auto_approve check_count: ' + check_count);
+            }
+        }
+        if(comment_count == 0 || check_count == 0){
+            console.log('auto_approve edit failed, should not click');
+            return;
+        }
+        var primary_buttons = document.querySelectorAll('div.idm-footerBtn div.footerBtn_smallBox div.btnBox div.footerBtn_css button[hue="primary"]');
+        for (i = 0; i < primary_buttons.length; i++) {
+            if(primary_buttons[i].innerText == '提交' || primary_buttons[i].innerText == '同意'){
+                console.log('auto_approve click: ' + primary_buttons[i].innerText);
+                primary_buttons[i].click();
+                break;
             }
         }
         //console.log('auto_approve is running ...');
