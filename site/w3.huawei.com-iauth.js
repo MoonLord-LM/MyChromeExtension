@@ -7,12 +7,13 @@ if(window.location.href.startsWith('http://w3.huawei.com/next/') || window.locat
         if(iauth_task_title !== null && iauth_task_title.innerText === 'iAuth'){
             console.log('click_iauth_task_url iauth_task_title click');
             iauth_task_title.parentNode.click();
+            iauth_task_title.parentNode.dispatchEvent(new Event('click'));
         }
         var iauth_task_urls = document.querySelectorAll('div[id="tasks_iAuth"] ul li table tbody tr td a');
         var iauth_task_count = 0;
         for (i = 0; i < iauth_task_urls.length; i++) {
             task_url = iauth_task_urls[i].href;
-            if(task_url.startsWith('http://w3.huawei.com/iauth/') || task_url.startsWith('https://w3.huawei.com/iauth/')){
+            if(task_url.startsWith('http://w3.huawei.com/iauth/#/applyRouter') || task_url.startsWith('https://w3.huawei.com/iauth/#/applyRouter')){
                 iauth_task_count += 1;
                 console.log("iauth_task_count " + iauth_task_count + " : " + task_url);
                 window.open(task_url);
