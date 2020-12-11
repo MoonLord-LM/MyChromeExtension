@@ -8,7 +8,7 @@ if(window.location.href.startsWith('http://w3.huawei.com/next/') || window.locat
             iauth_task_title.parentNode.click();
             setTimeout(function () {
                 window.location.reload();
-            }, 3000);
+            }, 5000);
             console.log('click_iauth_task_url iauth_task_title click');
             return;
         }
@@ -35,7 +35,7 @@ if(window.location.href.startsWith('http://w3.huawei.com/next/') || window.locat
         //console.log('click_iauth_task_url is running ...');
     };
     click_iauth_task_url();
-    setTimeout(click_iauth_task_url, 3000);
+    setTimeout(click_iauth_task_url, 5000);
 }
 
 if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') || window.location.href.startsWith('https://w3.huawei.com/iauth/#/applyRouter')){
