@@ -34,7 +34,6 @@ if(window.location.href.startsWith('http://w3.huawei.com/next/') || window.locat
         }, 60000);
         //console.log('click_iauth_task_url is running ...');
     };
-    click_iauth_task_url();
     setTimeout(click_iauth_task_url, 5000);
 }
 
