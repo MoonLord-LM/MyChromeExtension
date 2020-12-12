@@ -107,6 +107,9 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') |
             console.log('auto_approve edit failed, should not click');
             return;
         }
+        if(copy_count > 0){
+            alert("TODO 测试中断");
+        }
         var primary_buttons = document.querySelectorAll('div.idm-footerBtn div.footerBtn_smallBox div.btnBox div.footerBtn_css button[hue="primary"]');
         for (i = 0; i < primary_buttons.length; i++) {
             if(primary_buttons[i].innerText == '提交' || primary_buttons[i].innerText == '同意'){
