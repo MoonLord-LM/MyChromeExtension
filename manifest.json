@@ -24,6 +24,12 @@
         "run_at": "document_end"
       },
       {
+        "matches": [ "http://console.his.huawei.com/ump/*", "https://console.his.huawei.com/ump/*" ],
+        "js": [ "site/console.his.huawei.com-ump.js" ],
+        "all_frames": true,
+        "run_at": "document_end"
+      },
+      {
         "matches": [ "http://bs-icsl.huawei.com/*", "https://bs-icsl.huawei.com/*" ],
         "js": [ "site/bs-icsl.huawei.com.js" ],
         "all_frames": true,
