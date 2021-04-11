@@ -1,6 +1,6 @@
 console.log('MyChromeExtension : w3.huawei.com-iauth.js is loaded');
 
-if(window.location.href.startsWith('http://w3.huawei.com/next/') || window.location.href.startsWith('https://w3.huawei.com/next/')){
+if(window.location.href.startsWith('http://w3.huawei.com/next/indexa.html') || window.location.href.startsWith('https://w3.huawei.com/next/indexa.html')){
     // 自动点击 iAuth 的待办
     var click_iauth_task_url = function () {
         var iauth_task_title = document.querySelector('div.panelDivTodo div.slidepanel_lib_unselected div.title span[title="iAuth"]');
