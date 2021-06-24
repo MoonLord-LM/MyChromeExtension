@@ -78,6 +78,12 @@
         "run_at": "document_end"
       },
       {
+        "matches": [ "http://cc.163.com/*", "https://cc.163.com/*" ],
+        "js": [ "site/cc.163.com.js" ],
+        "all_frames": true,
+        "run_at": "document_end"
+      },
+      {
         "matches": [ "http://www.zhihu.com/*", "https://www.zhihu.com/*" ],
         "js": [ "site/www.zhihu.com.js" ],
         "all_frames": true,

@@ -6,7 +6,7 @@ var send_chat = function () {
     var chat_button = document.querySelector('div.ChatSend-button');
     if(chat_text !== null && chat_button !== null){
         chat_text.value = '？？？ ？？？ ？？？ ？？？ ？？？ ？？？';
-        chat_button.click();
+        // chat_button.click();
     }
     //console.log('send_chat is running ...');
 }
