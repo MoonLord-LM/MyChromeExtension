@@ -4,7 +4,7 @@ console.log('MyChromeExtension : cc.163.com.js is loaded');
 var reset_room_container = function () {
     var room_container = document.querySelector('div.main-container div.scrollContainer');
     if(room_container !== null){
-        room_container.style.padding = '0 30px';
+        room_container.style.padding = '0 20px';
     }
     // console.log('reset_room_container is running ...');
 }
@@ -21,6 +21,10 @@ var reset_room_info_area = function () {
     var room_info_area = document.querySelector('div.main-container div.scrollContainer div.room-main-container div.main-wrapper div.room-info-area');
     if(room_info_area !== null){
         room_info_area.style.width = reset_width;
+    }
+    var room_tabs = document.querySelector('div.room-info-area div.room-tabs-chat-list div.room-tabs');
+    if(room_tabs !== null){
+        room_tabs.style.width = '100%';
     }
     // console.log('reset_room_info_area is running ...');
 }
