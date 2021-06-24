@@ -52,34 +52,49 @@ setInterval(hide_player_banner, 3000);
 var hide_mounts_banner = function () {
     var mounts_mp4_player = document.querySelector('div.main-area div.player-area div#mounts_mp4_player');
     if(mounts_mp4_player !== null){
-        mounts_mp4_player.style.display = 'none';
-        mounts_mp4_player.style.visibility = 'hidden';
+        if(mounts_mp4_player.style.display !== 'none' || mounts_mp4_player.style.visibility !== 'hidden') {
+            mounts_mp4_player.style.display = 'none';
+            mounts_mp4_player.style.visibility = 'hidden';
+            console.log('hide_mounts_banner: mounts_mp4_player');
+        }
     }
     var mounts_player = document.querySelector('div.main-area div.player-area div#mounts_player');
     if(mounts_player !== null){
-        mounts_player.style.display = 'none';
-        mounts_player.style.visibility = 'hidden';
+        if(mounts_player.style.display !== 'none' || mounts_player.style.visibility !== 'hidden') {
+            mounts_player.style.display = 'none';
+            mounts_player.style.visibility = 'hidden';
+            console.log('hide_mounts_banner: mounts_player');
+        }
     }
     var mounts_banner = document.querySelector('div.main-area div.player-area div#mounts_banner');
     if(mounts_banner !== null){
-        mounts_banner.style.display = 'none';
-        mounts_banner.style.visibility = 'hidden';
+        if(mounts_banner.style.display !== 'none' || mounts_banner.style.visibility !== 'hidden') {
+            mounts_banner.style.display = 'none';
+            mounts_banner.style.visibility = 'hidden';
+            console.log('hide_mounts_banner: mounts_banner');
+        }
     }
     var mounts_player_png = document.querySelector('div.main-area div.player-area div#mounts_player_png');
     if(mounts_player_png !== null){
-        mounts_player_png.style.display = 'none';
-        mounts_player_png.style.visibility = 'hidden';
+        if(mounts_player_png.style.display !== 'none' || mounts_player_png.style.visibility !== 'hidden') {
+            mounts_player_png.style.display = 'none';
+            mounts_player_png.style.visibility = 'hidden';
+            console.log('hide_mounts_banner: mounts_player_png');
+        }
     }
     // console.log('hide_mounts_banner is running ...');
 }
 hide_mounts_banner();
 setInterval(hide_mounts_banner, 3000);
 
-// 隐藏弹窗的广告
+// 隐藏弹窗的抽奖暴击率的广告
 var hide_plugin_modal = function () {
     var plugin_modal = document.querySelector('div#pluginModal div.plugin-modal-container div.plugin-modal');
     if(plugin_modal !== null){
-        plugin_modal.style.display = 'none';
+        if(plugin_modal.style.display !== 'none') {
+            plugin_modal.style.display = 'none';
+            console.log('hide_plugin_modal: plugin_modal');
+        }
     }
     // console.log('hide_plugin_modal is running ...');
 }
@@ -90,7 +105,10 @@ setInterval(hide_plugin_modal, 3000);
 var hide_vbr_limit_alert = function () {
     var vbr_limit_alert = document.querySelector('div.main-area div.player-area div#vbr-limit-alert');
     if(vbr_limit_alert !== null){
-        vbr_limit_alert.style.display = 'none';
+        if(vbr_limit_alert.style.display !== 'none') {
+            vbr_limit_alert.style.display = 'none';
+            console.log('hide_vbr_limit_alert: vbr_limit_alert');
+        }
     }
     // console.log('hide_vbr_limit_alert is running ...');
 }
