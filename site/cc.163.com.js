@@ -52,3 +52,14 @@ var hide_plugin_modal = function () {
 }
 hide_plugin_modal();
 setInterval(hide_plugin_modal, 3000);
+
+// 隐藏未登录的弹窗提示
+var hide_vbr_limit_alert = function () {
+    var vbr_limit_alert = document.querySelector('div.main-area div.player-area div#vbr-limit-alert');
+    if(vbr_limit_alert !== null){
+        vbr_limit_alert.style.display = 'none';
+    }
+    // console.log('hide_vbr_limit_alert is running ...');
+}
+hide_vbr_limit_alert();
+setInterval(hide_vbr_limit_alert, 3000);
