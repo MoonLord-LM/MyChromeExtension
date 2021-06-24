@@ -5,7 +5,7 @@ var hide_mask = function () {
     var masks = document.querySelectorAll('div[id^="mask_div"]');
     var hide_count = 0;
     for (i = 0; i < masks.length; i++) {
-        if(masks[i].style.display !== 'none'){
+        if(masks[i].style.display !== 'none') {
             masks[i].style.display = 'none';
             hide_count += 1;
         }

@@ -27,7 +27,9 @@ setInterval(function () {
 // 页面 Logo 隐藏
 var logos = document.querySelectorAll('img.min-logo');
 for (i = 0; i < logos.length; i++) {
-    logos[i].style.display = 'none';
+    if(logos[i].style.display !== 'none') {
+        logos[i].style.display = 'none';
+    }
 }
 
 // 菜单不固定显示
@@ -39,17 +41,23 @@ for (i = 0; i < headers.length; i++) {
 // 帖子列表隐藏头像
 var imgs = document.querySelectorAll('ul li a img');
 for (i = 0; i < imgs.length; i++) {
-    imgs[i].parentNode.style.display = 'none';
+    if(logos[i].style.display !== 'none') {
+        logos[i].style.display = 'none';
+    }
 }
 
 // 帖子列表隐藏实名认证标签
 var user_icons = document.querySelectorAll('div a span.space_rz');
 for (i = 0; i < user_icons.length; i++) {
-    user_icons[i].style.display = 'none';
+    if(user_icons[i].style.display !== 'none') {
+        user_icons[i].style.display = 'none';
+    }
 }
 var group_icons = document.querySelectorAll('div a span.space_rz_blue');
 for (i = 0; i < group_icons.length; i++) {
-    group_icons[i].style.display = 'none';
+    if(group_icons[i].style.display !== 'none') {
+        group_icons[i].style.display = 'none';
+    }
 }
 
 // 帖子列表修改排版
@@ -73,9 +81,13 @@ for (i = 0; i < list_operates.length; i++) {
 // 帖子详情隐藏右侧工具栏
 var scrolls = document.querySelectorAll('div.bbsinfoscroll');
 for (i = 0; i < scrolls.length; i++) {
-    scrolls[i].style.display = 'none';
+    if(scrolls[i].style.display !== 'none') {
+        scrolls[i].style.display = 'none';
+    }
 }
 var tools = document.querySelectorAll('div.bottom_tools');
 for (i = 0; i < tools.length; i++) {
-    tools[i].style.display = 'none';
+    if(tools[i].style.display !== 'none') {
+        tools[i].style.display = 'none';
+    }
 }

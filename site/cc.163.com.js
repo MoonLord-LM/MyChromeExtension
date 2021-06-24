@@ -27,20 +27,53 @@ var reset_room_info_area = function () {
 reset_room_info_area();
 setInterval(reset_room_info_area, 3000);
 
-// 隐藏飘屏的通知
+// 隐藏视频上方的飘屏的通知
 var hide_player_banner = function () {
     var new_player_banner = document.querySelector('div#live-wrapper div.new-player-banner');
     if(new_player_banner !== null){
-        new_player_banner.style.display = 'none';
+        if(new_player_banner.style.display !== 'none') {
+            new_player_banner.style.display = 'none';
+            console.log('hide_player_banner: new_player_banner');
+        }
     }
     var player_banner = document.querySelector('div#live-wrapper div.player-banner');
     if(player_banner !== null){
-        player_banner.style.display = 'none';
+        if(player_banner.style.display !== 'none') {
+            player_banner.style.display = 'none';
+            console.log('hide_player_banner: player_banner');
+        }
     }
     // console.log('hide_player_banner is running ...');
 }
 hide_player_banner();
 setInterval(hide_player_banner, 3000);
+
+// 隐藏视频下方的用户进入的飘屏的通知
+var hide_mounts_banner = function () {
+    var mounts_mp4_player = document.querySelector('div.main-area div.player-area div#mounts_mp4_player');
+    if(mounts_mp4_player !== null){
+        mounts_mp4_player.style.display = 'none';
+        mounts_mp4_player.style.visibility = 'hidden';
+    }
+    var mounts_player = document.querySelector('div.main-area div.player-area div#mounts_player');
+    if(mounts_player !== null){
+        mounts_player.style.display = 'none';
+        mounts_player.style.visibility = 'hidden';
+    }
+    var mounts_banner = document.querySelector('div.main-area div.player-area div#mounts_banner');
+    if(mounts_banner !== null){
+        mounts_banner.style.display = 'none';
+        mounts_banner.style.visibility = 'hidden';
+    }
+    var mounts_player_png = document.querySelector('div.main-area div.player-area div#mounts_player_png');
+    if(mounts_player_png !== null){
+        mounts_player_png.style.display = 'none';
+        mounts_player_png.style.visibility = 'hidden';
+    }
+    // console.log('hide_mounts_banner is running ...');
+}
+hide_mounts_banner();
+setInterval(hide_mounts_banner, 3000);
 
 // 隐藏弹窗的广告
 var hide_plugin_modal = function () {
@@ -63,3 +96,4 @@ var hide_vbr_limit_alert = function () {
 }
 hide_vbr_limit_alert();
 setInterval(hide_vbr_limit_alert, 3000);
+
