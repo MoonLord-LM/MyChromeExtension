@@ -89,7 +89,7 @@ setInterval(hide_mounts_banner, 3000);
 
 // 隐藏弹窗的抽奖暴击率的广告
 var hide_plugin_modal = function () {
-    var plugin_modal = document.querySelector('div#pluginModal div.plugin-modal-container div.plugin-modal');
+    var plugin_modal = document.querySelector('div#pluginModal div.plugin-modal-container div.plugin-modal div');
     if(plugin_modal !== null){
         if(plugin_modal.style.display !== 'none') {
             plugin_modal.style.display = 'none';
