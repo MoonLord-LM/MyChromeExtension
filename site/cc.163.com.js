@@ -115,3 +115,23 @@ var hide_vbr_limit_alert = function () {
 hide_vbr_limit_alert();
 setInterval(hide_vbr_limit_alert, 3000);
 
+// 隐藏礼物特效和千里传音
+var hide_gift_banner = function () {
+    var gift_simple_banner = document.querySelector('div.chat-list-con div.chat-list-wrap div.gift-simp-banner');
+    if(gift_simple_banner !== null){
+        if(gift_simple_banner.style.display !== 'none') {
+            gift_simple_banner.style.display = 'none';
+            console.log('hide_gift_banner: gift_simple_banner');
+        }
+    }
+    var gift_banner = document.querySelector('div.chat-list-con div.chat-list-wrap div.gift-banner');
+    if(gift_banner !== null){
+        if(gift_banner.style.display !== 'none') {
+            gift_banner.style.display = 'none';
+            console.log('hide_gift_banner: gift_banner');
+        }
+    }
+    // console.log('hide_gift_banner is running ...');
+}
+hide_gift_banner();
+setInterval(hide_gift_banner, 3000);
