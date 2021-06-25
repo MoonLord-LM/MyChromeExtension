@@ -35,15 +35,19 @@ setInterval(reset_room_info_area, 3000);
 var hide_week_rank_background = function () {
     var week_rank_top = document.querySelector('ul.week-contrib-rank li.week-rank-top');
     if(week_rank_top !== null){
-        week_rank_top.style.backgroundImage = 'url()';
-        week_rank_top.style.backgroundColor = '#112233';
-        console.log('hide_week_rank_background: week_rank_top');
+        if(week_rank_top.style.backgroundImage !== 'url()') {
+            week_rank_top.style.backgroundImage = 'url()';
+            week_rank_top.style.backgroundColor = '#FFFFFF';
+            console.log('hide_week_rank_background: week_rank_top');
+        }
     }
     var week_rank_item_wrap = document.querySelector('ul.week-contrib-rank div.week-rank-item-wrap');
     if(week_rank_item_wrap !== null){
-        week_rank_item_wrap.style.backgroundImage = 'url()';
-        week_rank_item_wrap.style.backgroundColor = '#112233';
-        console.log('hide_week_rank_background: week_rank_item_wrap');
+        if(week_rank_item_wrap.style.backgroundImage !== 'url()') {
+            week_rank_item_wrap.style.backgroundImage = 'url()';
+            week_rank_item_wrap.style.backgroundColor = '#FFFFFF';
+            console.log('hide_week_rank_background: week_rank_item_wrap');
+        }
     }
     // console.log('hide_week_rank_background is running ...');
 }
