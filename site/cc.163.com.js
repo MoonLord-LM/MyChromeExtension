@@ -31,6 +31,21 @@ var reset_room_info_area = function () {
 reset_room_info_area();
 setInterval(reset_room_info_area, 3000);
 
+// 隐藏七日贡献排行榜的背景图
+var hide_week_rank_background = function () {
+    var week_rank_top = document.querySelector('ul.week-contrib-rank li.week-rank-top');
+    if(week_rank_top !== null){
+        week_rank_top.style.backgroundImage = 'url()';
+    }
+    var week_rank_item_wrap = document.querySelector('ul.week-contrib-rank div.week-rank-item-wrap');
+    if(week_rank_item_wrap !== null){
+        week_rank_item_wrap.style.backgroundImage = 'url()';
+    }
+    // console.log('hide_week_rank_background is running ...');
+}
+hide_week_rank_background();
+setInterval(hide_week_rank_background, 3000);
+
 // 隐藏视频上方的飘屏的通知
 var hide_player_banner = function () {
     var new_player_banner = document.querySelector('div#live-wrapper div.new-player-banner');
