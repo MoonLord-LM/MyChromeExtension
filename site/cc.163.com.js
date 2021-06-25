@@ -36,10 +36,12 @@ var hide_week_rank_background = function () {
     var week_rank_top = document.querySelector('ul.week-contrib-rank li.week-rank-top');
     if(week_rank_top !== null){
         week_rank_top.style.backgroundImage = 'url()';
+        console.log('hide_week_rank_background: week_rank_top');
     }
     var week_rank_item_wrap = document.querySelector('ul.week-contrib-rank div.week-rank-item-wrap');
     if(week_rank_item_wrap !== null){
         week_rank_item_wrap.style.backgroundImage = 'url()';
+        console.log('hide_week_rank_background: week_rank_item_wrap');
     }
     // console.log('hide_week_rank_background is running ...');
 }
