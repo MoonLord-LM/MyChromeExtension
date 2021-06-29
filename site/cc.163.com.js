@@ -31,20 +31,46 @@ var reset_room_info_area = function () {
 reset_room_info_area();
 setInterval(reset_room_info_area, 3000);
 
+// 隐藏全屏时的礼物栏
+var hide_fullscreen_user_tool_bar = function () {
+    var main_wrapper = document.querySelector('div.main-container div.scrollContainer div.room-main-container div.main-wrapper');
+    var video_player_controls = main_wrapper.querySelector('div.cc-h5player-container div.video-player-controls-main');
+    var user_tool_bar = main_wrapper.querySelector('div.main-area div.player-area div.user-tool-bar');
+    if(main_wrapper !== null && video_player_controls != null && user_tool_bar != null){
+        if(main_wrapper.className.includes('fullscreen')) {
+            if(video_player_controls.style.display !== 'none' || user_tool_bar.style.display !== 'none') {
+                video_player_controls.style.display = 'none';
+                user_tool_bar.style.display = 'none';
+                console.log('hide_fullscreen_user_tool_bar: hide');
+            }
+        }
+        else {
+            if(video_player_controls.style.display !== 'block' || user_tool_bar.style.display !== 'block') {
+                video_player_controls.style.display = 'block';
+                user_tool_bar.style.display = 'block';
+                console.log('hide_fullscreen_user_tool_bar: show');
+            }
+        }
+    }
+    // console.log('hide_fullscreen_user_tool_bar is running ...');
+}
+hide_fullscreen_user_tool_bar();
+setInterval(hide_fullscreen_user_tool_bar, 1000);
+
 // 隐藏七日贡献排行榜的背景图
 var hide_week_rank_background = function () {
     var week_rank_top = document.querySelector('ul.week-contrib-rank li.week-rank-top');
     if(week_rank_top !== null){
-        if(week_rank_top.style.backgroundImage !== 'url()') {
-            week_rank_top.style.backgroundImage = 'url()';
+        if(week_rank_top.style.backgroundImage !== 'url("")') {
+            week_rank_top.style.backgroundImage = 'url("")';
             week_rank_top.style.backgroundColor = '#FFFFFF';
             console.log('hide_week_rank_background: week_rank_top');
         }
     }
     var week_rank_item_wrap = document.querySelector('ul.week-contrib-rank div.week-rank-item-wrap');
     if(week_rank_item_wrap !== null){
-        if(week_rank_item_wrap.style.backgroundImage !== 'url()') {
-            week_rank_item_wrap.style.backgroundImage = 'url()';
+        if(week_rank_item_wrap.style.backgroundImage !== 'url("")') {
+            week_rank_item_wrap.style.backgroundImage = 'url("")';
             week_rank_item_wrap.style.backgroundColor = '#FFFFFF';
             console.log('hide_week_rank_background: week_rank_item_wrap');
         }
