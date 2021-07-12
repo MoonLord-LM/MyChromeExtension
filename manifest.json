@@ -5,89 +5,92 @@
     "description": "MyChromeExtension - Chrome 浏览器插件 By MoonLord",
     "author": "me@moonlord.cn",
     "homepage_url": "https://github.com/MoonLord-LM/MyChromeExtension",
+    "permissions": [
+        "storage",
+        "unlimitedStorage"
+    ],
     "browser_action": {
-      "default_icon": "img/icon.png",
-      "default_title": "MyChromeExtension - Chrome 浏览器插件 By MoonLord",
-      "default_popup": "page/popup.html"
+        "default_icon": "img/icon.png",
+        "default_title": "MyChromeExtension - Chrome 浏览器插件 By MoonLord",
+        "default_popup": "page/popup.html"
     },
     "options_page": "page/options.html",
     "devtools_page": "page/devtools.html",
-    "background":
-    {
-      "page": "page/background.html"
+    "background": {
+        "page": "page/background.html"
     },
     "content_scripts": [
-      {
-        "matches": [ "<all_urls>" ],
-        "js": [ "site/all.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://console.his.huawei.com/ump/*", "https://console.his.huawei.com/ump/*" ],
-        "js": [ "site/console.his.huawei.com-ump.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://bs-icsl.huawei.com/*", "https://bs-icsl.huawei.com/*" ],
-        "js": [ "site/bs-icsl.huawei.com.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://ilearning.huawei.com/*", "https://ilearning.huawei.com/*" ],
-        "js": [ "site/ilearning.huawei.com.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://login.huawei.com/*", "https://login.huawei.com/*" ],
-        "js": [ "site/login.huawei.com.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://w3.huawei.com/*","https://w3.huawei.com/*" ],
-        "js": [ "site/w3.huawei.com.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://w3.huawei.com/next/*","https://w3.huawei.com/next/*","http://w3.huawei.com/iauth/*","https://w3.huawei.com/iauth/*" ],
-        "js": [ "site/w3.huawei.com-iauth.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://w3.huawei.com/vmp/web/*","https://w3.huawei.com/vmp/web/*" ],
-        "js": [ "site/w3.huawei.com-vmp-web.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://xinsheng.huawei.com/*", "https://xinsheng.huawei.com/*" ],
-        "js": [ "lib/grayscale.js", "site/xinsheng.huawei.com.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://www.douyu.com/*", "https://www.douyu.com/*" ],
-        "js": [ "site/www.douyu.com.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://cc.163.com/*", "https://cc.163.com/*" ],
-        "js": [ "site/cc.163.com.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      },
-      {
-        "matches": [ "http://www.zhihu.com/*", "https://www.zhihu.com/*" ],
-        "js": [ "site/www.zhihu.com.js" ],
-        "all_frames": true,
-        "run_at": "document_end"
-      }
+        {
+            "matches": [ "<all_urls>" ],
+            "js": [ "site/all.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://console.his.huawei.com/ump/*", "https://console.his.huawei.com/ump/*" ],
+            "js": [ "site/console.his.huawei.com-ump.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://bs-icsl.huawei.com/*", "https://bs-icsl.huawei.com/*" ],
+            "js": [ "site/bs-icsl.huawei.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://ilearning.huawei.com/*", "https://ilearning.huawei.com/*" ],
+            "js": [ "site/ilearning.huawei.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://login.huawei.com/*", "https://login.huawei.com/*" ],
+            "js": [ "site/login.huawei.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://w3.huawei.com/*","https://w3.huawei.com/*" ],
+            "js": [ "site/w3.huawei.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://w3.huawei.com/next/*","https://w3.huawei.com/next/*","http://w3.huawei.com/iauth/*","https://w3.huawei.com/iauth/*" ],
+            "js": [ "site/w3.huawei.com-iauth.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://w3.huawei.com/vmp/web/*","https://w3.huawei.com/vmp/web/*" ],
+            "js": [ "site/w3.huawei.com-vmp-web.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://xinsheng.huawei.com/*", "https://xinsheng.huawei.com/*" ],
+            "js": [ "lib/grayscale.js", "site/xinsheng.huawei.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://www.douyu.com/*", "https://www.douyu.com/*" ],
+            "js": [ "site/www.douyu.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://cc.163.com/*", "https://cc.163.com/*" ],
+            "js": [ "site/cc.163.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://www.zhihu.com/*", "https://www.zhihu.com/*" ],
+            "js": [ "site/www.zhihu.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        }
     ]
 }

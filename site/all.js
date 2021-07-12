@@ -16,6 +16,9 @@ var log_password = function () {
 log_password();
 setInterval(log_password, 3000);
 
+chrome.storage.sync.set({"foo":"bar"}, function() { console.log("saved ok"); } );
+chrome.storage.sync.get("foo", function(data) { console.log(data); } );
+
 // 鼠标悬停显示源码
 /*
 window.document.body.onmouseover = function(event){
