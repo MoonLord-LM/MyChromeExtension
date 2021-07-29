@@ -1,4 +1,4 @@
-console.log('MyChromeExtension : www.douyu.com.js is loaded');
+my_show_loaded_js();
 
 // 自动发送弹幕
 var send_chat = function () {

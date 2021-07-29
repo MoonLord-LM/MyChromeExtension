@@ -1,4 +1,4 @@
-console.log('MyChromeExtension : w3.huawei.com.js is loaded');
+my_show_loaded_js();
 
 // 隐藏工号水印
 var hide_mask = function () {

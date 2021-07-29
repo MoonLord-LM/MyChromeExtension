@@ -1,24 +1,27 @@
 // 显示已加载的插件 JS 文件名
-{
-    var new_error_stack = (new Error).stack.split("\n");
-    if(new_error_stack.length >= 2) {
-        var stack0 = new_error_stack[0];
-        var stack1 = new_error_stack[1];
-        if(stack0 === "Error") {
-            var file_name_line = stack1.trim();
-            if(file_name_line.startsWith("at ")) {
-                file_name_line = file_name_line.substr(3);
-                if(file_name_line.indexOf(":") !== -1) {
-                    file_name_line = file_name_line.substr(0, file_name_line.lastIndexOf(":"));
-                    if(file_name_line.indexOf(":") !== -1) {
-                        var js_file_name = file_name_line.substr(0, file_name_line.lastIndexOf(":"));
-                        console.log('MyChromeExtension load js: ' + js_file_name);
-                    }
-                }
-            }
+my_show_loaded_js = function () {
+    var error_stack = (new Error).stack.split("\n");
+    var error_position = error_stack[error_stack.length - 1].trim();
+    if (error_position.startsWith("at ")) {
+        error_position = error_position.substr(3);
+    }
+    if (error_position.indexOf("(") !== -1) {
+        error_position = error_position.substr(error_position.indexOf("(") + 1);
+    }
+    if (error_position.indexOf(":") !== -1) {
+        error_position = error_position.substr(0, error_position.lastIndexOf(":"));
+    }
+    if (error_position.indexOf(":") !== -1) {
+        error_position = error_position.substr(0, error_position.lastIndexOf(":"));
+    }
+    if (!error_position.startsWith("chrome-extension://") || !error_position.endsWith(".js")) {
+        if(error_position !== "<anonymous>") {
+            console.error("MyChromeExtension show_loaded_js failed, error_position: " + error_position);
         }
     }
+    console.log('MyChromeExtension load js: ' + error_position);
 };
+my_show_loaded_js();
 
 // Console 显示自动输入的密码
 var passwords_logged = [];

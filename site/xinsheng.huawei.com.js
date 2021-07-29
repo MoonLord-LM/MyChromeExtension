@@ -1,4 +1,4 @@
-console.log('MyChromeExtension : xinsheng.huawei.com.js is loaded');
+my_show_loaded_js();
 
 // 标签标题拉长
 document.title = 'HWSX - ' + document.title;

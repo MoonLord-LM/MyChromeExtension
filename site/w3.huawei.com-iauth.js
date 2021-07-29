@@ -1,4 +1,4 @@
-console.log('MyChromeExtension : w3.huawei.com-iauth.js is loaded');
+my_show_loaded_js();
 
 if(window.location.href.startsWith('http://w3.huawei.com/next/indexa.html') || window.location.href.startsWith('https://w3.huawei.com/next/indexa.html')){
     // 自动点击 iAuth 的待办

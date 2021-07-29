@@ -1,4 +1,4 @@
-console.log('MyChromeExtension : w3.huawei.com-vmp-web.js is loaded');
+my_show_loaded_js();
 
 // 不限制富文本显示区域的高度
 var unlimit_richtext_height = function () {

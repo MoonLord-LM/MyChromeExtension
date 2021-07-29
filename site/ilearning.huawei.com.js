@@ -1,4 +1,4 @@
-console.log('MyChromeExtension : ilearning.huawei.com.js is loaded');
+my_show_loaded_js();
 
 var script = document.createElement("script");
 script.innerHTML = `

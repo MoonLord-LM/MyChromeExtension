@@ -1,4 +1,4 @@
-console.log('MyChromeExtension : bs-icsl.huawei.com.js is loaded');
+my_show_loaded_js();
 
 // 登录失效后尝试自动登录
 var user_relogin = function () {

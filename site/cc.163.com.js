@@ -1,4 +1,4 @@
-console.log('MyChromeExtension : cc.163.com.js is loaded');
+my_show_loaded_js();
 
 // 重新设置视频区域的边距
 var reset_room_container = function () {
