@@ -60,16 +60,22 @@ var my_set_js_setting = function (key, value) {
 };
 
 var my_get_js_setting = function (key) {
-    var js_file = my_get_loaded_js();
     chrome.storage.sync.get(null, function(data) {
         console.log('MyChromeExtension storage sync get ok: ' + JSON.stringify(data));
         my_chrome_extension_js_settings = data;
         localStorage.setItem('my_chrome_extension_js_settings', JSON.stringify(my_chrome_extension_js_settings));
     });
     var value = undefined;
-    var tmp_settings = JSON.parse(localStorage.getItem('my_chrome_extension_js_settings'));
-    if(tmp_settings && tmp_settings[js_file] && tmp_settings[js_file][key]){
-        value = tmp_settings[js_file][key];
+    var js_file = my_get_loaded_js();
+    var js_setting = my_chrome_extension_js_settings[js_file];
+    if(js_setting && js_setting[key]){
+        value = js_setting[key];
+    }
+    else {
+        var tmp_settings = JSON.parse(localStorage.getItem('my_chrome_extension_js_settings'));
+        if(tmp_settings && tmp_settings[js_file] && tmp_settings[js_file][key]){
+            value = tmp_settings[js_file][key];
+        }
     }
     var data = {};
     data[key] = value;
