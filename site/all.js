@@ -26,7 +26,7 @@ var my_show_loaded_js = function () {
 };
 my_show_loaded_js();
 
-// 插件设置同步
+// 显示已使用的 chrome.storage.sync 空间的字节数
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea
 var my_show_storage_usage = function () {
     chrome.storage.sync.get(null, function(data) {
@@ -35,41 +35,55 @@ var my_show_storage_usage = function () {
     chrome.storage.sync.getBytesInUse(null, function(data) {
         console.log('MyChromeExtension sync storage usage: ' + data + ' Bytes');
     });
-    chrome.storage.local.get(null, function(data) {
-        console.log('MyChromeExtension storage: ' + JSON.stringify(data));
-    });
-    chrome.storage.local.getBytesInUse(null, function(data) {
-        console.log('MyChromeExtension storage usage: ' + data + ' Bytes');
-    });
 };
 my_show_storage_usage();
 
-var my_set_js_setting = function (key, value) {
-    var data = {};
-    data[key] = value;
-    console.log('MyChromeExtension my_set_js_setting: ' + JSON.stringify(data));
-    chrome.storage.sync.set(data, function() { });
-    chrome.storage.local.set(data, function() { });
+var my_clear_storage_usage = function () {
+    chrome.storage.sync.clear();
 };
-my_set_js_setting('MyChromeExtension','MyChromeExtension');
+my_clear_storage_usage();
+
+// 支持保存用户设置，对不同的 JS 隔离设置
+var my_chrome_extension_js_settings = {};
+var my_set_js_setting = function (key, value) {
+    var js_setting = {};
+    js_setting[key] = value;
+    var js_file = my_get_loaded_js();
+    var data = {};
+    data[js_file] = js_setting;
+    my_chrome_extension_js_settings[js_file] = js_setting;
+    localStorage.setItem('my_chrome_extension_js_settings', JSON.stringify(my_chrome_extension_js_settings));
+    chrome.storage.sync.set(data, function() {
+        console.log('MyChromeExtension sync set ok: ' + JSON.stringify(data));
+    });
+    console.log('MyChromeExtension my_set_js_setting: ' + JSON.stringify(data));
+};
 
 var my_get_js_setting = function (key) {
-    console.log('MyChromeExtension my_get_js_setting: ' + key);
-    chrome.storage.local.get(key, function(data) {
-        console.log(JSON.stringify(data));
-        return data;
+    var js_file = my_get_loaded_js();
+    chrome.storage.sync.get(null, function(data) {
+        console.log('MyChromeExtension sync get ok: ' + JSON.stringify(data));
+        my_chrome_extension_js_settings = data;
+        localStorage.setItem('my_chrome_extension_js_settings', JSON.stringify(my_chrome_extension_js_settings));
     });
+    var tmp_settings = JSON.parse(localStorage.getItem('my_chrome_extension_js_settings'));
+    console.log('MyChromeExtension tmp_settings: ' + tmp_settings);
+    console.log('MyChromeExtension tmp_settings: ' + js_file);
+    console.log('MyChromeExtension tmp_settings: ' + tmp_settings[js_file]);
+    console.log('MyChromeExtension tmp_settings: ' + key);
+    console.log('MyChromeExtension tmp_settings: ' + tmp_settings[js_file][key]);
+    var value = 'QAQ';
+    if(tmp_settings && tmp_settings[js_file] && tmp_settings[js_file][key]){
+        value = tmp_settings[js_file][key];
+    }
+    var data = {};
+    data[key] = value;
+    console.log('MyChromeExtension my_get_js_setting: ' + JSON.stringify(data));
+    return value;
 };
-my_set_js_setting('MyChromeExtension','MyChromeExtension');
-console.log('my_get_js_setting: ' + my_get_js_setting('MyChromeExtension'));
 
-chrome.storage.sync.clear();
-var my_chrome_extension_setting1 = {'foo1':'bar1','foo2':'bar2'};
-var my_chrome_extension_setting2 = {'foo3':'bar3','foo4':'bar4'};
-chrome.storage.sync.set(my_chrome_extension_setting1, function() { console.log(my_chrome_extension_setting1); } );
-chrome.storage.sync.set(my_chrome_extension_setting2, function() { console.log(my_chrome_extension_setting2); } );
-chrome.storage.sync.get('foo1', function(data) { console.log(JSON.stringify(data)); } );
-chrome.storage.sync.get('foo2', function(data) { console.log(JSON.stringify(data)); } );
+my_set_js_setting('MyChromeExtension', 'MyChromeExtension');
+console.log('my_get_js_setting: ' + my_get_js_setting('MyChromeExtension'));
 
 // Console 显示自动输入的密码
 var passwords_logged = [];
