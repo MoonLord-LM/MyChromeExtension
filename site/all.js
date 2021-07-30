@@ -1,4 +1,4 @@
-// 显示已加载的插件 JS 文件名
+// 使用 error stack，显示已加载的插件 JS 文件名
 var my_get_loaded_js = function () {
     var error_stack = (new Error).stack.split("\n");
     var error_position = error_stack[error_stack.length - 1].trim();
@@ -26,25 +26,25 @@ var my_show_loaded_js = function () {
 };
 my_show_loaded_js();
 
-// 显示已使用的 chrome.storage.sync 空间的字节数
+// 使用 chrome.storage.sync，保存和同步用户的插件设置
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea
+var my_chrome_extension_js_settings = {};
+
 var my_show_storage_usage = function () {
-    chrome.storage.sync.get(null, function(data) {
-        console.log('MyChromeExtension sync storage: ' + JSON.stringify(data));
-    });
     chrome.storage.sync.getBytesInUse(null, function(data) {
-        console.log('MyChromeExtension sync storage usage: ' + data + ' Bytes');
+        console.log('MyChromeExtension storage sync usage: ' + data + ' Bytes');
+    });
+    chrome.storage.sync.get(null, function(data) {
+        console.log('MyChromeExtension storage sync load: ' + JSON.stringify(data));
+        my_chrome_extension_js_settings = data;
+        localStorage.setItem('my_chrome_extension_js_settings', JSON.stringify(my_chrome_extension_js_settings));
     });
 };
-my_show_storage_usage();
-
 var my_clear_storage_usage = function () {
     chrome.storage.sync.clear();
 };
-my_clear_storage_usage();
+my_show_storage_usage();
 
-// 支持保存用户设置，对不同的 JS 隔离设置
-var my_chrome_extension_js_settings = {};
 var my_set_js_setting = function (key, value) {
     var js_setting = {};
     js_setting[key] = value;
@@ -54,7 +54,7 @@ var my_set_js_setting = function (key, value) {
     my_chrome_extension_js_settings[js_file] = js_setting;
     localStorage.setItem('my_chrome_extension_js_settings', JSON.stringify(my_chrome_extension_js_settings));
     chrome.storage.sync.set(data, function() {
-        console.log('MyChromeExtension sync set ok: ' + JSON.stringify(data));
+        console.log('MyChromeExtension storage sync set ok: ' + JSON.stringify(data));
     });
     console.log('MyChromeExtension my_set_js_setting: ' + JSON.stringify(data));
 };
@@ -62,17 +62,12 @@ var my_set_js_setting = function (key, value) {
 var my_get_js_setting = function (key) {
     var js_file = my_get_loaded_js();
     chrome.storage.sync.get(null, function(data) {
-        console.log('MyChromeExtension sync get ok: ' + JSON.stringify(data));
+        console.log('MyChromeExtension storage sync get ok: ' + JSON.stringify(data));
         my_chrome_extension_js_settings = data;
         localStorage.setItem('my_chrome_extension_js_settings', JSON.stringify(my_chrome_extension_js_settings));
     });
+    var value = undefined;
     var tmp_settings = JSON.parse(localStorage.getItem('my_chrome_extension_js_settings'));
-    console.log('MyChromeExtension tmp_settings: ' + tmp_settings);
-    console.log('MyChromeExtension tmp_settings: ' + js_file);
-    console.log('MyChromeExtension tmp_settings: ' + tmp_settings[js_file]);
-    console.log('MyChromeExtension tmp_settings: ' + key);
-    console.log('MyChromeExtension tmp_settings: ' + tmp_settings[js_file][key]);
-    var value = 'QAQ';
     if(tmp_settings && tmp_settings[js_file] && tmp_settings[js_file][key]){
         value = tmp_settings[js_file][key];
     }
@@ -82,10 +77,17 @@ var my_get_js_setting = function (key) {
     return value;
 };
 
-my_set_js_setting('MyChromeExtension', 'MyChromeExtension');
-console.log('my_get_js_setting: ' + my_get_js_setting('MyChromeExtension'));
+chrome.storage.onChanged.addListener(function(changes, areaName){
+    console.log('MyChromeExtension storage ' + areaName + ' changed: ' + JSON.stringify(changes));
+    // {"chrome-extension://iklbhcbmbooeeckkjljbmoekngggplbd/site/all.js":{"newValue":{"MyChromeExtension":"MyChromeExtension"}}}
+    // {"chrome-extension://iklbhcbmbooeeckkjljbmoekngggplbd/site/all.js":{"oldValue":{"MyChromeExtension":"MyChromeExtension"}}}
+});
 
-// Console 显示自动输入的密码
+my_set_js_setting('MyChromeExtension', 'MyChromeExtension');
+my_get_js_setting('MyChromeExtension');
+my_clear_storage_usage();
+
+// 在 Console 显示自动输入的密码
 var passwords_logged = [];
 var log_password = function () {
     var passwords = document.querySelectorAll('input[type="password"]');
