@@ -7,7 +7,12 @@
     "homepage_url": "https://github.com/MoonLord-LM/MyChromeExtension",
     "permissions": [
         "storage",
-        "unlimitedStorage"
+        "unlimitedStorage",
+        "contextMenus",
+        "tabs",
+        "notifications",
+        "webRequest",
+        "webRequestBlocking"
     ],
     "browser_action": {
         "default_icon": "img/icon.png",
@@ -17,7 +22,7 @@
     "options_page": "page/options.html",
     "devtools_page": "page/devtools.html",
     "background": {
-        "page": "page/background.html"
+        "scripts": ["page/background.js"]
     },
     "content_scripts": [
         {
