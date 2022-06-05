@@ -71,25 +71,6 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') |
             if(comment_count > 0){
                 console.log('auto_approve comment_count: ' + comment_count);
             }
-            // 抄送人
-            var row_items = edit_area.querySelectorAll('div.hae-row div.idm-form-cue div.hae-form-item');
-            for (i = 0; i < row_items.length; i++) {
-                var item_label = row_items[i].querySelector('label.form-item-label');
-                if(item_label != null && item_label.innerText.endsWith('抄送')){
-                    var copy_user = row_items[i].querySelector('div.form-item-content div.hae-input textarea.input-padding');
-                    if(copy_user != null){
-                        if(copy_user.value == ''){
-                            copy_user.value = 'l00429783';
-                        }
-                        copy_count += 1;
-                    }
-                }
-                copy_user.dispatchEvent(new Event('input'));
-                copy_user.dispatchEvent(new Event('change'));
-            }
-            if(copy_count > 0){
-                console.log('auto_approve copy_count: ' + copy_count);
-            }
             // 勾选承诺
             var checkboxes = edit_area.querySelectorAll('div.checkValue div div[widget="Selectgroup"] ul li span.hae-checkbox span');
             for (i = 0; i < checkboxes.length; i++) {
