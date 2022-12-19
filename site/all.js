@@ -28,6 +28,8 @@ my_show_loaded_js();
 
 // 使用 chrome.storage.sync，保存和同步用户的插件设置
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea
+
+/*
 var my_chrome_extension_js_settings = {};
 
 var my_show_storage_usage = function () {
@@ -92,6 +94,7 @@ chrome.storage.onChanged.addListener(function(changes, areaName){
 my_set_js_setting('MyChromeExtension', 'MyChromeExtension');
 my_get_js_setting('MyChromeExtension');
 my_clear_storage_usage();
+*/
 
 // 在 Console 显示自动输入的密码
 var passwords_logged = [];
