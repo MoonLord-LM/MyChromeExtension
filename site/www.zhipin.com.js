@@ -181,6 +181,7 @@ var white_list = [
     '在线',
     '刚刚活跃',
     '今日活跃',
+    'Java',
 ]
 
 // 检查关键词
@@ -261,6 +262,7 @@ var card_filter = function () {
         var card = cards[i];
         var text = card.innerText;
         if ( !check_school(text) || !check_age(text) || !check_year(text) || !check_black_list(text) || !check_white_list(text) ) {
+            console.log('card_filter remove: ' + !check_school(text) + !check_age(text) + !check_year(text) + !check_black_list(text) + !check_white_list(text));
             // console.log('card_filter remove: ' + text);
             card.parentNode.removeChild(card);
             continue;
