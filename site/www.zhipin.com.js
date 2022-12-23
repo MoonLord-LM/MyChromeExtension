@@ -154,7 +154,6 @@ var year_list = [
 var black_list = [
     '学院',
     '大专',
-    '在职-暂不考虑',
     '3日内活跃',
     '本周活跃',
     '2周内活跃',
@@ -164,8 +163,25 @@ var black_list = [
     '4月内活跃',
     '近半年活跃',
     '半年前活跃',
+    '在职-暂不考虑',
+    '23年应届生',
     '10年以上',
     '主管',
+    '测试',
+    '前端',
+    '嵌入式',
+    '数据开发',
+    '产品经理',
+    '算法工程师',
+    '运维工程师',
+    '售前工程师',
+    'iOS开发工程师',
+    'C++',
+    'Python',
+    'Golang',
+    '腾讯',
+    '阿里',
+    '华为',
 ]
 
 // 关键词白名单
@@ -223,6 +239,7 @@ var scroll_to_end = function () {
     }
     if (recommendFrame.contentWindow.document.body.innerText.indexOf('没有更多了') !== -1) {
         console.log('scroll_to_end: finish, no more');
+        card_filter();
         return;
     }
     if (recommendFrame.contentWindow.document.body.innerText.indexOf('滚动加载更多') !== -1) {
@@ -265,7 +282,6 @@ var card_filter = function () {
 // 定时执行
 if (window.location.href.startsWith('https://www.zhipin.com/web/boss/recommend')) {
     setInterval(scroll_to_end, 3000);
-    setInterval(card_filter, 10000);
 }
 
 
