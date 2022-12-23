@@ -175,7 +175,8 @@ var black_list = [
     '算法工程师',
     '运维工程师',
     '售前工程师',
-    'iOS开发工程师',
+    'iOS',
+    'Android',
     'C++',
     'Python',
     'Golang',
@@ -280,7 +281,7 @@ var card_filter = function () {
 }
 
 // 定时执行
-if (window.location.href.startsWith('https://www.zhipin.com/web/boss/recommend')) {
+if (window.location.href.startsWith('https://www.zhipin.com/web/chat/recommend')) {
     setInterval(scroll_to_end, 3000);
 }
 
