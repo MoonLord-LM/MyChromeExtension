@@ -241,7 +241,7 @@ var scroll_to_end = function () {
     console.log('scroll_to_end is running ...');
 };
 
-// 过滤学校
+// 卡片处理
 var card_filter = function () {
     var recommendFrame = document.querySelector('iframe');
     if (recommendFrame === null) {
