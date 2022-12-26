@@ -12,10 +12,20 @@ setInterval(disable_switch_detect, 3000);
 
 // 允许右键菜单、选中文本
 var allow_mouse_interact = function () {
-    var exam_content = document.querySelector('div#examin_content');
+    var exam_content = document.querySelector(".exam-content-container")
     if(exam_content !== null){
         exam_content.oncontextmenu = null;
+        var listeners = getEventListeners(exam_content)["contextmenu"];
+        for (i = 0; i < listeners.length; i++) {
+            exam_content.removeEventListener("contextmenu", listeners[i].listener);
+            console.log('allow_mouse_interact: ' + listeners[i].listener);
+        }
         exam_content.onselectstart = null;
+        listeners = getEventListeners(exam_content)["selectstart"];
+        for (i = 0; i < listeners.length; i++) {
+            exam_content.removeEventListener("selectstart", listeners[i].listener);
+            console.log('allow_mouse_interact: ' + listeners[i].listener);
+        }
     }
     console.log('allow_mouse_interact is running ...');
 }
