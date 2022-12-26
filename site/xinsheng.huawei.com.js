@@ -1,4 +1,4 @@
-my_show_loaded_js();
+typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
 
 // 标签标题拉长
 document.title = 'HWSX - ' + document.title;

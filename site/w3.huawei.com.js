@@ -1,4 +1,4 @@
-my_show_loaded_js();
+typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
 
 // 隐藏工号水印
 var hide_mask = function () {

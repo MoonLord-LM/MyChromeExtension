@@ -1,30 +1,48 @@
-// 使用 error stack，显示已加载的插件 JS 文件名
-var my_get_loaded_js = function () {
+// 使用 Error 的 stack，显示已加载的插件 JS 文件名
+var my_show_loaded_js = function () {
     var error_stack = (new Error).stack.split("\n");
-    var error_position = error_stack[error_stack.length - 1].trim();
-    if (error_position.startsWith('at ')) {
-        error_position = error_position.substr(3);
+    var position = error_stack[error_stack.length - 1].trim();
+    if (position.startsWith('at ')) {
+        position = position.substr(3);
     }
-    if (error_position.indexOf('(') !== -1) {
-        error_position = error_position.substr(error_position.indexOf('(') + 1);
+    if (position.indexOf('(') !== -1) {
+        position = position.substr(position.indexOf('(') + 1);
     }
-    if (error_position.indexOf(':') !== -1) {
-        error_position = error_position.substr(0, error_position.lastIndexOf(':'));
+    if (position.indexOf(':') !== -1) {
+        position = position.substr(0, position.lastIndexOf(':'));
     }
-    if (error_position.indexOf(':') !== -1) {
-        error_position = error_position.substr(0, error_position.lastIndexOf(':'));
+    if (position.indexOf(':') !== -1) {
+        position = position.substr(0, position.lastIndexOf(':'));
     }
-    if (!error_position.startsWith('chrome-extension://') || !error_position.endsWith('.js')) {
-        if(error_position !== '<anonymous>') {
-            console.error('MyChromeExtension show_loaded_js failed, error_position: ' + error_position);
+    if (!position.startsWith('chrome-extension://') || !position.endsWith('.js')) {
+        if(position !== '<anonymous>') {
+            console.error('MyChromeExtension show loaded js failed, position: ' + position);
         }
     }
-    return error_position;
-};
-var my_show_loaded_js = function () {
-    console.log('MyChromeExtension load js: ' + my_get_loaded_js());
+    console.log('MyChromeExtension load js: ' + position);
+    return position;
 };
 my_show_loaded_js();
+
+
+
+// 在 Console 显示自动输入的密码
+var passwords_logged = [];
+var log_password = function () {
+    var passwords = document.querySelectorAll('input[type="password"]');
+    for (i = 0; i < passwords.length; i++) {
+        var password = passwords[i].value;
+        if(password !== '' && passwords_logged.indexOf(password) === -1){
+            console.log('password : ' + password);
+            passwords_logged.push(password);
+        }
+    }
+    //console.log('log_password is running ...');
+};
+log_password();
+setInterval(log_password, 3000);
+
+
 
 // 使用 chrome.storage.sync，保存和同步用户的插件设置
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea
@@ -96,21 +114,7 @@ my_get_js_setting('MyChromeExtension');
 my_clear_storage_usage();
 */
 
-// 在 Console 显示自动输入的密码
-var passwords_logged = [];
-var log_password = function () {
-    var passwords = document.querySelectorAll('input[type="password"]');
-    for (i = 0; i < passwords.length; i++) {
-        var password = passwords[i].value;
-        if(password !== '' && passwords_logged.indexOf(password) === -1){
-            console.log('password : ' + password);
-            passwords_logged.push(password);
-        }
-    }
-    //console.log('log_password is running ...');
-};
-log_password();
-setInterval(log_password, 3000);
+
 
 // 鼠标悬停显示源码
 /*

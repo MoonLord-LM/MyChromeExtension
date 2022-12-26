@@ -1,4 +1,4 @@
-my_show_loaded_js();
+typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
 
 // 不限制富文本显示区域的高度
 var unlimit_richtext_height = function () {

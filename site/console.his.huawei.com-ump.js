@@ -1,4 +1,4 @@
-my_show_loaded_js();
+typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
 
 if(window.location.href.startsWith('http://console.his.huawei.com/ump/#/topic') || window.location.href.startsWith('https://console.his.huawei.com/ump/#/topic')){
     // MQS 发布和订阅时，自动选中所有的区域的 CheckBox

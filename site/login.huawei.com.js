@@ -1,4 +1,4 @@
-my_show_loaded_js();
+typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
 
 // 登录失效后自动登录（需要先使用浏览器的记住密码）
 var user_login = function () {
