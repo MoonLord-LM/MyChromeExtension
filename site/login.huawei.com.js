@@ -15,4 +15,4 @@ var user_login = function () {
     //console.log('user_login is running ...');
 }
 user_login();
-setInterval(user_login, 3000);
+setInterval(user_login, 15000);

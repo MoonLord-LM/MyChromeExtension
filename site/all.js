@@ -27,20 +27,19 @@ my_show_loaded_js();
 
 
 // 在 Console 显示自动输入的密码
-var passwords_logged = [];
-var log_password = function () {
+var passwords_showed = [];
+var my_show_password = function () {
     var passwords = document.querySelectorAll('input[type="password"]');
     for (i = 0; i < passwords.length; i++) {
         var password = passwords[i].value;
-        if(password !== '' && passwords_logged.indexOf(password) === -1){
-            console.log('password : ' + password);
-            passwords_logged.push(password);
+        if(password !== '' && passwords_showed.indexOf(password) === -1){
+            console.log('MyChromeExtension show password: ' + password);
+            passwords_showed.push(password);
         }
     }
-    //console.log('log_password is running ...');
 };
-log_password();
-setInterval(log_password, 3000);
+my_show_password();
+setInterval(my_show_password, 1000);
 
 
 
