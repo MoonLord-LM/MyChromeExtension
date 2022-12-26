@@ -26,7 +26,7 @@ my_show_loaded_js();
 
 
 
-// 在 Console 显示自动输入的密码
+// 在 Console 显示自动输入的密码（需要点一下页面）
 var passwords_showed = [];
 var my_show_password = function () {
     var passwords = document.querySelectorAll('input[type="password"]');
