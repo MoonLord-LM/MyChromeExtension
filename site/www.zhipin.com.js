@@ -228,7 +228,7 @@ var scroll_to_end = function () {
         console.log('scroll_to_end: error, recommendFrame.contentWindow is null');
         return;
     }
-    if (recommendFrame.contentWindow.document.body.innerText.indexOf('没有更多了') !== -1) {
+    if (recommendFrame.contentWindow.document.body.innerText.indexOf('没有更多') !== -1) {
         console.log('scroll_to_end: finish, no more');
         card_filter();
         return;
