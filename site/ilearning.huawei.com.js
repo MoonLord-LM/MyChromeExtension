@@ -1,5 +1,7 @@
 typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
 
+
+
 // 禁用切屏检测
 var disable_switch_detect = function () {
     window.onblur = function () {
@@ -32,3 +34,5 @@ var allow_mouse_interact = function () {
 }
 allow_mouse_interact();
 setInterval(allow_mouse_interact, 3000);
+
+
