@@ -13,3 +13,5 @@ var side = document.querySelector('div.Question-sideColumn');
 if(side !== null){
     side.style.display = 'none';
 }
+
+

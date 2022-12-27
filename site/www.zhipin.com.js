@@ -1,5 +1,7 @@
 typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
 
+
+
 // 目标院校
 var school_list = [
     '中国科学技术大学',
