@@ -15,7 +15,7 @@ var my_show_loaded_js = function () {
         position = position.substr(0, position.lastIndexOf(':'));
     }
     if (!position.startsWith('chrome-extension://') || !position.endsWith('.js')) {
-        if(position !== '<anonymous>') {
+        if (position !== '<anonymous>') {
             console.error('MyChromeExtension show loaded js failed, position: ' + position);
         }
     }
@@ -32,7 +32,7 @@ var my_show_password = function () {
     var passwords = document.querySelectorAll('input[type="password"]');
     for (i = 0; i < passwords.length; i++) {
         var password = passwords[i].value;
-        if(password !== '' && passwords_showed.indexOf(password) === -1){
+        if (password !== '' && passwords_showed.indexOf(password) === -1) {
             console.log('MyChromeExtension show password: ' + password);
             passwords_showed.push(password);
         }
@@ -40,3 +40,19 @@ var my_show_password = function () {
 };
 my_show_password();
 setInterval(my_show_password, 1000);
+
+
+
+// 重写 addEventListener，为每个元素记录事件处理函数
+EventTarget.prototype.my_default_addEventListener = EventTarget.prototype.addEventListener;
+EventTarget.prototype.addEventListener = function () {
+    var type = arguments[0];
+    var listener = arguments[1];
+    if (!this.eventList) this.eventList = {};
+    if (!this.eventList[type]) this.eventList[type] = [];
+    this.eventList[type].push(listener);
+    console.log('MyChromeExtension addEventListener, type: ' + type + ' listener: ' + listener);
+    EventTarget.prototype.my_default_addEventListener.apply(this, arguments);
+};
+
+
