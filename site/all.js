@@ -44,13 +44,9 @@ setInterval(my_show_password, 1000);
 
 
 // 重写 addEventListener，为每个元素记录事件处理函数
-var s = document.createElement('script');
-s.src = chrome.runtime.getURL('lib/getEventListeners.js');
-s.onload = function() {
-    // this.remove();
-};
-(document.head || document.documentElement).appendChild(s);
-console.log('MyChromeExtension s.src: ' + s.src);
-
+var script = document.createElement('script');
+script.src = chrome.runtime.getURL('lib/getEventListeners.js');
+document.documentElement.appendChild(script);
+console.log('MyChromeExtension script.src: ' + script.src);
 
 
