@@ -44,15 +44,13 @@ setInterval(my_show_password, 1000);
 
 
 // 重写 addEventListener，为每个元素记录事件处理函数
-EventTarget.prototype.my_default_addEventListener = EventTarget.prototype.addEventListener;
-EventTarget.prototype.addEventListener = function () {
-    var type = arguments[0];
-    var listener = arguments[1];
-    if (!this.eventList) this.eventList = {};
-    if (!this.eventList[type]) this.eventList[type] = [];
-    this.eventList[type].push(listener);
-    console.log('MyChromeExtension addEventListener, type: ' + type + ' listener: ' + listener);
-    EventTarget.prototype.my_default_addEventListener.apply(this, arguments);
+var s = document.createElement('script');
+s.src = chrome.runtime.getURL('lib/getEventListeners.js');
+s.onload = function() {
+    // this.remove();
 };
+(document.head || document.documentElement).appendChild(s);
+console.log('MyChromeExtension s.src: ' + s.src);
+
 
 

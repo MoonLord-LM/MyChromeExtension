@@ -17,7 +17,7 @@ var allow_mouse_interact = function () {
             !1
         }
         */
-        exam_content.className = '';
+        // exam_content.className = '';
         exam_content.oncontextmenu = function () {
             console.log('exam_content.oncontextmenu');
         };
