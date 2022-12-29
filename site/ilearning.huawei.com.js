@@ -4,26 +4,13 @@ typeof(showLoadedFile) === 'function' && showLoadedFile();
 
 // 允许右键菜单、选中文本
 var allow_mouse_interact = function () {
-    var exam_content = document.querySelector(".exam-content-container")
+    var exam_content = document.querySelector(".exam-content-container");
     if(exam_content !== null){
-        /*
-        document.querySelector(".exam-content-container").addEventListener("selectstart", (function(e) {
-            return e.preventDefault(),
-            !1
-        }
-        )),
-        document.querySelector(".exam-content-container").addEventListener("contextmenu", (function(e) {
-            return e.preventDefault(),
-            !1
-        }
-        */
-        // exam_content.className = '';
-        exam_content.oncontextmenu = function () {
-            console.log('exam_content.oncontextmenu');
-        };
-        exam_content.onselectstart = function () {
-            console.log('exam_content.onselectstart');
-        };
+        exam_content.oncontextmenu = function () {};
+        exam_content.onselectstart = function () {};
+        exam_content.clearEventListeners('contextmenu');
+        exam_content.clearEventListeners('selectstart');
+        exam_content.className = '';
     }
     console.log('allow_mouse_interact is running ...');
 }
