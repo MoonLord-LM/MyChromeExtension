@@ -11,7 +11,8 @@
         "contextMenus",
         "tabs",
         "notifications",
-        "webRequest"
+        "webRequest",
+        "scripting"
     ],
     "action": {
         "default_icon": "img/icon.png",
@@ -24,15 +25,14 @@
         {
             "matches": ["<all_urls>"],
             "resources": [
-                "lib/showLoadedFile.js",
-                "lib/getEventListeners.js"
+                "lib/*.js"
             ]
         }
     ],
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
-            "js": [ "lib/showLoadedFile.js", "lib/getEventListeners.js", "site/all.js" ],
+            "js": [ "lib/showLoadedFile.js", "site/all.js" ],
             "all_frames": true,
             "run_at": "document_start"
         },

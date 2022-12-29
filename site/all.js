@@ -6,6 +6,7 @@ typeof(showLoadedFile) === 'function' && showLoadedFile();
 var scriptFiles = [
     'lib/showLoadedFile.js',
     'lib/getEventListeners.js',
+    'lib/executeScript.js',
 ];
 for (let i = 0; i < scriptFiles.length; i++) {
     var script = document.createElement('script');
