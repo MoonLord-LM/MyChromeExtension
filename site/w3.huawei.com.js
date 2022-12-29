@@ -1,10 +1,10 @@
-typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
+typeof(showLoadedFile) === 'function' && showLoadedFile();
 
 // 隐藏工号水印
 var hide_mask = function () {
     var masks = document.querySelectorAll('div[id^="mask_div"]');
     var hide_count = 0;
-    for (i = 0; i < masks.length; i++) {
+    for (let i = 0; i < masks.length; i++) {
         if(masks[i].style.display !== 'none') {
             masks[i].style.display = 'none';
             hide_count += 1;

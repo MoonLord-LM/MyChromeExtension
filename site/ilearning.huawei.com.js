@@ -1,4 +1,4 @@
-typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
+typeof(showLoadedFile) === 'function' && showLoadedFile();
 
 
 

@@ -1,4 +1,4 @@
-typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
+typeof(showLoadedFile) === 'function' && showLoadedFile();
 
 // 登录失效后尝试自动登录
 var user_relogin = function () {

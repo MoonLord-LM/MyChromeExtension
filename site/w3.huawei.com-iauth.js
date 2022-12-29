@@ -1,4 +1,4 @@
-typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
+typeof(showLoadedFile) === 'function' && showLoadedFile();
 
 if(window.location.href.startsWith('http://w3.huawei.com/next/indexa.html') || window.location.href.startsWith('https://w3.huawei.com/next/indexa.html')){
     // 自动点击 iAuth 的待办
@@ -14,7 +14,7 @@ if(window.location.href.startsWith('http://w3.huawei.com/next/indexa.html') || w
         }
         var iauth_task_urls = document.querySelectorAll('div[id="tasks_iAuth"] ul li table tbody tr td a');
         var iauth_task_count = 0;
-        for (i = 0; i < iauth_task_urls.length; i++) {
+        for (let i = 0; i < iauth_task_urls.length; i++) {
             task_url = iauth_task_urls[i].href;
             if(task_url.startsWith('http://w3.huawei.com/iauth/#/applyRouter') || task_url.startsWith('https://w3.huawei.com/iauth/#/applyRouter')){
                 iauth_task_count += 1;
@@ -54,7 +54,7 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') |
         if(edit_area != null){
             // 审批意见
             var form_items = edit_area.querySelectorAll('div.hae-form-item');
-            for (i = 0; i < form_items.length; i++) {
+            for (let i = 0; i < form_items.length; i++) {
                 var item_label = form_items[i].querySelector('label.form-item-label');
                 if(item_label != null && item_label.innerText.endsWith('审批意见')){
                     var approval_comment = form_items[i].querySelector('div.form-item-content div.hae-input textarea.textarea');
@@ -73,7 +73,7 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') |
             }
             // 勾选承诺
             var checkboxes = edit_area.querySelectorAll('div.checkValue div div[widget="Selectgroup"] ul li span.hae-checkbox span');
-            for (i = 0; i < checkboxes.length; i++) {
+            for (let i = 0; i < checkboxes.length; i++) {
                 if(checkboxes[i].className.indexOf('checked') == -1){
                     checkboxes[i].click();
                 }
@@ -92,7 +92,7 @@ if(window.location.href.startsWith('http://w3.huawei.com/iauth/#/applyRouter') |
             alert("TODO 测试中断");
         }
         var primary_buttons = document.querySelectorAll('div.idm-footerBtn div.footerBtn_smallBox div.btnBox div.footerBtn_css button[hue="primary"]');
-        for (i = 0; i < primary_buttons.length; i++) {
+        for (let i = 0; i < primary_buttons.length; i++) {
             if(primary_buttons[i].innerText == '提交' || primary_buttons[i].innerText == '同意'){
                 console.log('auto_approve click: ' + primary_buttons[i].innerText);
                 primary_buttons[i].click();

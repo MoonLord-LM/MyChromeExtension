@@ -1,4 +1,4 @@
-typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
+typeof(showLoadedFile) === 'function' && showLoadedFile();
 
 // 重新设置视频区域的边距
 var reset_room_container = function () {

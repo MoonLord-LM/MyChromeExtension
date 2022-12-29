@@ -1,4 +1,4 @@
-typeof(my_show_loaded_js) === 'function' && my_show_loaded_js();
+typeof(showLoadedFile) === 'function' && showLoadedFile();
 
 
 
@@ -256,7 +256,7 @@ var card_filter = function () {
     }
     var cards = recommendFrame.contentWindow.document.querySelectorAll("div.candidate-card-wrap");
     console.log('card_filter before: ' + cards.length);
-    for (i = 0; i < cards.length; i++) {
+    for (let i = 0; i < cards.length; i++) {
         var card = cards[i];
         var text = card.innerText;
         if ( !check_school(text) || !check_age(text) || !check_year(text) || !check_black_list(text) || !check_white_list(text) ) {
