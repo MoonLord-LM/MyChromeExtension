@@ -18,6 +18,9 @@ var script = `
         document.disableEventListeners('contextmenu');
         document.disableEventListeners('selectstart');
         document.disableEventListeners('copy');
+        document.disableEventListeners('keydown');
+        document.disableEventListeners('keypress');
+        document.disableEventListeners('keyup');
 
         var content = document.querySelector('.exam-content-copy');
         if (content !== null) {
