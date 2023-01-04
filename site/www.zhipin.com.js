@@ -173,6 +173,10 @@ var black_list = [
     '算法工程师',
     '运维工程师',
     '售前工程师',
+    '华为',
+    '外企德科',
+    '腾讯',
+    '阿里',
 ]
 
 // 关键词白名单
@@ -247,11 +251,11 @@ var scroll_to_end = function () {
 var card_filter = function () {
     var recommendFrame = document.querySelector('iframe');
     if (recommendFrame === null) {
-        console.log('scroll_to_end: error, recommendFrame is null');
+        console.log('card_filter: error, recommendFrame is null');
         return;
     }
     if (recommendFrame.contentWindow === null) {
-        console.log('scroll_to_end: error, recommendFrame.contentWindow is null');
+        console.log('card_filter: error, recommendFrame.contentWindow is null');
         return;
     }
     var cards = recommendFrame.contentWindow.document.querySelectorAll("div.candidate-card-wrap");
