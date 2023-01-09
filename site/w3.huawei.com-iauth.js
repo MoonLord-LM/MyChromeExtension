@@ -1,4 +1,4 @@
-typeof(showLoadedFile) === 'function' && showLoadedFile();
+typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 if(window.location.href.startsWith('http://w3.huawei.com/next/indexa.html') || window.location.href.startsWith('https://w3.huawei.com/next/indexa.html')){
     // 自动点击 iAuth 的待办

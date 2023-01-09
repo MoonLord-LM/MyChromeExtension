@@ -1,4 +1,4 @@
-typeof(showLoadedFile) === 'function' && showLoadedFile();
+typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 
@@ -263,7 +263,7 @@ var card_filter = function () {
     for (let i = 0; i < cards.length; i++) {
         var card = cards[i];
         var text = card.innerText;
-        if ( !check_school(text) || !check_age(text) || !check_year(text) || !check_black_list(text) || !check_white_list(text) ) {
+        if (!check_school(text) || !check_age(text) || !check_year(text) || !check_black_list(text) || !check_white_list(text)) {
             console.log('card_filter remove: ' + !check_school(text) + !check_age(text) + !check_year(text) + !check_black_list(text) + !check_white_list(text));
             // console.log('card_filter remove: ' + text);
             card.parentNode.removeChild(card);
@@ -276,7 +276,10 @@ var card_filter = function () {
 }
 
 // 定时执行
-if (window.location.href.startsWith('https://www.zhipin.com/web/chat/recommend')) {
+if (
+    window.location.href.startsWith('https://www.zhipin.com/web/boss/recommend') ||
+    window.location.href.startsWith('https://www.zhipin.com/web/chat/recommend')
+) {
     setInterval(scroll_to_end, 3000);
 }
 

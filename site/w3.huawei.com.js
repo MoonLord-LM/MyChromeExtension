@@ -1,4 +1,4 @@
-typeof(showLoadedFile) === 'function' && showLoadedFile();
+typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 // 隐藏工号水印
 var hide_mask = function () {

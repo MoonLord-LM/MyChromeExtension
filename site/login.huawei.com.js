@@ -1,4 +1,4 @@
-typeof(showLoadedFile) === 'function' && showLoadedFile();
+typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 // 登录失效后自动登录（需要先使用浏览器的记住密码）
 var user_login = function () {
