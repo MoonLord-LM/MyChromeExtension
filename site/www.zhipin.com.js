@@ -280,7 +280,7 @@ var card_filter = function () {
         var card = cards[i];
         var text = card.innerText;
         if (!check_all(text)) {
-            console.log('card_filter remove: ' + !check_school(text) + !check_age(text) + !check_year(text) + !check_black_list(text) + !check_white_list(text));
+            // console.log('card_filter remove: ' + check_school(text) + check_age(text) + check_year(text) + check_black_list(text) + check_white_list(text));
             // console.log('card_filter remove: ' + text);
             card.parentNode.removeChild(card);
             continue;
