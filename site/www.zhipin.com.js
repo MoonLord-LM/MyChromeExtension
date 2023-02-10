@@ -215,6 +215,7 @@ var hide_ad = function () {
     //console.log('hide_ad is running ...');
 };
 hide_ad();
+setInterval(hide_ad, 3000);
 
 // 关键词检查
 var contain_word = function (list, text) {
