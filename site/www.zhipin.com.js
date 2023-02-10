@@ -130,6 +130,9 @@ var school_list = [
 
 // 目标年龄
 var age_list = [
+    '22岁',
+    '23岁',
+    '24岁',
     '25岁',
     '26岁',
     '27岁',
@@ -138,10 +141,14 @@ var age_list = [
     '30岁',
     '31岁',
     '32岁',
+    '33岁',
+    '34岁',
 ]
 
 // 目标年限
 var year_list = [
+    '1年',
+    '2年',
     '3年',
     '4年',
     '5年',
@@ -174,7 +181,6 @@ var black_list = [
     '运维工程师',
     '售前工程师',
     '华为',
-    '外企德科',
     '腾讯',
     '阿里',
 ]
@@ -233,6 +239,11 @@ var scroll_to_end = function () {
         return;
     }
     if (recommendFrame.contentWindow.document.body.innerText.indexOf('没有更多') !== -1) {
+        console.log('scroll_to_end: finish, no more');
+        card_filter();
+        return;
+    }
+    if (recommendFrame.contentWindow.document.body.innerText.indexOf('更多牛人资源') !== -1) {
         console.log('scroll_to_end: finish, no more');
         card_filter();
         return;
