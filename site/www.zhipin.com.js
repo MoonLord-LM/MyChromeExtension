@@ -245,12 +245,10 @@ var scroll_to_end = function () {
         console.log('scroll_to_end: error, recommendFrame.contentWindow is null');
         return;
     }
-    if (recommendFrame.contentWindow.document.body.innerText.indexOf('没有更多') !== -1) {
-        console.log('scroll_to_end: finish, no more');
-        card_filter();
-        return;
-    }
-    if (recommendFrame.contentWindow.document.body.innerText.indexOf('更多牛人资源') !== -1) {
+    if (
+        recommendFrame.contentWindow.document.body.innerText.indexOf('没有更多') !== -1 ||
+        recommendFrame.contentWindow.document.body.innerText.indexOf('更多牛人资源') !== -1
+    ) {
         console.log('scroll_to_end: finish, no more');
         card_filter();
         return;
