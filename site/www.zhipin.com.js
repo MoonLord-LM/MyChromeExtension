@@ -2,6 +2,9 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 
+// 仅用于 Boss 直聘的 “推荐牛人” 栏目，帮助过滤简历
+// 以下参数可以修改：目标院校、目标年龄、目标工作年限、关键词黑名单、关键词必须包含值
+
 // 目标院校
 var school_list = [
     '中国科学技术大学',
@@ -145,7 +148,7 @@ var age_list = [
     '34岁',
 ]
 
-// 目标年限
+// 目标工作年限
 var year_list = [
     '1年',
     '2年',
@@ -185,14 +188,35 @@ var black_list = [
     '阿里',
 ]
 
-// 关键词白名单
+// 关键词必须包含值白名单
 var white_list = [
     '在线',
     '刚刚活跃',
     '今日活跃',
 ]
 
-// 检查关键词
+
+
+// 以下为代码逻辑：屏蔽页面广告、卡片关键词过滤
+
+// 隐藏左下角广告
+var hide_ad = function () {
+    var ad = document.querySelector('div.c-menu-bottom-ad');
+    var hide_count = 0;
+    if(ad !== null) {
+        if(ad.style.display !== 'none') {
+            ad.style.display = 'none';
+            hide_count += 1;
+        }
+    }
+    if(hide_count > 0){
+        console.log('hide_ad hide_count: ' + hide_count);
+    }
+    //console.log('hide_ad is running ...');
+};
+hide_ad();
+
+// 关键词检查
 var contain_word = function (list, text) {
     for (let i = 0; i < list.length; i++) {
         if (text.indexOf(list[i]) !== -1) {
@@ -202,30 +226,12 @@ var contain_word = function (list, text) {
     return false;
 }
 
-// 检查学校
-var check_school = function (text) {
-    return contain_word(school_list, text);
-}
-
-// 检查年龄
-var check_age = function (text) {
-    return contain_word(age_list, text);
-}
-
-// 检查年限
-var check_year = function (text) {
-    return contain_word(year_list, text);
-}
-
-// 检查黑名单
-var check_black_list = function (text) {
-    return !contain_word(black_list, text);
-}
-
-// 检查白名单
-var check_white_list = function (text) {
-    return contain_word(white_list, text);
-}
+var check_school = (text) => contain_word(school_list, text); // 检查学校
+var check_age = (text) => contain_word(age_list, text); // 检查年龄
+var check_year = (text) => contain_word(year_list, text); // 检查年限
+var check_black_list = (text) => !contain_word(black_list, text); // 检查黑名单
+var check_white_list = (text) => contain_word(white_list, text); // 检查白名单
+var check_all = (text) => check_school(text) && check_age(text) && check_year(text) && check_black_list(text) && check_white_list(text); // 全部检查
 
 // 向下拖拽到底部
 var scroll_to_end = function () {
@@ -274,7 +280,7 @@ var card_filter = function () {
     for (let i = 0; i < cards.length; i++) {
         var card = cards[i];
         var text = card.innerText;
-        if (!check_school(text) || !check_age(text) || !check_year(text) || !check_black_list(text) || !check_white_list(text)) {
+        if (!check_all(text)) {
             console.log('card_filter remove: ' + !check_school(text) + !check_age(text) + !check_year(text) + !check_black_list(text) + !check_white_list(text));
             // console.log('card_filter remove: ' + text);
             card.parentNode.removeChild(card);
