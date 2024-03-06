@@ -3,7 +3,7 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 // 移除鼠标焦点监控，允许鼠标选中文字
-// 失去焦点 onblur、右键 oncontextmenu、文字选择 onselectstart、复制 oncopy
+// 失去焦点 onblur、右键 oncontextmenu、文字选择 onselectstart、复制 oncopy、按键 keydown keypress keyup
 /*
 .exam-content-copy {
     user-select: none;
