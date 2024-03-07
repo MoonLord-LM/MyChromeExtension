@@ -34,7 +34,7 @@ setInterval(showPassword, 1000);
 
 // 清除页面的水印（DOM 和 Shadow DOM 中，含有 "mask" 的 div 元素，视作水印）
 var hide_mask_script = `
-    if (!originalAttachShadow) {
+    if (!originalAttachShadow && !originalAppendChild) {
         var originalAttachShadow = Element.prototype.attachShadow;
         Element.prototype.attachShadow = function (options) {
             var shadowRoot = originalAttachShadow.apply(this, arguments);
