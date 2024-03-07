@@ -34,7 +34,7 @@ setInterval(showPassword, 1000);
 
 // 清除页面的水印（DOM 和 Shadow DOM 中，含有 "mask" 的 div 元素，视作水印）
 var hide_mask_script = `
-    if (!originalAttachShadow && !originalAppendChild) {
+    if (typeof originalAttachShadow === 'undefined' && typeof originalAppendChild === 'undefined') {
         var originalAttachShadow = Element.prototype.attachShadow;
         Element.prototype.attachShadow = function (options) {
             var shadowRoot = originalAttachShadow.apply(this, arguments);
@@ -75,7 +75,9 @@ var hideMask = function () {
             }
         }
     }
-    document.dispatchEvent(new CustomEvent('executeScript', { detail: hide_mask_script }));
+    if (typeof originalAttachShadow === 'undefined' && typeof originalAppendChild === 'undefined') {
+        document.dispatchEvent(new CustomEvent('executeScript', { detail: hide_mask_script }));
+    }
 };
 hideMask();
 setInterval(hideMask, 1000);
