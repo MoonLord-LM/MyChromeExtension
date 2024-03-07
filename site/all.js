@@ -60,7 +60,7 @@ var hide_mask_script = `
         };
     }
 `;
-var hide_mask = function () {
+var hideMask = function () {
     var masks = document.querySelectorAll('div[id*="mask"]');
     for (let i = 0; i < masks.length; i++) {
         if (masks[i].style.display !== 'none') {
@@ -77,7 +77,7 @@ var hide_mask = function () {
     }
     document.dispatchEvent(new CustomEvent('executeScript', { detail: hide_mask_script }));
 };
-hide_mask();
-setInterval(hide_mask, 1000);
+hideMask();
+setInterval(hideMask, 1000);
 
 
