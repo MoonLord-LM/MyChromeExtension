@@ -2,6 +2,19 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 
+// 为页面 JS 加载 Lib 函数
+var scriptFiles = [
+    'lib/getEventListeners.js',
+    'lib/executeScript.js',
+];
+for (let i = 0; i < scriptFiles.length; i++) {
+    var script = document.createElement('script');
+    script.src = chrome.runtime.getURL(scriptFiles[i]);
+    document.documentElement.appendChild(script);
+}
+
+
+
 // 在 Console 显示自动输入的密码（需要点一下页面；重复的值只显示一次）
 var passwords_showed = [];
 var showPassword = function () {
