@@ -2,20 +2,6 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 
-// 为页面 JS 加载 Lib 函数
-var scriptFiles = [
-    'lib/showLoadedFile.js',
-    'lib/getEventListeners.js',
-    'lib/executeScript.js',
-];
-for (let i = 0; i < scriptFiles.length; i++) {
-    var script = document.createElement('script');
-    script.src = chrome.runtime.getURL(scriptFiles[i]);
-    document.documentElement.appendChild(script);
-}
-
-
-
 // 在 Console 显示自动输入的密码（需要点一下页面；重复的值只显示一次）
 var passwords_showed = [];
 var showPassword = function () {
@@ -39,12 +25,13 @@ setInterval(showPassword, 2000);
         var masks = document.querySelectorAll('div[id*="mask"]');
         var hide_count = 0;
         for (let i = 0; i < masks.length; i++) {
-            if(masks[i].style.display !== 'none') {
+            if (masks[i].style.display !== 'none') {
+                console.log('masks[i]: ' + masks[i]);
                 masks[i].style.display = 'none';
                 hide_count += 1;
             }
         }
-        if(hide_count > 0){
+        if (hide_count > 0) {
             console.log('hide_mask hide_count: ' + hide_count);
         }
     };

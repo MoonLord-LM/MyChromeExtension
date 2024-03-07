@@ -24,15 +24,13 @@
     "web_accessible_resources": [
         {
             "matches": ["<all_urls>"],
-            "resources": [
-                "lib/*.js"
-            ]
+            "resources": [ "lib/*.js", "site/*.js" ]
         }
     ],
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
-            "js": [ "lib/showLoadedFile.js", "site/all.js" ],
+            "js": [ "lib/showLoadedFile.js", "lib/getEventListeners.js", "lib/executeScript.js", "site/all.js" ],
             "all_frames": true,
             "run_at": "document_start"
         },
@@ -61,13 +59,13 @@
             "run_at": "document_end"
         },
         {
-            "matches": [ "http://w3.huawei.com/next/*","https://w3.huawei.com/next/*","http://w3.huawei.com/iauth/*","https://w3.huawei.com/iauth/*" ],
+            "matches": [ "http://w3.huawei.com/next/*", "https://w3.huawei.com/next/*", "http://w3.huawei.com/iauth/*", "https://w3.huawei.com/iauth/*" ],
             "js": [ "site/w3.huawei.com-iauth.js" ],
             "all_frames": true,
             "run_at": "document_end"
         },
         {
-            "matches": [ "http://w3.huawei.com/vmp/web/*","https://w3.huawei.com/vmp/web/*" ],
+            "matches": [ "http://w3.huawei.com/vmp/web/*", "https://w3.huawei.com/vmp/web/*" ],
             "js": [ "site/w3.huawei.com-vmp-web.js" ],
             "all_frames": true,
             "run_at": "document_end"
