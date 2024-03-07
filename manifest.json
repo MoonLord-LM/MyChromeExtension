@@ -49,12 +49,6 @@
             "run_at": "document_end"
         },
         {
-            "matches": [ "http://*.huawei.com/*","https://*.huawei.com/*" ],
-            "js": [ "site/huawei.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
             "matches": [ "http://ilearning.huawei.com/*", "https://ilearning.huawei.com/*" ],
             "js": [ "site/ilearning.huawei.com.js" ],
             "all_frames": true,

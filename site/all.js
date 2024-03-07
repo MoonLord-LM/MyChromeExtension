@@ -33,7 +33,24 @@ setInterval(showPassword, 2000);
 
 
 
-// 清除页面的水印（DOM 和 Shadow DOM 中，动态添加的含有 "mask" 的 div 元素，视作水印）
+// 清除页面的水印（DOM 和 Shadow DOM 中，含有 "mask" 的 div 元素，视作水印）
+{
+    var hide_mask = function () {
+        var masks = document.querySelectorAll('div[id*="mask"]');
+        var hide_count = 0;
+        for (let i = 0; i < masks.length; i++) {
+            if(masks[i].style.display !== 'none') {
+                masks[i].style.display = 'none';
+                hide_count += 1;
+            }
+        }
+        if(hide_count > 0){
+            console.log('hide_mask hide_count: ' + hide_count);
+        }
+    };
+    hide_mask();
+    setInterval(hide_mask, 3000);
+}
 {
     var originalAttachShadow = Element.prototype.attachShadow;
     Element.prototype.attachShadow = function (options) {
