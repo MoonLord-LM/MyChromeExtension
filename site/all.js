@@ -75,9 +75,7 @@ var hideMask = function () {
             }
         }
     }
-    if (typeof originalAttachShadow === 'undefined' && typeof originalAppendChild === 'undefined') {
-        document.dispatchEvent(new CustomEvent('executeScript', { detail: hide_mask_script }));
-    }
+    document.dispatchEvent(new CustomEvent('executeScript', { detail: hide_mask_script }));
 };
 hideMask();
 setInterval(hideMask, 1000);
