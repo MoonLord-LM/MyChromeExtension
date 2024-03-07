@@ -22,7 +22,7 @@ var showPassword = function () {
     for (let i = 0; i < passwords.length; i++) {
         var password = passwords[i].value;
         if (password !== '' && passwords_showed.indexOf(password) === -1) {
-            console.log('MyChromeExtension show password: ' + "\n" + password);
+            console.log('MyChromeExtension show password: ' + password);
             passwords_showed.push(password);
         }
     }
@@ -58,7 +58,6 @@ var script = `
         return originalAppendChild.apply(this, arguments);
     };
 `;
-document.dispatchEvent(new CustomEvent('executeScript', { detail: script }));
 var hide_mask = function () {
     var masks = document.querySelectorAll('div[id*="mask"]');
     for (let i = 0; i < masks.length; i++) {
@@ -66,6 +65,7 @@ var hide_mask = function () {
             masks[i].style.display = 'none';
         }
     }
+    document.dispatchEvent(new CustomEvent('executeScript', { detail: script }));
 };
 hide_mask();
 setInterval(hide_mask, 3000);
