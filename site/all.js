@@ -2,7 +2,7 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 
-// 为页面 JS 加载 Lib 函数
+// 将 Lib 中的函数库在页面环境中进行加载
 var scriptFiles = [
     'lib/getEventListeners.js',
     'lib/executeScript.js',
