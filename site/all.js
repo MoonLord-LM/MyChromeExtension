@@ -22,45 +22,37 @@ var showPassword = function () {
     for (let i = 0; i < passwords.length; i++) {
         var password = passwords[i].value;
         if (password !== '' && passwords_showed.indexOf(password) === -1) {
-            console.log('MyChromeExtension show password: ' + password);
+            console.log('MyChromeExtension show password: ' + "\n" + password);
             passwords_showed.push(password);
         }
     }
 };
 showPassword();
-setInterval(showPassword, 2000);
+setInterval(showPassword, 3000);
 
 
 
 // 清除页面的水印（DOM 和 Shadow DOM 中，含有 "mask" 的 div 元素，视作水印）
-{
-    var hide_mask = function () {
-        var masks = document.querySelectorAll('div[id*="mask"]');
-        var hide_count = 0;
-        for (let i = 0; i < masks.length; i++) {
-            if (masks[i].style.display !== 'none') {
-                console.log('masks[i]: ' + masks[i]);
-                masks[i].style.display = 'none';
-                hide_count += 1;
-            }
+var hide_mask = function () {
+    var masks = document.querySelectorAll('div[id*="mask"]');
+    var hide_count = 0;
+    for (let i = 0; i < masks.length; i++) {
+        if (masks[i].style.display !== 'none') {
+            masks[i].style.display = 'none';
+            hide_count += 1;
         }
-        if (hide_count > 0) {
-            console.log('hide_mask hide_count: ' + hide_count);
-        }
-    };
-    hide_mask();
-    setInterval(hide_mask, 3000);
-}
-{
+    }
+};
+hide_mask();
+setInterval(hide_mask, 3000);
+var script = `
     var originalAttachShadow = Element.prototype.attachShadow;
     Element.prototype.attachShadow = function (options) {
-        console.log("options" + options);
         var shadowRoot = originalAttachShadow.apply(this, arguments);
         var originalShadowAppendChild = shadowRoot.appendChild;
         shadowRoot.appendChild = function (child) {
-            console.log("child: " + child);
-            if (child.tagName !== null && child.tagName.toLowerCase() === 'div') {
-                if (child.id !== null && child.id.indexOf("mask") !== -1) {
+            if (child.tagName && child.tagName.toLowerCase() === 'div') {
+                if (child.id && child.id.indexOf("mask") !== -1) {
                     return;
                 }
             }
@@ -68,18 +60,16 @@ setInterval(showPassword, 2000);
         };
         return shadowRoot;
     };
-}
-{
     var originalAppendChild = Element.prototype.appendChild;
     Element.prototype.appendChild = function (child) {
-        console.log("child: " + child);
-        if (child.tagName !== null && child.tagName.toLowerCase() === 'div') {
-            if (child.id !== null && child.id.indexOf("mask") !== -1) {
+        if (child.tagName && child.tagName.toLowerCase() === 'div') {
+            if (child.id && child.id.indexOf("mask") !== -1) {
                 return;
             }
         }
         return originalAppendChild.apply(this, arguments);
     };
-}
+`;
+document.dispatchEvent(new CustomEvent('executeScript', { detail: script }));
 
 
