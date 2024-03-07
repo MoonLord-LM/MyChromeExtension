@@ -28,35 +28,37 @@ var showPassword = function () {
     }
 };
 showPassword();
-setInterval(showPassword, 3000);
+setInterval(showPassword, 1000);
 
 
 
 // 清除页面的水印（DOM 和 Shadow DOM 中，含有 "mask" 的 div 元素，视作水印）
-var script = `
-    var originalAttachShadow = Element.prototype.attachShadow;
-    Element.prototype.attachShadow = function (options) {
-        var shadowRoot = originalAttachShadow.apply(this, arguments);
-        var originalShadowAppendChild = shadowRoot.appendChild;
-        shadowRoot.appendChild = function (child) {
+var hide_mask_script = `
+    if (!originalAttachShadow) {
+        var originalAttachShadow = Element.prototype.attachShadow;
+        Element.prototype.attachShadow = function (options) {
+            var shadowRoot = originalAttachShadow.apply(this, arguments);
+            var originalShadowAppendChild = shadowRoot.appendChild;
+            shadowRoot.appendChild = function (child) {
+                if (child.tagName && child.tagName.toLowerCase() === 'div') {
+                    if (child.id && child.id.indexOf("mask") !== -1) {
+                        return;
+                    }
+                }
+                return originalShadowAppendChild.apply(this, arguments);
+            };
+            return shadowRoot;
+        };
+        var originalAppendChild = Element.prototype.appendChild;
+        Element.prototype.appendChild = function (child) {
             if (child.tagName && child.tagName.toLowerCase() === 'div') {
                 if (child.id && child.id.indexOf("mask") !== -1) {
                     return;
                 }
             }
-            return originalShadowAppendChild.apply(this, arguments);
+            return originalAppendChild.apply(this, arguments);
         };
-        return shadowRoot;
-    };
-    var originalAppendChild = Element.prototype.appendChild;
-    Element.prototype.appendChild = function (child) {
-        if (child.tagName && child.tagName.toLowerCase() === 'div') {
-            if (child.id && child.id.indexOf("mask") !== -1) {
-                return;
-            }
-        }
-        return originalAppendChild.apply(this, arguments);
-    };
+    }
 `;
 var hide_mask = function () {
     var masks = document.querySelectorAll('div[id*="mask"]');
@@ -65,9 +67,17 @@ var hide_mask = function () {
             masks[i].style.display = 'none';
         }
     }
-    document.dispatchEvent(new CustomEvent('executeScript', { detail: script }));
+    var watermarks = document.querySelectorAll('div[class*="watermark"]');
+    for (let i = 0; i < watermarks.length; i++) {
+        for (let j = 0; j < watermarks[i].classList.length; j++) {
+            if (watermarks[i].classList[j].indexOf('watermark') !== -1) {
+                watermarks[i].classList.remove(watermarks[i].classList[j]);
+            }
+        }
+    }
+    document.dispatchEvent(new CustomEvent('executeScript', { detail: hide_mask_script }));
 };
 hide_mask();
-setInterval(hide_mask, 3000);
+setInterval(hide_mask, 1000);
 
 
