@@ -49,6 +49,12 @@
             "run_at": "document_end"
         },
         {
+            "matches": [ "http://*.huawei.com/*","https://*.huawei.com/*" ],
+            "js": [ "site/huawei.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
             "matches": [ "http://ilearning.huawei.com/*", "https://ilearning.huawei.com/*" ],
             "js": [ "site/ilearning.huawei.com.js" ],
             "all_frames": true,
@@ -57,12 +63,6 @@
         {
             "matches": [ "http://login.huawei.com/*", "https://login.huawei.com/*" ],
             "js": [ "site/login.huawei.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://w3.huawei.com/*","https://w3.huawei.com/*" ],
-            "js": [ "site/w3.huawei.com.js" ],
             "all_frames": true,
             "run_at": "document_end"
         },
@@ -80,7 +80,7 @@
         },
         {
             "matches": [ "http://xinsheng.huawei.com/*", "https://xinsheng.huawei.com/*" ],
-            "js": [ "lib/grayscale.js", "site/xinsheng.huawei.com.js" ],
+            "js": [ "site/xinsheng.huawei.com.js" ],
             "all_frames": true,
             "run_at": "document_end"
         },

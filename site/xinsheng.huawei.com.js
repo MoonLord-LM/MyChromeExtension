@@ -17,13 +17,6 @@ if (favicon === null) {
 }
 favicon.href = favicon_href_baidu;
 
-// 页面灰化
-grayscale(document.body);
-setInterval(function () {
-    grayscale(document.body);
-    //console.log('grayscale is running ...');
-}, 3000);
-
 // 页面 Logo 隐藏
 var logos = document.querySelectorAll('img.min-logo');
 for (let i = 0; i < logos.length; i++) {
