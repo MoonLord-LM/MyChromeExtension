@@ -2,7 +2,7 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 
-// 将 Lib 中的函数库在页面环境中进行加载
+// 将 Lib 中的函数库在页面的 JS 环境中进行加载
 var scriptFiles = [
     'lib/getEventListeners.js',
     'lib/executeScript.js',
@@ -75,7 +75,7 @@ var hideMask = function () {
             }
         }
     }
-    document.dispatchEvent(new CustomEvent('executeScript', { detail: hide_mask_script }));
+    document.executeScript(hide_mask_script);
 };
 hideMask();
 setInterval(hideMask, 1000);
