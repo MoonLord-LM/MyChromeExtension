@@ -81,7 +81,8 @@ setInterval(hideMask, 1000);
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM loaded");
-    eval('document.executeScript(' + hide_mask_script + ')');
+    document.dispatchEvent(new CustomEvent('executeScriptType', { detail: hide_mask_script }));
+    // document.executeScript(hide_mask_script);
 });
 
 
