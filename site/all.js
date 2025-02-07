@@ -32,34 +32,7 @@ setInterval(showPassword, 1000);
 
 
 
-// 清除页面的水印（DOM 和 Shadow DOM 中，含有 "mask" 的 div 元素，视作水印）
-var hide_mask_script = `
-    if (typeof originalAttachShadow === 'undefined' && typeof originalAppendChild === 'undefined') {
-        var originalAttachShadow = Element.prototype.attachShadow;
-        Element.prototype.attachShadow = function (options) {
-            var shadowRoot = originalAttachShadow.apply(this, arguments);
-            var originalShadowAppendChild = shadowRoot.appendChild;
-            shadowRoot.appendChild = function (child) {
-                if (child.tagName && child.tagName.toLowerCase() === 'div') {
-                    if (child.id && child.id.indexOf("mask") !== -1) {
-                        return;
-                    }
-                }
-                return originalShadowAppendChild.apply(this, arguments);
-            };
-            return shadowRoot;
-        };
-        var originalAppendChild = Element.prototype.appendChild;
-        Element.prototype.appendChild = function (child) {
-            if (child.tagName && child.tagName.toLowerCase() === 'div') {
-                if (child.id && child.id.indexOf("mask") !== -1) {
-                    return;
-                }
-            }
-            return originalAppendChild.apply(this, arguments);
-        };
-    }
-`;
+// 清除页面的水印
 var hideMask = function () {
     var masks = document.querySelectorAll('div[id*="mask"]');
     for (let i = 0; i < masks.length; i++) {
@@ -78,11 +51,5 @@ var hideMask = function () {
 };
 hideMask();
 setInterval(hideMask, 1000);
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM loaded");
-    document.dispatchEvent(new CustomEvent('executeScriptType', { detail: hide_mask_script }));
-    // document.executeScript(hide_mask_script);
-});
 
 
