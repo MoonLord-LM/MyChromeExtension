@@ -101,14 +101,20 @@
             "run_at": "document_end"
         },
         {
+            "matches": [ "http://asmroger.top/*", "https://asmroger.top/*" ],
+            "js": [ "site/asmroger.top.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
             "matches": [ "http://watchadsontape.com/*", "https://watchadsontape.com/*" ],
             "js": [ "site/watchadsontape.com.js" ],
             "all_frames": true,
             "run_at": "document_end"
         },
         {
-            "matches": [ "http://asmroger.top/*", "https://asmroger.top/*" ],
-            "js": [ "site/asmroger.top.js" ],
+            "matches": [ "http://bigwarp.art/*", "https://bigwarp.art/*" ],
+            "js": [ "site/bigwarp.art.js" ],
             "all_frames": true,
             "run_at": "document_end"
         }
