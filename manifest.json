@@ -108,7 +108,7 @@
         },
         {
             "matches": [ "http://asmroger.top/*", "https://asmroger.top/*" ],
-            "js": [ "site/asmroger.top" ],
+            "js": [ "site/asmroger.top.js" ],
             "all_frames": true,
             "run_at": "document_end"
         }
