@@ -99,6 +99,18 @@
             "js": [ "site/www.zhihu.com.js" ],
             "all_frames": true,
             "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://watchadsontape.com/*", "https://watchadsontape.com/*" ],
+            "js": [ "site/watchadsontape.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
+        {
+            "matches": [ "http://asmroger.top/*", "https://asmroger.top/*" ],
+            "js": [ "site/asmroger.top" ],
+            "all_frames": true,
+            "run_at": "document_end"
         }
     ]
 }
