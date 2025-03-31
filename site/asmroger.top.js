@@ -2,11 +2,11 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 // streamtape.com
-var videoElement = document.querySelector('iframe[data-src*="streamtape.com/"]');
+var videoElement = document.querySelector('iframe[data-src*="streamtape.com"]');
 
 // bigwarp.io
 if (videoElement != null) {
-    videoElement = document.querySelector('iframe[data-src*="bigwarp.io/"]');
+    videoElement = document.querySelector('iframe[data-src*="bigwarp.io"]');
 }
 
 if (videoElement != null) {
