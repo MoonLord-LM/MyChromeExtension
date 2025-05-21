@@ -113,8 +113,8 @@
             "run_at": "document_end"
         },
         {
-            "matches": [ "http://bigwarp.art/*", "https://bigwarp.art/*" ],
-            "js": [ "site/bigwarp.art.js" ],
+            "matches": [ "http://bigwarp.cc/*", "https://bigwarp.cc/*" ],
+            "js": [ "site/bigwarp.cc.js" ],
             "all_frames": true,
             "run_at": "document_end"
         }

@@ -20,7 +20,7 @@ if (videoElement != null) {
     var dataSrc = videoElement.getAttribute('src');
     console.log('dataSrc: ' + dataSrc);
     var updatedLink = dataSrc;
-    updatedLink = updatedLink.replace(/bigwarp.io/g, 'bigwarp.art');
+    updatedLink = updatedLink.replace(/bigwarp.io/g, 'bigwarp.cc');
     console.log('updatedLink: ' + updatedLink);
     window.location.href = updatedLink;
 }
