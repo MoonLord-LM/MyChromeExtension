@@ -35,6 +35,12 @@
             "run_at": "document_start"
         },
         {
+            "matches": ["http://www.v2ex.com/*", "https://www.v2ex.com/*"],
+            "js": ["site/www.v2ex.com.js"],
+            "all_frames": true,
+            "run_at": "document_start"
+        },
+        {
             "matches": [ "http://console.his.huawei.com/ump/*", "https://console.his.huawei.com/ump/*" ],
             "js": [ "site/console.his.huawei.com-ump.js" ],
             "all_frames": true,
