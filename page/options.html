@@ -20,6 +20,31 @@
         www.v2ex.com - 隐藏背景色
       </label>
     </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="allShowPlainPassword">
+      <label class="form-check-label fw-medium" for="allShowPlainPassword">
+        所有网站 - 显示明文密码
+      </label>
+    </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="allHideWatermark">
+      <label class="form-check-label fw-medium" for="allHideWatermark">
+        所有网站 - 隐藏水印元素
+      </label>
+    </div>
+    <div class="mt-3 border-top pt-3">
+      <button id="showAllPassword" class="btn btn-danger btn-sm py-1">
+        显示明文密码
+      </button>
+    </div>
+    <div class="mt-3 border-top pt-3">
+      <button id="clearAllConfig" class="btn btn-warning btn-sm py-1">
+        停用所有功能
+      </button>
+      <button id="resetAllConfig" class="btn btn-success btn-sm py-1">
+        启用所有功能
+      </button>
+    </div>
   </div>
 
   <script src="../lib/bootstrap@5.3.6.bundle.min.js"></script>
