@@ -1,1 +1,28 @@
-This is popup.html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>MyChromeExtension 扩展设置</title>
+  <link href="../lib/bootstrap@5.3.6.min.css" rel="stylesheet">
+</head>
+<body style="min-width: 300px;">
+  <div class="card shadow-sm p-3 bg-body-tertiary border-0">
+    <h6 class="card-subtitle mb-3 text-body-secondary">功能开关</h6>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="v2exHideBackgroundImage">
+      <label class="form-check-label fw-medium" for="v2exHideBackgroundImage">
+        www.v2ex.com - 隐藏背景图
+      </label>
+    </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="v2exHideBackgroundColor">
+      <label class="form-check-label fw-medium" for="v2exHideBackgroundColor">
+        www.v2ex.com - 隐藏背景色
+      </label>
+    </div>
+  </div>
+
+  <script src="../lib/bootstrap@5.3.6.bundle.min.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
