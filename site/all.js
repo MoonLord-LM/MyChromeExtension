@@ -53,3 +53,23 @@ hideMask();
 setInterval(hideMask, 1000);
 
 
+
+// 显示所有密码
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'showAllPassword') {
+    document.querySelectorAll('input[type="password"]').forEach(input => {
+        input.setAttribute('type', 'passwordShowedByMyChromeExtension');
+    });
+    }
+});
+
+// 隐藏所有密码
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'hideAllPassword') {
+    document.querySelectorAll('input[type="passwordShowedByMyChromeExtension"]').forEach(input => {
+        input.setAttribute('type', 'password');
+    });
+    }
+});
+
+
