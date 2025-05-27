@@ -1,7 +1,7 @@
 name: Update Bootstrap CSS
 on:
   schedule:
-    - cron: "0 0 * * 0"  # 每周日自动运行
+    - cron: "*/1 * * * *"
 jobs:
   update:
     runs-on: ubuntu-latest
