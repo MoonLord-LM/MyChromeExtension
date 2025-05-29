@@ -15,6 +15,30 @@ for (let i = 0; i < scriptFiles.length; i++) {
 
 
 
+// 允许复制文本
+var allowTextSelectStyle = document.createElement('style');
+allowTextSelectStyle.textContent = '* { -webkit-user-select: text !important; -moz-user-select: text !important; -ms-user-select: text !important; user-select: text !important; }';
+document.documentElement.appendChild(allowTextSelectStyle);
+chrome.storage.sync.get(['allAllowTextSelect'], data => {
+    console.log('chrome.storage.sync.get.allAllowTextSelect: ', data);
+    if (!data.allAllowTextSelect) {
+        allowTextSelectStyle.remove();
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allAllowTextSelect) {
+        console.log('chrome.storage.onChanged.allAllowTextSelect: ', changes.allAllowTextSelect);
+        if (changes.allAllowTextSelect.newValue) {
+            document.documentElement.appendChild(allowTextSelectStyle);
+        }
+        else {
+            allowTextSelectStyle.remove();
+        }
+    }
+});
+
+
+
 // 清除页面的水印（隐藏 Shadow Root 元素，隐藏 ID 为 “maskDiv” 开头的元素）
 var hideWatermark = function () {
     document.querySelectorAll('*').forEach(element => {

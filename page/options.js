@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'v2exHideBackgroundColor',
         'zhihuTitleFontFix',
         'zhihuWideScreenFix',
+        'allAllowTextSelect',
         'allAllowMouseInteract',
         'allHideWatermark',
         'allShowPassword'
@@ -50,20 +51,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 全部禁用
-    document.getElementById('clearAllConfig').addEventListener('click', (e) => {
-        console.log('chrome.storage.sync.clear');
-        chrome.storage.sync.clear();
-    });
+    var clearAllConfig = document.getElementById('clearAllConfig');
+    if (clearAllConfig) {
+        clearAllConfig.addEventListener('click', (e) => {
+            console.log('chrome.storage.sync.clear');
+            chrome.storage.sync.clear();
+        });
+    }
 
     // 还原默认
-    document.getElementById('resetAllConfig').addEventListener('click', (e) => {
-        var update = {};
-        configs.forEach(config => {
-            update[config] = true;
+    var resetAllConfig = document.getElementById('resetAllConfig');
+    if (resetAllConfig) {
+        resetAllConfig.addEventListener('click', (e) => {
+            var update = {};
+            configs.forEach(config => {
+                update[config] = true;
+            });
+            update['allShowPassword'] = false;
+            console.log('chrome.storage.sync.set: ', update);
+            chrome.storage.sync.set(update);
         });
-        update['allShowPassword'] = false;
-        console.log('chrome.storage.sync.set: ', update);
-        chrome.storage.sync.set(update);
-    });
+    }
 
 });

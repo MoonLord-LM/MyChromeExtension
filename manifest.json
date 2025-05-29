@@ -12,6 +12,7 @@
         "tabs",
         "notifications",
         "webRequest",
+        "activeTab",
         "scripting"
     ],
     "action": {
@@ -24,7 +25,7 @@
     "web_accessible_resources": [
         {
             "matches": ["<all_urls>"],
-            "resources": [ "lib/*.js", "site/*.js" ]
+            "resources": [ "img/*.*", "lib/*.*", "page/*.*", "site/*.*", "tmp/*.*" ]
         }
     ],
     "content_scripts": [
