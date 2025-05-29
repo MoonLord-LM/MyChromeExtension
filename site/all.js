@@ -15,61 +15,110 @@ for (let i = 0; i < scriptFiles.length; i++) {
 
 
 
-// 在 Console 显示自动输入的密码（需要点一下页面；重复的值只显示一次）
-var passwords_showed = [];
-var showPassword = function () {
-    var passwords = document.querySelectorAll('input[type="password"]');
-    for (let i = 0; i < passwords.length; i++) {
-        var password = passwords[i].value;
-        if (password !== '' && passwords_showed.indexOf(password) === -1) {
-            console.log('MyChromeExtension show password: ' + password);
-            passwords_showed.push(password);
+// 清除页面的水印（隐藏 Shadow Root 元素，隐藏 ID 为 “maskDiv” 开头的元素）
+var hideWatermark = function () {
+    document.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            element.style.display = 'none';
+            element.style.visibility = 'hidden';
+            console.log('hideWatermark 1: ', element);
         }
-    }
+    });
+    document.querySelectorAll('[id^="maskDiv"]:not([style*="display: none"]):not([style*="visibility: hidden"])').forEach(element => {
+        element.style.display = 'none';
+        element.style.visibility = 'hidden';
+        console.log('hideWatermark 2: ', element);
+    });
 };
-showPassword();
-setInterval(showPassword, 1000);
-
-
-
-// 清除页面的水印
-var hideMask = function () {
-    var masks = document.querySelectorAll('div[id*="mask"]');
-    for (let i = 0; i < masks.length; i++) {
-        if (masks[i].style.display !== 'none') {
-            masks[i].style.display = 'none';
+var showWatermark = function () {
+    document.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            element.style.display = '';
+            element.style.visibility = '';
+            console.log('showWatermark 1: ', element);
         }
-    }
-    var watermarks = document.querySelectorAll('div[class*="watermark"]');
-    for (let i = 0; i < watermarks.length; i++) {
-        for (let j = 0; j < watermarks[i].classList.length; j++) {
-            if (watermarks[i].classList[j].indexOf('watermark') !== -1) {
-                watermarks[i].classList.remove(watermarks[i].classList[j]);
+    });
+    document.querySelectorAll('[id^="maskDiv"]:not([style*="display: block"]):not([style*="visibility: visible"])').forEach(element => {
+        element.style.display = 'block';
+        element.style.visibility = 'visible';
+        console.log('showWatermark 2: ', element);
+    });
+};
+var hideWatermarkObserver = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(element => {
+            if (element.nodeType === 1 && element.shadowRoot) {
+                element.style.display = 'none';
+                element.style.visibility = 'hidden';
+                console.log('hideWatermarkObserver 1: ', element);
             }
+        });
+    });
+    document.querySelectorAll('[id^="maskDiv"]:not([style*="display: none"]):not([style*="visibility: hidden"])').forEach(element => {
+        element.style.display = 'none';
+        element.style.visibility = 'hidden';
+        console.log('hideWatermarkObserver 2: ', element);
+    });
+});
+chrome.storage.sync.get(['allHideWatermark'], data => {
+    console.log('chrome.storage.sync.get.allHideWatermark: ', data);
+    if (data.allHideWatermark) {
+        hideWatermark();
+        hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
+    } else {
+        hideWatermarkObserver.disconnect();
+        showWatermark();
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allHideWatermark) {
+        console.log('chrome.storage.onChanged.allHideWatermark: ', changes.allHideWatermark);
+        if (changes.allHideWatermark.newValue) {
+            hideWatermark();
+            hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
+        }
+        else {
+            hideWatermarkObserver.disconnect();
+            showWatermark();
         }
     }
-};
-hideMask();
-setInterval(hideMask, 1000);
+});
 
 
 
-// 显示所有密码
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === 'showAllPassword') {
+// 显示明文密码
+var showPassword = function () {
     document.querySelectorAll('input[type="password"]').forEach(input => {
         input.setAttribute('type', 'passwordShowedByMyChromeExtension');
     });
-    }
-});
-
-// 隐藏所有密码
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === 'hideAllPassword') {
+};
+var hidePassword = function () {
     document.querySelectorAll('input[type="passwordShowedByMyChromeExtension"]').forEach(input => {
         input.setAttribute('type', 'password');
     });
+};
+chrome.storage.sync.get(['allShowPassword'], data => {
+    console.log('chrome.storage.sync.get.allShowPassword: ', data);
+    if (data.allShowPassword) {
+        document.addEventListener('DOMContentLoaded', function () {
+            requestAnimationFrame(showPassword);
+        });
+        showPassword();
+    } else {
+        document.addEventListener('DOMContentLoaded', function () {
+            requestAnimationFrame(hidePassword);
+        });
+        hidePassword();
     }
 });
-
-
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allShowPassword) {
+        console.log('chrome.storage.onChanged.allShowPassword: ', changes.allShowPassword);
+        if (changes.allShowPassword.newValue) {
+            showPassword();
+        }
+        else {
+            hidePassword();
+        }
+    }
+});

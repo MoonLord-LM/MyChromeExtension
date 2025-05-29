@@ -41,16 +41,10 @@
             "run_at": "document_start"
         },
         {
-            "matches": [ "http://console.his.huawei.com/ump/*", "https://console.his.huawei.com/ump/*" ],
-            "js": [ "site/console.his.huawei.com-ump.js" ],
+            "matches": [ "http://www.zhihu.com/*", "https://www.zhihu.com/*" ],
+            "js": [ "site/www.zhihu.com.js" ],
             "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://bs-icsl.huawei.com/*", "https://bs-icsl.huawei.com/*" ],
-            "js": [ "site/bs-icsl.huawei.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
+            "run_at": "document_start"
         },
         {
             "matches": [ "http://ilearning.huawei.com/*", "https://ilearning.huawei.com/*" ],
@@ -59,68 +53,20 @@
             "run_at": "document_end"
         },
         {
-            "matches": [ "http://login.huawei.com/*", "https://login.huawei.com/*" ],
-            "js": [ "site/login.huawei.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://w3.huawei.com/next/*", "https://w3.huawei.com/next/*", "http://w3.huawei.com/iauth/*", "https://w3.huawei.com/iauth/*" ],
-            "js": [ "site/w3.huawei.com-iauth.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://w3.huawei.com/vmp/web/*", "https://w3.huawei.com/vmp/web/*" ],
-            "js": [ "site/w3.huawei.com-vmp-web.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://xinsheng.huawei.com/*", "https://xinsheng.huawei.com/*" ],
-            "js": [ "site/xinsheng.huawei.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://www.douyu.com/*", "https://www.douyu.com/*" ],
-            "js": [ "site/www.douyu.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://cc.163.com/*", "https://cc.163.com/*" ],
-            "js": [ "site/cc.163.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://www.zhipin.com/*", "https://www.zhipin.com/*" ],
-            "js": [ "site/www.zhipin.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://www.zhihu.com/*", "https://www.zhihu.com/*" ],
-            "js": [ "site/www.zhihu.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
             "matches": [ "http://asmroger.top/*", "https://asmroger.top/*" ],
-            "js": [ "site/asmroger.top.js" ],
+            "js": [ "tmp/asmroger.top.js" ],
             "all_frames": true,
             "run_at": "document_end"
         },
         {
             "matches": [ "http://watchadsontape.com/*", "https://watchadsontape.com/*" ],
-            "js": [ "site/watchadsontape.com.js" ],
+            "js": [ "tmp/watchadsontape.com.js" ],
             "all_frames": true,
             "run_at": "document_end"
         },
         {
             "matches": [ "http://bigwarp.cc/*", "https://bigwarp.cc/*" ],
-            "js": [ "site/bigwarp.cc.js" ],
+            "js": [ "tmp/bigwarp.cc.js" ],
             "all_frames": true,
             "run_at": "document_end"
         }
