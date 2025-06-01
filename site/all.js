@@ -131,9 +131,10 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 // 清除页面的水印（隐藏 Shadow Root 元素，隐藏 ID 为 “maskDiv” 开头的元素）
+// 白名单：B 站视频评论 bili-comments
 var hideWatermark = function () {
     document.querySelectorAll('*').forEach(element => {
-        if (element.shadowRoot) {
+        if (element.shadowRoot && element.nodeName.toLocaleLowerCase() !== 'bili-comments') {
             element.style.display = 'none';
             element.style.visibility = 'hidden';
             console.log('hideWatermark 1: ', element);
@@ -147,7 +148,7 @@ var hideWatermark = function () {
 };
 var showWatermark = function () {
     document.querySelectorAll('*').forEach(element => {
-        if (element.shadowRoot) {
+        if (element.shadowRoot && element.nodeName.toLocaleLowerCase() !== 'bili-comments') {
             element.style.display = '';
             element.style.visibility = '';
             console.log('showWatermark 1: ', element);
@@ -162,7 +163,7 @@ var showWatermark = function () {
 var hideWatermarkObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(element => {
-            if (element.nodeType === 1 && element.shadowRoot) {
+            if (element.nodeType === 1 && element.shadowRoot && element.nodeName.toLocaleLowerCase() !== 'bili-comments') {
                 element.style.display = 'none';
                 element.style.visibility = 'hidden';
                 console.log('hideWatermarkObserver 1: ', element);
