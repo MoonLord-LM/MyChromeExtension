@@ -1,4 +1,4 @@
-chrome && chrome.runtime && console.log('MyChromeExtension load js: ' + chrome.runtime.getURL('lib/showLoadedFile.js'));
+chrome && chrome.runtime && console.log('MyChromeExtension load js: ' + chrome.runtime.getURL('common/showLoadedFile.js'));
 
 
 

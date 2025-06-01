@@ -4,8 +4,8 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 // 将 Lib 中的函数库在页面的 JS 环境中进行加载
 var scriptFiles = [
-    'lib/getEventListeners.js',
-    'lib/executeScript.js',
+    'common/getEventListeners.js',
+    'common/executeScript.js',
 ];
 for (let i = 0; i < scriptFiles.length; i++) {
     var script = document.createElement('script');
@@ -15,24 +15,115 @@ for (let i = 0; i < scriptFiles.length; i++) {
 
 
 
-// 允许复制文本
+// 允许选中和复制文本
 var allowTextSelectStyle = document.createElement('style');
-allowTextSelectStyle.textContent = '* { -webkit-user-select: text !important; -moz-user-select: text !important; -ms-user-select: text !important; user-select: text !important; }';
-document.documentElement.appendChild(allowTextSelectStyle);
+allowTextSelectStyle.textContent = `
+    * {
+        -webkit-user-select: text !important;
+        -moz-user-select: text !important;
+        -ms-user-select: text !important;
+        user-select: text !important;
+    }
+`;
+
+var mouseCopyEvents = ['copy', 'select', 'selectstart', 'selectionchange', 'contextmenu', 'dragstart'];
+var keyBoardCopyEvents = ['keydown'];
+var stopMouseEvent = function (e) { e.stopImmediatePropagation(); return true; };
+var stopKeyBoardEvent = function (e) { if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) { e.stopImmediatePropagation(); } }
+
+var enableTextSelect = function (root) {
+    if (!root) { root = document; }
+
+    root.documentElement.appendChild(allowTextSelectStyle);
+    mouseCopyEvents.forEach(event => {
+        root.addEventListener(event, stopMouseEvent, true);
+    });
+    keyBoardCopyEvents.forEach(event => {
+        root.addEventListener(event, stopKeyBoardEvent, true);
+    });
+
+    root.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            enableTextSelect(element.shadowRoot);
+        }
+    });
+};
+var disableTextSelect = function (root) {
+    if (!root) { root = document; }
+
+    allowTextSelectStyle.remove();
+    mouseCopyEvents.forEach(event => {
+        root.removeEventListener(event, stopMouseEvent, true);
+    });
+    keyBoardCopyEvents.forEach(event => {
+        root.removeEventListener(event, stopKeyBoardEvent, true);
+    });
+
+    root.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            disableTextSelect(element.shadowRoot);
+        }
+    });
+};
 chrome.storage.sync.get(['allAllowTextSelect'], data => {
     console.log('chrome.storage.sync.get.allAllowTextSelect: ', data);
-    if (!data.allAllowTextSelect) {
-        allowTextSelectStyle.remove();
+    if (data.allAllowTextSelect) {
+        enableTextSelect();
+    } else {
+        disableTextSelect();
     }
 });
 chrome.storage.onChanged.addListener((changes) => {
     if (changes.allAllowTextSelect) {
         console.log('chrome.storage.onChanged.allAllowTextSelect: ', changes.allAllowTextSelect);
         if (changes.allAllowTextSelect.newValue) {
-            document.documentElement.appendChild(allowTextSelectStyle);
+            enableTextSelect();
+        } else {
+            disableTextSelect();
         }
-        else {
-            allowTextSelectStyle.remove();
+    }
+});
+
+
+
+// 禁止检测失焦事件
+var disallowBlurEvent = function (root) {
+    if (!root) { root = document; }
+
+    root.addEventListener('blur', stopMouseEvent, true);
+
+    root.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            disallowBlurEvent(element.shadowRoot);
+        }
+    });
+};
+var allowBlurEvent = function (root) {
+    if (!root) { root = document; }
+
+    root.removeEventListener('blur', stopMouseEvent, true);
+
+    root.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            allowBlurEvent(element.shadowRoot);
+        }
+    });
+};
+chrome.storage.sync.get(['allDisallowBlurEvent'], data => {
+    console.log('chrome.storage.sync.get.allDisallowBlurEvent: ', data);
+    if (data.allDisallowBlurEvent) {
+        disallowBlurEvent();
+    } else {
+        allowBlurEvent();
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allDisallowBlurEvent) {
+        console.log('chrome.storage.onChanged.allDisallowBlurEvent: ', changes.allDisallowBlurEvent);
+        if (changes.allDisallowBlurEvent.newValue) {
+            disallowBlurEvent();
+        } else {
+            allowBlurEvent();
         }
     }
 });
@@ -146,3 +237,12 @@ chrome.storage.onChanged.addListener((changes) => {
         }
     }
 });
+
+
+
+// 添加 executeScript 事件，参考 executeScript.js 文件里的实现
+document.executeScript = function (script) {
+    document.dispatchEvent(new CustomEvent('executeScriptType', { detail: script }));
+};
+
+

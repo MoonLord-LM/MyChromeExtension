@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'zhihuTitleFontFix',
         'zhihuWideScreenFix',
         'allAllowTextSelect',
-        'allAllowMouseInteract',
+        'allDisallowBlurEvent',
         'allHideWatermark',
         'allShowPassword'
     ];

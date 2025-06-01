@@ -4,11 +4,19 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 // 初始样式
 var hideImageStyle = document.createElement('style');
-hideImageStyle.textContent = '#Wrapper { background-image: none !important; }';
+hideImageStyle.textContent = `
+    #Wrapper {
+        background-image: none !important;
+    }
+`;
 document.documentElement.appendChild(hideImageStyle);
 
 var hideColorStyle = document.createElement('style');
-hideColorStyle.textContent = '#Wrapper { background-color: #e2e2e2 !important; }';
+hideColorStyle.textContent = `
+    #Wrapper {
+        background-color: #e2e2e2 !important;
+    }
+`;
 document.documentElement.appendChild(hideColorStyle);
 
 
