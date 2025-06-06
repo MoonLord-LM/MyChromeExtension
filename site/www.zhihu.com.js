@@ -4,6 +4,7 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 // 初始样式
 var titleFontFixStyle = document.createElement('style');
+titleFontFixStyle.id = 'titleFontFixStyle';
 titleFontFixStyle.textContent = `
     .QuestionHeader-title {
         font-size: 16px !important;
@@ -13,6 +14,7 @@ titleFontFixStyle.textContent = `
 document.documentElement.appendChild(titleFontFixStyle);
 
 var wideScreenFixStyle = document.createElement('style');
+wideScreenFixStyle.id = 'wideScreenFixStyle';
 wideScreenFixStyle.textContent = `
     img {
         max-width: 300px !important;

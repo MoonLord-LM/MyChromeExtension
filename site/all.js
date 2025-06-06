@@ -17,6 +17,7 @@ for (let i = 0; i < scriptFiles.length; i++) {
 
 // 允许选中和复制文本
 var allowTextSelectStyle = document.createElement('style');
+allowTextSelectStyle.id = 'allowTextSelectStyle';
 allowTextSelectStyle.textContent = `
     * {
         -webkit-user-select: text !important;
@@ -130,11 +131,44 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 
+// 统一字体大小
+var limitFontSizeStyle = document.createElement('style');
+limitFontSizeStyle.id = 'limitFontSizeStyle';
+limitFontSizeStyle.textContent = `
+    * {
+        font-size: 14px !important;
+    }
+`;
+chrome.storage.sync.get(['allLimitFontSize'], data => {
+    console.log('chrome.storage.sync.get.allLimitFontSize: ', data);
+    if (data.allLimitFontSize) {
+        if (!document.documentElement.contains(limitFontSizeStyle)) {
+            document.documentElement.appendChild(limitFontSizeStyle);
+        }
+    } else {
+        limitFontSizeStyle.remove();
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allLimitFontSize) {
+        console.log('chrome.storage.onChanged.allLimitFontSize: ', changes.allLimitFontSize);
+        if (changes.allLimitFontSize.newValue) {
+            if (!document.documentElement.contains(limitFontSizeStyle)) {
+                document.documentElement.appendChild(limitFontSizeStyle);
+            }
+        } else {
+            limitFontSizeStyle.remove();
+        }
+    }
+});
+
+
+
 // 清除页面的水印（隐藏 Shadow Root 元素，隐藏 ID 为 “maskDiv” 开头的元素）
 // 白名单：B 站视频评论 bili-comments
 var hideWatermark = function () {
     document.querySelectorAll('*').forEach(element => {
-        if (element.shadowRoot && element.nodeName.toLocaleLowerCase() !== 'bili-comments') {
+        if (element.shadowRoot) {
             element.style.display = 'none';
             element.style.visibility = 'hidden';
             console.log('hideWatermark 1: ', element);
@@ -148,7 +182,7 @@ var hideWatermark = function () {
 };
 var showWatermark = function () {
     document.querySelectorAll('*').forEach(element => {
-        if (element.shadowRoot && element.nodeName.toLocaleLowerCase() !== 'bili-comments') {
+        if (element.shadowRoot) {
             element.style.display = '';
             element.style.visibility = '';
             console.log('showWatermark 1: ', element);
@@ -163,7 +197,7 @@ var showWatermark = function () {
 var hideWatermarkObserver = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(element => {
-            if (element.nodeType === 1 && element.shadowRoot && element.nodeName.toLocaleLowerCase() !== 'bili-comments') {
+            if (element.nodeType === 1 && element.shadowRoot) {
                 element.style.display = 'none';
                 element.style.visibility = 'hidden';
                 console.log('hideWatermarkObserver 1: ', element);
@@ -176,26 +210,87 @@ var hideWatermarkObserver = new MutationObserver(mutations => {
         console.log('hideWatermarkObserver 2: ', element);
     });
 });
-chrome.storage.sync.get(['allHideWatermark'], data => {
+chrome.storage.sync.get(['allHideWatermark', 'allHideWatermarkWhitelist'], data => {
     console.log('chrome.storage.sync.get.allHideWatermark: ', data);
-    if (data.allHideWatermark) {
-        hideWatermark();
-        hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
-    } else {
-        hideWatermarkObserver.disconnect();
-        showWatermark();
+    var whitelist = data.allHideWatermarkWhitelist || [];
+    var inWhitelist = whitelist.some(o => window.location.hostname.endsWith(o));
+    if (!inWhitelist) {
+        if (data.allHideWatermark) {
+            hideWatermark();
+            hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
+        } else {
+            hideWatermarkObserver.disconnect();
+            showWatermark();
+        }
     }
 });
 chrome.storage.onChanged.addListener((changes) => {
     if (changes.allHideWatermark) {
         console.log('chrome.storage.onChanged.allHideWatermark: ', changes.allHideWatermark);
-        if (changes.allHideWatermark.newValue) {
-            hideWatermark();
-            hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
+        chrome.storage.sync.get(['allHideWatermarkWhitelist'], function (data) {
+            var whitelist = data.allHideWatermarkWhitelist || [];
+            var inWhitelist = whitelist.some(o => window.location.hostname.endsWith(o));
+            if (!inWhitelist && changes.allHideWatermark.newValue) {
+                hideWatermark();
+                hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
+            }
+            else {
+                hideWatermarkObserver.disconnect();
+                showWatermark();
+            }
+        });
+    }
+    if (changes.allHideWatermarkWhitelist) {
+        console.log('chrome.storage.onChanged.allHideWatermark: ', changes.allHideWatermarkWhitelist);
+        chrome.storage.sync.get(['allHideWatermark'], function (data) {
+            var whitelist = changes.allHideWatermarkWhitelist.newValue || [];
+            var inWhitelist = whitelist.some(o => window.location.hostname.endsWith(o));
+            if (!inWhitelist && data.allHideWatermark) {
+                hideWatermark();
+                hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
+            }
+            else {
+                hideWatermarkObserver.disconnect();
+                showWatermark();
+            }
+        });
+    }
+});
+
+
+
+// 无图模式
+var noImageModeStyle = document.createElement('style');
+noImageModeStyle.id = 'noImageModeStyle';
+noImageModeStyle.textContent = `
+    img {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    * {
+        background-image: none !important;
+        border-image: none !important;
+    }
+`;
+chrome.storage.sync.get(['allNoImageMode'], data => {
+    console.log('chrome.storage.sync.get.allNoImageMode: ', data);
+    if (data.allNoImageMode) {
+        if (!document.documentElement.contains(noImageModeStyle)) {
+            document.documentElement.appendChild(noImageModeStyle);
         }
-        else {
-            hideWatermarkObserver.disconnect();
-            showWatermark();
+    } else {
+        noImageModeStyle.remove();
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allNoImageMode) {
+        console.log('chrome.storage.onChanged.allNoImageMode: ', changes.allNoImageMode);
+        if (changes.allNoImageMode.newValue) {
+            if (!document.documentElement.contains(noImageModeStyle)) {
+                document.documentElement.appendChild(noImageModeStyle);
+            }
+        } else {
+            noImageModeStyle.remove();
         }
     }
 });

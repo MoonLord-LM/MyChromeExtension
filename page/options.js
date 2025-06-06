@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'allAllowTextSelect',
         'allDisallowBlurEvent',
         'allHideWatermark',
+        'allLimitFontSize',
+        'allNoImageMode',
         'allShowPassword'
     ];
 
@@ -23,6 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
             var element = document.getElementById(config);
             if (element) {
                 element.checked = data[config] || false;
+            }
+        });
+        chrome.storage.sync.get(['allHideWatermarkWhitelist'], (data) => {
+            if (data.allHideWatermarkWhitelist) {
+                var element = document.getElementById('allHideWatermarkWhitelist');
+                if (element) {
+                    var textValue = data.allHideWatermarkWhitelist.join('\n') + (data.allHideWatermarkWhitelist.length > 0 ? '\n' : '');
+                    element.value = textValue;
+                }
             }
         });
     });
@@ -39,13 +50,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+    var element = document.getElementById('allHideWatermarkWhitelist');
+    if (element) {
+        element.addEventListener('change', () => {
+            var update = element.value.split('\n');
+            update = Array.from(new Set(update)).map(o => o.trim()).filter(o => o.length > 0);
+            console.log('chrome.storage.sync.set.allHideWatermarkWhitelist: ', update);
+            var textValue = update.join('\n') + (update.length > 0 ? '\n' : '');
+            element.value = textValue;
+            chrome.storage.sync.set({
+                allHideWatermarkWhitelist: update
+            });
+        });
+    }
 
     // 监听配置变化
     chrome.storage.onChanged.addListener((changes) => {
         Object.entries(changes).forEach(([key, { newValue }]) => {
             var element = document.getElementById(key);
             if (element) {
-                element.checked = !!newValue;
+                if (element.nodeName.toLocaleLowerCase() === 'input' && element.type === 'checkbox') {
+                    element.checked = !!newValue;
+                }
+                else if (element.nodeName.toLocaleLowerCase() === 'textarea') {
+                    textValue = newValue.join('\n') + (newValue.length > 0 ? '\n' : '');
+                    element.value = textValue;
+                }
             }
         });
     });
@@ -67,6 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
             configs.forEach(config => {
                 update[config] = true;
             });
+            update['allLimitFontSize'] = false;
+            update['allNoImageMode'] = false;
             update['allShowPassword'] = false;
             console.log('chrome.storage.sync.set: ', update);
             chrome.storage.sync.set(update);
