@@ -34,6 +34,7 @@ var stopKeyBoardEvent = function (e) { if ((e.ctrlKey || e.metaKey) && (e.key ==
 
 var enableTextSelect = function (root) {
     if (!root) { root = document; }
+    if (!root.documentElement) { return; }
 
     root.documentElement.appendChild(allowTextSelectStyle);
     mouseCopyEvents.forEach(event => {
