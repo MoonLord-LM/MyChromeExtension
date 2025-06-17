@@ -217,10 +217,16 @@ chrome.storage.sync.get(['allHideWatermark', 'allHideWatermarkWhitelist'], data 
     var inWhitelist = whitelist.some(o => window.location.hostname.endsWith(o));
     if (!inWhitelist) {
         if (data.allHideWatermark) {
+            document.addEventListener('DOMContentLoaded', function () {
+                requestAnimationFrame(hideWatermark);
+            });
             hideWatermark();
             hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
         } else {
             hideWatermarkObserver.disconnect();
+            document.addEventListener('DOMContentLoaded', function () {
+                requestAnimationFrame(showWatermark);
+            });
             showWatermark();
         }
     }

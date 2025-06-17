@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'v2exHideBackgroundColor',
         'zhihuTitleFontFix',
         'zhihuWideScreenFix',
+        'youtubeHideVideoEndRecommend',
         'allAllowTextSelect',
         'allDisallowBlurEvent',
         'allHideWatermark',
@@ -97,6 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
             configs.forEach(config => {
                 update[config] = true;
             });
+            update['allAllowTextSelect'] = false;
+            update['allDisallowBlurEvent'] = false;
+            update['allHideWatermark'] = false;
             update['allLimitFontSize'] = false;
             update['allNoImageMode'] = false;
             update['allShowPassword'] = false;

@@ -14,12 +14,11 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 
 
 
-// default
-EventTarget.prototype.originalAddEventListener = EventTarget.prototype.addEventListener;
-EventTarget.prototype.originalRemoveEventListener = EventTarget.prototype.removeEventListener;
+function isNativeMethod(fn) {
+    return typeof fn === 'function' && /\[native code\]/.test(Function.prototype.toString.call(fn));
+}
 
-// addEventListener
-EventTarget.prototype.addEventListener = function (type, listener, useCapture = false) {
+var newAddEventListener = function (type, listener, useCapture = false) {
     if (this.disableEventTypeList && this.disableEventTypeList[type]) {
         console.log('MyChromeExtension addEventListener skiped, type has been disabled by target: ' + type);
         return;
@@ -29,7 +28,9 @@ EventTarget.prototype.addEventListener = function (type, listener, useCapture = 
         return;
     }
 
-    this.originalAddEventListener(type, listener, useCapture);
+    if (isNativeMethod(this.originalAddEventListener)) {
+        this.originalAddEventListener(type, listener, useCapture);
+    }
 
     if (!this.eventListenerList) this.eventListenerList = {};
     if (!this.eventListenerList[type]) this.eventListenerList[type] = [];
@@ -41,10 +42,10 @@ EventTarget.prototype.addEventListener = function (type, listener, useCapture = 
     }
     this.eventListenerList[type].push({ type, listener, useCapture });
 };
-
-// removeEventListener
-EventTarget.prototype.removeEventListener = function (type, listener, useCapture = false) {
-    this.originalRemoveEventListener(type, listener, useCapture);
+var newRemoveEventListener = function (type, listener, useCapture = false) {
+    if (isNativeMethod(this.originalRemoveEventListener)) {
+        this.originalRemoveEventListener(type, listener, useCapture);
+    }
 
     if (!this.eventListenerList) this.eventListenerList = {};
     if (!this.eventListenerList[type]) this.eventListenerList[type] = [];
@@ -58,6 +59,16 @@ EventTarget.prototype.removeEventListener = function (type, listener, useCapture
     if (this.eventListenerList[type].length == 0) delete this.eventListenerList[type];
 };
 
+// default
+if (isNativeMethod(EventTarget.prototype.addEventListener)) {
+    EventTarget.prototype.originalAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = newAddEventListener;
+}
+if (isNativeMethod(EventTarget.prototype.removeEventListener)) {
+    EventTarget.prototype.originalRemoveEventListener = EventTarget.prototype.removeEventListener;
+    EventTarget.prototype.removeEventListener = newRemoveEventListener;
+}
+
 // getEventListeners
 EventTarget.prototype.getEventListeners = function (type) {
     if (!this.eventListenerList) this.eventListenerList = {};
@@ -68,11 +79,15 @@ EventTarget.prototype.getEventListeners = function (type) {
 
 // clearEventListeners
 EventTarget.prototype.clearEventListeners = function (type) {
-    var listeners = this.getEventListeners(type);
+    if (!this.eventListenerList) this.eventListenerList = {};
+    if (!this.eventListenerList[type]) this.eventListenerList[type] = [];
 
+    var listeners = this.eventListenerList[type];
     for (let i = 0; i < listeners.length; i++) {
         this.removeEventListener(type, listeners[i].listener, listeners[i].useCapture);
     }
+
+    delete this.eventListenerList[type];
 };
 
 // disableEventListeners
