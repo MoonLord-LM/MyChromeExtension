@@ -10,6 +10,10 @@ hideVideoEndRecommendStyle.textContent = `
         display: none !important;
         visibility: hidden !important;
     }
+    div.ytp-ce-element.ytp-ce-element-show.ytp-ce-large-round {
+        display: none !important;
+        visibility: hidden !important;
+    }
 `;
 document.documentElement.appendChild(hideVideoEndRecommendStyle);
 
