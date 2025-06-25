@@ -165,7 +165,7 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 
-// 清除页面的水印（隐藏 Shadow Root 元素，隐藏 ID 为 “maskDiv” 开头的元素）
+// 清除页面的水印（隐藏 Shadow Root 元素，隐藏 ID 为 “mask” 开头的元素）
 // 白名单：B 站视频评论 bili-comments
 var hideWatermark = function () {
     document.querySelectorAll('*').forEach(element => {
@@ -175,7 +175,7 @@ var hideWatermark = function () {
             console.log('hideWatermark 1: ', element);
         }
     });
-    document.querySelectorAll('[id^="maskDiv"]:not([style*="display: none"]):not([style*="visibility: hidden"])').forEach(element => {
+    document.querySelectorAll('[id^="mask"]:not([style*="display: none"]):not([style*="visibility: hidden"])').forEach(element => {
         element.style.display = 'none';
         element.style.visibility = 'hidden';
         console.log('hideWatermark 2: ', element);
@@ -189,7 +189,7 @@ var showWatermark = function () {
             console.log('showWatermark 1: ', element);
         }
     });
-    document.querySelectorAll('[id^="maskDiv"]:not([style*="display: block"]):not([style*="visibility: visible"])').forEach(element => {
+    document.querySelectorAll('[id^="mask"]:not([style*="display: block"]):not([style*="visibility: visible"])').forEach(element => {
         element.style.display = 'block';
         element.style.visibility = 'visible';
         console.log('showWatermark 2: ', element);
@@ -205,7 +205,7 @@ var hideWatermarkObserver = new MutationObserver(mutations => {
             }
         });
     });
-    document.querySelectorAll('[id^="maskDiv"]:not([style*="display: none"]):not([style*="visibility: hidden"])').forEach(element => {
+    document.querySelectorAll('[id^="mask"]:not([style*="display: none"]):not([style*="visibility: hidden"])').forEach(element => {
         element.style.display = 'none';
         element.style.visibility = 'hidden';
         console.log('hideWatermarkObserver 2: ', element);
