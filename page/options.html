@@ -9,78 +9,93 @@
 
 <body style="min-width: 360px;">
   <div class="card shadow-sm p-3 bg-body-tertiary border-0">
-    <h6 class="card-subtitle mb-3 text-body-secondary">功能开关</h6>
-    <div class="form-check form-switch">
+    <h6 class="card-subtitle text-body-secondary border-bottom mb-2 pb-2">功能开关</h6>
+
+    <!-- 以下是针对指定网站的优化，选项仅在对应的网站展示 -->
+    <div class="form-check form-switch" style="display: none;">
       <input class="form-check-input" type="checkbox" id="v2exHideBackgroundImage">
       <label class="form-check-label fw-medium" for="v2exHideBackgroundImage">
         www.v2ex.com - 隐藏背景图
       </label>
     </div>
-    <div class="form-check form-switch">
+    <div class="form-check form-switch" style="display: none;">
       <input class="form-check-input" type="checkbox" id="v2exHideBackgroundColor">
       <label class="form-check-label fw-medium" for="v2exHideBackgroundColor">
         www.v2ex.com - 隐藏背景色
       </label>
     </div>
-    <div class="form-check form-switch">
+    <div class="form-check form-switch" style="display: none;">
+      <input class="form-check-input" type="checkbox" id="v2exHideLogo">
+      <label class="form-check-label fw-medium" for="v2exHideLogo">
+        www.v2ex.com - 隐藏 Logo
+      </label>
+    </div>
+    <div class="form-check form-switch" style="display: none;">
       <input class="form-check-input" type="checkbox" id="zhihuTitleFontFix">
       <label class="form-check-label fw-medium" for="zhihuTitleFontFix">
         www.zhihu.com - 标题字体优化
       </label>
     </div>
-    <div class="form-check form-switch">
+    <div class="form-check form-switch" style="display: none;">
       <input class="form-check-input" type="checkbox" id="zhihuWideScreenFix">
       <label class="form-check-label fw-medium" for="zhihuWideScreenFix">
         www.zhihu.com - 宽屏展示优化
       </label>
     </div>
-    <div class="form-check form-switch">
+    <div class="form-check form-switch" style="display: none;">
+      <input class="form-check-input" type="checkbox" id="zhihuHideLogo">
+      <label class="form-check-label fw-medium" for="zhihuHideLogo">
+        www.zhihu.com - 隐藏 Logo
+      </label>
+    </div>
+    <div class="form-check form-switch" style="display: none;">
       <input class="form-check-input" type="checkbox" id="youtubeHideVideoEndRecommend">
       <label class="form-check-label fw-medium" for="youtubeHideVideoEndRecommend">
         www.youtube.com - 隐藏视频结尾推荐
       </label>
     </div>
+
+    <!-- 以下是针对所有网站的优化，选项仅在对应的网站展示 -->
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="allAllowTextSelect">
       <label class="form-check-label fw-medium" for="allAllowTextSelect">
-        所有网站 - 允许选中和复制文本
+        允许选中和复制文本
       </label>
     </div>
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="allDisallowBlurEvent">
       <label class="form-check-label fw-medium" for="allDisallowBlurEvent">
-        所有网站 - 禁止检测失焦事件
+        禁止检测失焦事件
       </label>
     </div>
-    <div class="form-check form-switch mt-3">
+    <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="allHideWatermark">
       <label class="form-check-label fw-medium" for="allHideWatermark">
-        所有网站 - 隐藏水印元素
+        隐藏水印元素
       </label>
-    </div>
-    <div id="#allHideWatermarkWhitelist" class="mb-3">
-      <label class="form-label">不隐藏水印元素的域名，每行配置一个域名：</label>
-      <textarea class="form-control" id="allHideWatermarkWhitelist" rows="5"></textarea>
+      <a href="options.html#allHideWatermarkWhitelist" class="fw-medium">白名单配置</a>
     </div>
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="allLimitFontSize">
       <label class="form-check-label fw-medium" for="allLimitFontSize">
-        所有网站 - 统一字体大小
+        统一字体大小
       </label>
     </div>
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="allNoImageMode">
       <label class="form-check-label fw-medium" for="allNoImageMode">
-        所有网站 - 无图模式
+        无图模式
       </label>
     </div>
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="allShowPassword">
       <label class="form-check-label fw-medium" for="allShowPassword">
-        所有网站 - 显示明文密码
+        显示明文密码
       </label>
     </div>
-    <div class="border-top mt-3 pt-3">
+
+    <!-- 以下是选项重置按钮 -->
+    <div class="border-top mt-2 pt-2">
       <button id="clearAllConfig" class="btn btn-warning btn-sm py-1">
         全部禁用
       </button>
