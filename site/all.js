@@ -166,7 +166,6 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 // 清除页面的水印（隐藏 Shadow Root 元素，隐藏 ID 为 “mask” 开头的元素）
-// 白名单：B 站视频评论 bili-comments
 var hideWatermark = function () {
     document.querySelectorAll('*').forEach(element => {
         if (element.shadowRoot) {
@@ -211,56 +210,90 @@ var hideWatermarkObserver = new MutationObserver(mutations => {
         console.log('hideWatermarkObserver 2: ', element);
     });
 });
-chrome.storage.sync.get(['allHideWatermark', 'allHideWatermarkWhitelist'], data => {
-    console.log('chrome.storage.sync.get.allHideWatermark: ', data);
-    var whitelist = data.allHideWatermarkWhitelist || [];
-    var inWhitelist = whitelist.some(o => window.location.hostname.endsWith(o));
-    if (!inWhitelist) {
-        if (data.allHideWatermark) {
-            document.addEventListener('DOMContentLoaded', function () {
-                requestAnimationFrame(hideWatermark);
+// 检查域名是否匹配规则，并处理多级配置和排除规则
+var checkDomainRules = function(rules) {
+    const currentHostname = window.location.hostname;
+    let matchedRules = [];
+    
+    // 去重规则，保留第一次出现的规则
+    const uniqueRules = Array.from(new Set(rules));
+    
+    // 找出所有匹配的规则
+    uniqueRules.forEach(rule => {
+        let domain = rule;
+        let isExcluded = false;
+        
+        // 处理排除规则（以 ! 开头的域名）
+        if (domain.startsWith('!')) {
+            domain = domain.substring(1);
+            isExcluded = true;
+        }
+        
+        // 检查当前域名是否匹配规则
+        // 确保只有完全匹配或者是子域名才会被匹配
+        if (currentHostname === domain || 
+            currentHostname.endsWith('.' + domain) && 
+            currentHostname.charAt(currentHostname.length - domain.length - 1) === '.') {
+            matchedRules.push({
+                rule: rule,
+                domain: domain,
+                isExcluded: isExcluded,
+                length: domain.length, // 用于后续比较长度
+                index: rules.indexOf(rule) // 保存原始规则在列表中的位置
             });
+        }
+    });
+    
+    // 如果没有匹配的规则，返回默认值（不在白名单中）
+    if (matchedRules.length === 0) {
+        return false;
+    }
+    
+    // 首先按域名长度降序排序
+    matchedRules.sort((a, b) => {
+        // 如果长度相同，按原始位置排序（较早的规则优先）
+        if (b.length === a.length) {
+            return a.index - b.index;
+        }
+        return b.length - a.length;
+    });
+    
+    // 返回最长匹配的规则是否为排除规则
+    // 如果是排除规则，返回false（不在白名单中）
+    // 如果不是排除规则，返回true（在白名单中）
+    return !matchedRules[0].isExcluded;
+};
+
+chrome.storage.sync.get(['allHideWatermarkSites'], data => {
+    console.log('chrome.storage.sync.get.allHideWatermarkSites: ', data);
+    var whitelist = data.allHideWatermarkSites || [];
+    var inWhitelist = checkDomainRules(whitelist);
+    if (inWhitelist) {
+        document.addEventListener('DOMContentLoaded', function () {
+            requestAnimationFrame(hideWatermark);
+        });
+        hideWatermark();
+        hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
+    } else {
+        hideWatermarkObserver.disconnect();
+        document.addEventListener('DOMContentLoaded', function () {
+            requestAnimationFrame(showWatermark);
+        });
+        showWatermark();
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allHideWatermarkSites) {
+        console.log('chrome.storage.onChanged.allHideWatermarkSites: ', changes.allHideWatermarkSites);
+        var whitelist = changes.allHideWatermarkSites.newValue || [];
+        var inWhitelist = checkDomainRules(whitelist);
+        if (inWhitelist) {
             hideWatermark();
             hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
         } else {
             hideWatermarkObserver.disconnect();
-            document.addEventListener('DOMContentLoaded', function () {
-                requestAnimationFrame(showWatermark);
-            });
             showWatermark();
         }
-    }
-});
-chrome.storage.onChanged.addListener((changes) => {
-    if (changes.allHideWatermark) {
-        console.log('chrome.storage.onChanged.allHideWatermark: ', changes.allHideWatermark);
-        chrome.storage.sync.get(['allHideWatermarkWhitelist'], function (data) {
-            var whitelist = data.allHideWatermarkWhitelist || [];
-            var inWhitelist = whitelist.some(o => window.location.hostname.endsWith(o));
-            if (!inWhitelist && changes.allHideWatermark.newValue) {
-                hideWatermark();
-                hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
-            }
-            else {
-                hideWatermarkObserver.disconnect();
-                showWatermark();
-            }
-        });
-    }
-    if (changes.allHideWatermarkWhitelist) {
-        console.log('chrome.storage.onChanged.allHideWatermark: ', changes.allHideWatermarkWhitelist);
-        chrome.storage.sync.get(['allHideWatermark'], function (data) {
-            var whitelist = changes.allHideWatermarkWhitelist.newValue || [];
-            var inWhitelist = whitelist.some(o => window.location.hostname.endsWith(o));
-            if (!inWhitelist && data.allHideWatermark) {
-                hideWatermark();
-                hideWatermarkObserver.observe(document.documentElement, { childList: true, subtree: true });
-            }
-            else {
-                hideWatermarkObserver.disconnect();
-                showWatermark();
-            }
-        });
     }
 });
 
@@ -347,5 +380,3 @@ chrome.storage.onChanged.addListener((changes) => {
 document.executeScript = function (script) {
     document.dispatchEvent(new CustomEvent('executeScriptType', { detail: script }));
 };
-
-
