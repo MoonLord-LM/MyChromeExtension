@@ -36,6 +36,25 @@ wideScreenFixStyle.textContent = `
 `;
 document.documentElement.appendChild(wideScreenFixStyle);
 
+var hideLogoStyle = document.createElement('style');
+hideLogoStyle.id = 'hideLogoStyle';
+hideLogoStyle.textContent = `
+    a[href="//www.zhihu.com"][aria-label="知乎"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+`;
+document.documentElement.appendChild(hideLogoStyle);
+
+var reduceLineSpacingStyle = document.createElement('style');
+reduceLineSpacingStyle.id = 'reduceLineSpacingStyle';
+reduceLineSpacingStyle.textContent = `
+    .ztext p {
+        margin: 0.5em 0 !important;
+    }
+`;
+document.documentElement.appendChild(reduceLineSpacingStyle);
+
 
 
 // 读取设置
@@ -49,6 +68,18 @@ chrome.storage.sync.get(['zhihuWideScreenFix'], data => {
     console.log('chrome.storage.sync.get.zhihuWideScreenFix: ', data);
     if (!data.zhihuWideScreenFix) {
         wideScreenFixStyle.remove();
+    }
+});
+chrome.storage.sync.get(['zhihuHideLogo'], data => {
+    console.log('chrome.storage.sync.get.zhihuHideLogo: ', data);
+    if (!data.zhihuHideLogo) {
+        hideLogoStyle.remove();
+    }
+});
+chrome.storage.sync.get(['zhihuReduceLineSpacing'], data => {
+    console.log('chrome.storage.sync.get.zhihuReduceLineSpacing: ', data);
+    if (!data.zhihuReduceLineSpacing) {
+        reduceLineSpacingStyle.remove();
     }
 });
 
@@ -74,6 +105,28 @@ chrome.storage.onChanged.addListener((changes) => {
         }
         else {
             wideScreenFixStyle.remove();
+        }
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.zhihuHideLogo) {
+        console.log('chrome.storage.onChanged.zhihuHideLogo: ', changes.zhihuHideLogo);
+        if (changes.zhihuHideLogo.newValue) {
+            document.documentElement.appendChild(hideLogoStyle);
+        }
+        else {
+            hideLogoStyle.remove();
+        }
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.zhihuReduceLineSpacing) {
+        console.log('chrome.storage.onChanged.zhihuReduceLineSpacing: ', changes.zhihuReduceLineSpacing);
+        if (changes.zhihuReduceLineSpacing.newValue) {
+            document.documentElement.appendChild(reduceLineSpacingStyle);
+        }
+        else {
+            reduceLineSpacingStyle.remove();
         }
     }
 });

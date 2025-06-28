@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ['zhihuTitleFontFix', 'zhihu.com'],
       ['zhihuWideScreenFix', 'zhihu.com'],
       ['zhihuHideLogo', 'zhihu.com'],
+      ['zhihuReduceLineSpacing', 'zhihu.com'],
       ['youtubeHideVideoEndRecommend', 'youtube.com'],
       ['allAllowTextSelect', '*'],
       ['allDisallowBlurEvent', '*'],

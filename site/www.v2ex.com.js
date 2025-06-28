@@ -26,6 +26,7 @@ hideLogoStyle.id = 'hideLogoStyle';
 hideLogoStyle.textContent = `
     #Logo {
         display: none !important;
+        visibility: hidden !important;
     }
 `;
 document.documentElement.appendChild(hideLogoStyle);
