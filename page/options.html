@@ -74,12 +74,15 @@
         禁止检测失焦事件
       </label>
     </div>
-    <div class="form-check form-switch">
+    <div class="form-check form-switch mt-3">
       <input class="form-check-input" type="checkbox" id="allHideWatermark">
       <label class="form-check-label fw-medium" for="allHideWatermark">
         隐藏水印元素
       </label>
-      <a href="options.html#allHideWatermarkWhitelist" class="fw-medium">白名单配置</a>
+    </div>
+    <div id="#allHideWatermarkWhitelist" class="mb-3">
+      <label class="form-label">隐藏水印元素的域名，每行配置一个域名：</label>
+      <textarea class="form-control" id="allHideWatermarkWhitelist" rows="5"></textarea>
     </div>
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="allLimitFontSize">

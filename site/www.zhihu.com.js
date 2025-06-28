@@ -52,6 +52,10 @@ reduceLineSpacingStyle.textContent = `
     .ztext p {
         margin: 0.5em 0 !important;
     }
+    .ztext br {
+        display: none !important;
+        visibility: hidden !important;
+    }
 `;
 document.documentElement.appendChild(reduceLineSpacingStyle);
 
