@@ -10,6 +10,10 @@ titleFontFixStyle.textContent = `
         font-size: 16px !important;
         font-weight: 400 !important;
     }
+    .ColumnPageHeader-content div {
+        font-size: 16px !important;
+        font-weight: 400 !important;
+    }
 `;
 document.documentElement.appendChild(titleFontFixStyle);
 
