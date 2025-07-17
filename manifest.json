@@ -45,13 +45,13 @@
             "run_at": "document_start"
         },
         {
-            "matches": [ "http://www.youtube.com/*", "https://www.youtube.com/*" ],
+            "matches": [ "http://youtube.com/*", "https://youtube.com/*", "http://*.youtube.com/*", "https://*.youtube.com/*" ],
             "js": [ "site/www.youtube.com.js" ],
             "all_frames": true,
             "run_at": "document_start"
         },
         {
-            "matches": [ "http://www.zhihu.com/*", "https://www.zhihu.com/*" ],
+            "matches": [ "http://zhihu.com/*", "https://zhihu.com/*", "http://*.zhihu.com/*", "https://*.zhihu.com/*" ],
             "js": [ "site/www.zhihu.com.js" ],
             "all_frames": true,
             "run_at": "document_start"
