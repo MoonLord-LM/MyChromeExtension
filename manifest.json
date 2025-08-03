@@ -56,6 +56,13 @@
             "all_frames": true,
             "run_at": "document_start"
         },
+
+        {
+            "matches": [ "http://bilibili.com/*", "https://bilibili.com/*", "http://*.bilibili.com/*", "https://*.bilibili.com/*" ],
+            "js": [ "tmp/www.bilibili.com.js" ],
+            "all_frames": true,
+            "run_at": "document_end"
+        },
         {
             "matches": [ "http://asmroger.top/*", "https://asmroger.top/*" ],
             "js": [ "tmp/asmroger.top.js" ],
