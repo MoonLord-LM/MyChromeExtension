@@ -31,19 +31,25 @@ copyVideoLinkButton.addEventListener('click', () => {
 });
 
 window.addEventListener('DOMContentLoaded', function () {
-  var container = document.querySelector('.video-order-filter');
-  if (container) {
-    container.appendChild(copyVideoLinkButton);
-    return;
-  }
-  setTimeout(() => {
+  if(!copyVideoLinkButton.parentNode){
     var container = document.querySelector('.video-order-filter');
     if (container) {
       container.appendChild(copyVideoLinkButton);
     } else {
       console.warn('未找到 .video-order-filter 元素');
     }
-  }, 3000);
+  }
 });
+
+setTimeout(() => {
+  if(!copyVideoLinkButton.parentNode){
+    var container = document.querySelector('.video-order-filter');
+    if (container) {
+      container.appendChild(copyVideoLinkButton);
+    } else {
+      console.warn('未找到 .video-order-filter 元素');
+    }
+  }
+}, 3000);
 
 
