@@ -68,7 +68,7 @@ if (isNativeMethod(EventTarget.prototype.addEventListener)) {
 }
 if (isNativeMethod(EventTarget.prototype.removeEventListener)) {
     EventTarget.prototype.originalRemoveEventListener = EventTarget.prototype.removeEventListener;
-        EventTarget.prototype.removeEventListener = function (type, listener, useCapture = false) {
+    EventTarget.prototype.removeEventListener = function (type, listener, useCapture = false) {
         if (isNativeMethod(this.originalRemoveEventListener)) {
             this.originalRemoveEventListener(type, listener, useCapture);
         }
