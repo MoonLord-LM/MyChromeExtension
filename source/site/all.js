@@ -29,18 +29,6 @@ showLoadedFile();
 
 
 
-// 将 Lib 中的函数库在页面的 JS 环境中进行加载
-var scriptFiles = [
-    'common/getEventListeners.js',
-];
-for (let i = 0; i < scriptFiles.length; i++) {
-    var script = document.createElement('script');
-    script.src = chrome.runtime.getURL(scriptFiles[i]);
-    document.documentElement.appendChild(script);
-}
-
-
-
 // 允许选中和复制文本
 var allowTextSelectStyle = document.createElement('style');
 allowTextSelectStyle.id = 'allowTextSelectStyle';

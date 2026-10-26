@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "MyChromeExtension",
     "version": "1.0.0",
-    "minimum_chrome_version": "110",
+    "minimum_chrome_version": "111",
     "description": "https://github.com/MoonLord-LM/MyChromeExtension",
     "author": "MoonLord-LM",
     "homepage_url": "https://github.com/MoonLord-LM/MyChromeExtension",
@@ -38,18 +38,20 @@
     "host_permissions": [
         "<all_urls>"
     ],
-    "web_accessible_resources": [
-        {
-            "matches": ["<all_urls>"],
-            "resources": [ "common/getEventListeners.js"]
-        }
-    ],
+
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
             "js": [ "site/all.js" ],
             "all_frames": true,
             "run_at": "document_start"
+        },
+        {
+            "matches": [ "<all_urls>" ],
+            "js": [ "site/all-main.js" ],
+            "all_frames": true,
+            "run_at": "document_start",
+            "world": "MAIN"
         },
         {
             "matches": [ "http://v2ex.com/*", "https://v2ex.com/*", "http://*.v2ex.com/*", "https://*.v2ex.com/*" ],
