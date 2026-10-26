@@ -31,10 +31,12 @@ showLoadedFile();
 
 /*
 覆盖 JS 原生的 addEventListener 和 removeEventListener 方法
-为每个元素添加属性：事件处理函数列表 eventListenerList、禁用的事件类型 disableEventTypeList
+为每个元素添加属性：事件处理函数列表 eventListenerList、标记为禁用的事件类型 disableEventTypeList
 为每个元素添加方法：获取事件 getEventListeners、清空事件 clearEventListeners、禁用类型 disableEventListeners、启用类型 enableEventListeners
 
 使用 document 的 disableEventListeners、enableEventListeners 方法，可以全局禁用、启用某一类的事件处理函数
+某一类事件标记为禁用时，新增加的事件仅记录，不生效
+某一类事件重新标记为启用后，才会让已记录的事件生效
 */
 function isNativeMethod(fn) {
     return typeof fn === 'function' && /\[native code\]/.test(Function.prototype.toString.call(fn));
@@ -42,17 +44,13 @@ function isNativeMethod(fn) {
 if (isNativeMethod(EventTarget.prototype.addEventListener)) {
     EventTarget.prototype.originalAddEventListener = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (type, listener, useCapture = false) {
-        if (this.disableEventTypeList && this.disableEventTypeList[type]) {
-            console.log('MyChromeExtension addEventListener skiped, type has been disabled by target: ' + type);
-            return;
-        }
-        if (document.disableEventTypeList && document.disableEventTypeList[type]) {
+        var documentDisabled = !!(document.disableEventTypeList && document.disableEventTypeList[type]);
+        var targetDisabled = !!(this.disableEventTypeList && this.disableEventTypeList[type]);
+        if (documentDisabled) {
             console.log('MyChromeExtension addEventListener skiped, type has been disabled by document: ' + type);
-            return;
         }
-
-        if (isNativeMethod(this.originalAddEventListener)) {
-            this.originalAddEventListener(type, listener, useCapture);
+        else if (targetDisabled) {
+            console.log('MyChromeExtension addEventListener skiped, type has been disabled by target: ' + type);
         }
 
         if (!this.eventListenerList) this.eventListenerList = {};
@@ -64,6 +62,10 @@ if (isNativeMethod(EventTarget.prototype.addEventListener)) {
             }
         }
         this.eventListenerList[type].push({ type, listener, useCapture });
+
+        if (!targetDisabled && !documentDisabled && isNativeMethod(this.originalAddEventListener)) {
+            this.originalAddEventListener(type, listener, useCapture);
+        }
     };
 }
 if (isNativeMethod(EventTarget.prototype.removeEventListener)) {
@@ -104,12 +106,26 @@ EventTarget.prototype.clearEventListeners = function (type) {
 };
 EventTarget.prototype.disableEventListeners = function (type) {
     if (!this.disableEventTypeList) this.disableEventTypeList = {};
-    if (!this.disableEventTypeList[type]) this.disableEventTypeList[type] = true;
+    if (this.disableEventTypeList[type]) return;
+    this.disableEventTypeList[type] = true;
 
-    this.clearEventListeners(type);
+    var list = this.eventListenerList && this.eventListenerList[type];
+    if (list) {
+        for (var i = 0; i < list.length; i++) {
+            this.originalRemoveEventListener(type, list[i].listener, list[i].useCapture);
+        }
+    }
 };
 EventTarget.prototype.enableEventListeners = function (type) {
-    if (this.disableEventTypeList && this.disableEventTypeList[type]) delete this.disableEventTypeList[type];
+    if (!(this.disableEventTypeList && this.disableEventTypeList[type])) return;
+    delete this.disableEventTypeList[type];
+
+    var list = this.eventListenerList && this.eventListenerList[type];
+    if (list) {
+        for (var i = 0; i < list.length; i++) {
+            this.originalAddEventListener(type, list[i].listener, list[i].useCapture);
+        }
+    }
 };
 
 
