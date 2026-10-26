@@ -95,8 +95,9 @@ EventTarget.prototype.clearEventListeners = function (type) {
     if (!this.eventListenerList) this.eventListenerList = {};
     if (!this.eventListenerList[type]) this.eventListenerList[type] = [];
 
-    for (var i = 0; i < this.eventListenerList[type].length; i++) {
-        this.removeEventListener(type, this.eventListenerList[type][i].listener, this.eventListenerList[type][i].useCapture);
+    var list = this.eventListenerList[type].slice();
+    for (var i = 0; i < list.length; i++) {
+        this.removeEventListener(type, list[i].listener, list[i].useCapture);
     }
 
     delete this.eventListenerList[type];
