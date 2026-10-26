@@ -3,7 +3,7 @@
     "name": "MyChromeExtension",
     "version": "1.0.0",
     "minimum_chrome_version": "110",
-    "description": "MyChromeExtension - Chrome 浏览器插件",
+    "description": "https://github.com/MoonLord-LM/MyChromeExtension",
     "author": "MoonLord-LM",
     "homepage_url": "https://github.com/MoonLord-LM/MyChromeExtension",
     "icons": {
@@ -30,7 +30,7 @@
             "256": "assets/icon256.png",
             "512": "assets/icon512.png"
         },
-        "default_title": "MyChromeExtension - Chrome 浏览器插件",
+        "default_title": "MyChromeExtension",
         "default_popup": "page/popup.html"
     },
     "options_page": "page/options.html",
@@ -41,7 +41,7 @@
     "web_accessible_resources": [
         {
             "matches": ["<all_urls>"],
-            "resources": [ "common/getEventListeners.js" ]
+            "resources": [ "common/showLoadedFile.js", "common/getEventListeners.js"]
         }
     ],
     "content_scripts": [
