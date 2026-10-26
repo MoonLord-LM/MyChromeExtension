@@ -1,4 +1,31 @@
-typeof (showLoadedFile) === 'function' && showLoadedFile();
+// 显示当前加载的 JS 文件路径
+var getCurrentFile = function () {
+    var position = '<anonymous>';
+    var error_stack = (new Error).stack.split("\n");
+    if (error_stack.length > 1) {
+        position = error_stack[error_stack.length - 1].trim();
+        if (position.startsWith('at')) {
+            position = position.substring(2).trim();
+        }
+        if (position.indexOf('(') !== -1) {
+            position = position.substring(position.indexOf('(') + 1);
+        }
+        if (position.indexOf(':') !== -1) {
+            position = position.substring(0, position.lastIndexOf(':'));
+        }
+        if (position.indexOf(':') !== -1) {
+            position = position.substring(0, position.lastIndexOf(':'));
+        }
+        if (!position.endsWith('.js') && position !== '<anonymous>') {
+            console.error('MyChromeExtension showLoadedFile error, position: ' + position);
+        }
+    }
+    return position;
+}
+var showLoadedFile = function () {
+    console.log('MyChromeExtension load js: ' + getCurrentFile());
+};
+showLoadedFile();
 
 
 

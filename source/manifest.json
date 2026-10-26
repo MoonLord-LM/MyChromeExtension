@@ -41,13 +41,13 @@
     "web_accessible_resources": [
         {
             "matches": ["<all_urls>"],
-            "resources": [ "common/showLoadedFile.js", "common/getEventListeners.js"]
+            "resources": [ "common/getEventListeners.js"]
         }
     ],
     "content_scripts": [
         {
             "matches": [ "<all_urls>" ],
-            "js": [ "common/showLoadedFile.js", "site/all.js" ],
+            "js": [ "site/all.js" ],
             "all_frames": true,
             "run_at": "document_start"
         },

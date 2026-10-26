@@ -1,5 +1,3 @@
-typeof (showLoadedFile) === 'function' && showLoadedFile();
-
 
 
 // 提供 getEventListeners 等方法，修改页面元素的事件处理
