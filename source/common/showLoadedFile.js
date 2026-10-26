@@ -2,7 +2,7 @@ chrome && chrome.runtime && console.log('MyChromeExtension load js: ' + chrome.r
 
 
 
-// 提供 showLoadedFile 方法，显示当前加载的 JS 文件路径（通过 Error 的 stack 信息截取）
+// 提供 showLoadedFile 方法，显示当前加载的 JS 文件路径
 var getCurrentFile = function () {
     var position = '<anonymous>';
     var error_stack = (new Error).stack.split("\n");
