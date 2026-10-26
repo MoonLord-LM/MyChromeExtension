@@ -2,22 +2,35 @@
     "manifest_version": 3,
     "name": "MyChromeExtension",
     "version": "1.0.0",
-    "description": "MyChromeExtension - Chrome 浏览器插件 By MoonLord",
-    "author": "me@moonlord.cn",
+    "minimum_chrome_version": "110",
+    "description": "MyChromeExtension - Chrome 浏览器插件",
+    "author": "MoonLord-LM",
     "homepage_url": "https://github.com/MoonLord-LM/MyChromeExtension",
+    "icons": {
+        "16": "assets/icon16.png",
+        "19": "assets/icon19.png",
+        "32": "assets/icon32.png",
+        "38": "assets/icon38.png",
+        "48": "assets/icon48.png",
+        "128": "assets/icon128.png",
+        "256": "assets/icon256.png",
+        "512": "assets/icon512.png"
+    },
     "permissions": [
-        "storage",
-        "unlimitedStorage",
-        "contextMenus",
-        "tabs",
-        "notifications",
-        "webRequest",
-        "activeTab",
-        "scripting"
+        "storage"
     ],
     "action": {
-        "default_icon": "img/icon.png",
-        "default_title": "MyChromeExtension - Chrome 浏览器插件 By MoonLord",
+        "default_icon": {
+            "16": "assets/icon16.png",
+            "19": "assets/icon19.png",
+            "32": "assets/icon32.png",
+            "38": "assets/icon38.png",
+            "48": "assets/icon48.png",
+            "128": "assets/icon128.png",
+            "256": "assets/icon256.png",
+            "512": "assets/icon512.png"
+        },
+        "default_title": "MyChromeExtension - Chrome 浏览器插件",
         "default_popup": "page/popup.html"
     },
     "options_page": "page/options.html",
