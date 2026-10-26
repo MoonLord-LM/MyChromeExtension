@@ -44,15 +44,6 @@ function isNativeMethod(fn) {
 if (isNativeMethod(EventTarget.prototype.addEventListener)) {
     EventTarget.prototype.originalAddEventListener = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (type, listener, useCapture = false) {
-        var documentDisabled = !!(document.disableEventTypeList && document.disableEventTypeList[type]);
-        var targetDisabled = !!(this.disableEventTypeList && this.disableEventTypeList[type]);
-        if (documentDisabled) {
-            console.log('MyChromeExtension addEventListener skiped, type has been disabled by document: ' + type);
-        }
-        else if (targetDisabled) {
-            console.log('MyChromeExtension addEventListener skiped, type has been disabled by target: ' + type);
-        }
-
         if (!this.eventListenerList) this.eventListenerList = {};
         if (!this.eventListenerList[type]) this.eventListenerList[type] = [];
 
@@ -61,37 +52,46 @@ if (isNativeMethod(EventTarget.prototype.addEventListener)) {
                 return;
             }
         }
-        this.eventListenerList[type].push({ type, listener, useCapture });
 
-        if (!targetDisabled && !documentDisabled && isNativeMethod(this.originalAddEventListener)) {
-            this.originalAddEventListener(type, listener, useCapture);
+        var self = this;
+        var wrapper = function (event) {
+            if (self.disableEventTypeList && self.disableEventTypeList[type]) return;
+            if (document.disableEventTypeList && document.disableEventTypeList[type]) return;
+            return listener.call(self, event);
+        };
+        this.eventListenerList[type].push({ type: type, listener: listener, wrapper: wrapper, useCapture: useCapture });
+
+        if (isNativeMethod(this.originalAddEventListener)) {
+            this.originalAddEventListener(type, wrapper, useCapture);
         }
     };
 }
 if (isNativeMethod(EventTarget.prototype.removeEventListener)) {
     EventTarget.prototype.originalRemoveEventListener = EventTarget.prototype.removeEventListener;
     EventTarget.prototype.removeEventListener = function (type, listener, useCapture = false) {
-        if (isNativeMethod(this.originalRemoveEventListener)) {
-            this.originalRemoveEventListener(type, listener, useCapture);
-        }
-
         if (!this.eventListenerList) this.eventListenerList = {};
         if (!this.eventListenerList[type]) this.eventListenerList[type] = [];
 
         for (var i = 0; i < this.eventListenerList[type].length; i++) {
             if (this.eventListenerList[type][i].listener === listener && this.eventListenerList[type][i].useCapture === useCapture) {
+                var wrapper = this.eventListenerList[type][i].wrapper;
                 this.eventListenerList[type].splice(i, 1);
+                if (isNativeMethod(this.originalRemoveEventListener)) {
+                    this.originalRemoveEventListener(type, wrapper, useCapture);
+                }
                 break;
             }
         }
-        if (this.eventListenerList[type].length == 0) delete this.eventListenerList[type];
+        if (this.eventListenerList[type].length === 0) delete this.eventListenerList[type];
     };
 }
 EventTarget.prototype.getEventListeners = function (type) {
     if (!this.eventListenerList) this.eventListenerList = {};
     if (!this.eventListenerList[type]) this.eventListenerList[type] = [];
 
-    return this.eventListenerList[type];
+    return this.eventListenerList[type].map(function (entry) {
+        return { type: entry.type, listener: entry.listener, useCapture: entry.useCapture };
+    });
 };
 EventTarget.prototype.clearEventListeners = function (type) {
     if (!this.eventListenerList) this.eventListenerList = {};
@@ -106,26 +106,10 @@ EventTarget.prototype.clearEventListeners = function (type) {
 };
 EventTarget.prototype.disableEventListeners = function (type) {
     if (!this.disableEventTypeList) this.disableEventTypeList = {};
-    if (this.disableEventTypeList[type]) return;
     this.disableEventTypeList[type] = true;
-
-    var list = this.eventListenerList && this.eventListenerList[type];
-    if (list) {
-        for (var i = 0; i < list.length; i++) {
-            this.originalRemoveEventListener(type, list[i].listener, list[i].useCapture);
-        }
-    }
 };
 EventTarget.prototype.enableEventListeners = function (type) {
-    if (!(this.disableEventTypeList && this.disableEventTypeList[type])) return;
-    delete this.disableEventTypeList[type];
-
-    var list = this.eventListenerList && this.eventListenerList[type];
-    if (list) {
-        for (var i = 0; i < list.length; i++) {
-            this.originalAddEventListener(type, list[i].listener, list[i].useCapture);
-        }
-    }
+    if (this.disableEventTypeList && this.disableEventTypeList[type]) delete this.disableEventTypeList[type];
 };
 
 
