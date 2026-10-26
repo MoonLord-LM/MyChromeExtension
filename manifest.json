@@ -28,7 +28,7 @@
     "web_accessible_resources": [
         {
             "matches": ["<all_urls>"],
-            "resources": [ "common/*.*", "img/*.*", "lib/*.*", "page/*.*", "site/*.*", "tmp/*.*" ]
+            "resources": [ "common/getEventListeners.js" ]
         }
     ],
     "content_scripts": [

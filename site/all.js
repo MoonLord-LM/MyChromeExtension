@@ -5,7 +5,6 @@ typeof (showLoadedFile) === 'function' && showLoadedFile();
 // 将 Lib 中的函数库在页面的 JS 环境中进行加载
 var scriptFiles = [
     'common/getEventListeners.js',
-    'common/executeScript.js',
 ];
 for (let i = 0; i < scriptFiles.length; i++) {
     var script = document.createElement('script');
@@ -376,7 +375,3 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 
-// 添加 executeScript 事件，参考 executeScript.js 文件里的实现
-document.executeScript = function (script) {
-    document.dispatchEvent(new CustomEvent('executeScriptType', { detail: script }));
-};
