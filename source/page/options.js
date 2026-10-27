@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    checkPageAndUpdateUI = function () {
+    function checkPageAndUpdateUI() {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             var currentTab = tabs[0];
             if(currentTab && currentTab.url){
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-    };
+    }
 
     checkPageAndUpdateUI();
     chrome.tabs.onActivated.addListener(checkPageAndUpdateUI);

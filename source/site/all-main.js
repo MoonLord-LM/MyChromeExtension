@@ -43,7 +43,8 @@ function isNativeMethod(fn) {
 }
 if (isNativeMethod(EventTarget.prototype.addEventListener)) {
     EventTarget.prototype.originalAddEventListener = EventTarget.prototype.addEventListener;
-    EventTarget.prototype.addEventListener = function (type, listener, useCapture = false) {
+    EventTarget.prototype.addEventListener = function (type, listener, options) {
+        var useCapture = (typeof options === 'object' && options !== null) ? !!options.capture : !!options;
         if (this.disableEventTypeList && this.disableEventTypeList[type]) {
             console.log('MyChromeExtension addEventListener skipped, type has been disabled by target: ' + type);
             return;
@@ -54,7 +55,7 @@ if (isNativeMethod(EventTarget.prototype.addEventListener)) {
         }
 
         if (isNativeMethod(this.originalAddEventListener)) {
-            this.originalAddEventListener(type, listener, useCapture);
+            this.originalAddEventListener(type, listener, options);
         }
 
         if (!this.eventListenerList) this.eventListenerList = {};
@@ -70,9 +71,10 @@ if (isNativeMethod(EventTarget.prototype.addEventListener)) {
 }
 if (isNativeMethod(EventTarget.prototype.removeEventListener)) {
     EventTarget.prototype.originalRemoveEventListener = EventTarget.prototype.removeEventListener;
-    EventTarget.prototype.removeEventListener = function (type, listener, useCapture = false) {
+    EventTarget.prototype.removeEventListener = function (type, listener, options) {
+        var useCapture = (typeof options === 'object' && options !== null) ? !!options.capture : !!options;
         if (isNativeMethod(this.originalRemoveEventListener)) {
-            this.originalRemoveEventListener(type, listener, useCapture);
+            this.originalRemoveEventListener(type, listener, options);
         }
 
         if (!this.eventListenerList) this.eventListenerList = {};
