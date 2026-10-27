@@ -31,7 +31,8 @@
     a { color: #0d6efd; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .font-size-options { display: inline-flex; flex-wrap: wrap; gap: 3px; margin-left: auto; }
-    .font-size-options.disabled { opacity: .5; pointer-events: none; }
+    .font-size-options.disabled { opacity: .5; }
+    .font-size-unit { font-size: 12px; line-height: 18px; color: #6c757d; }
     .font-size-option { min-width: 20px; padding: 0 2px; font-size: 12px; line-height: 18px; text-align: center; border: 1px solid #ced4da; border-radius: .25rem; }
     .font-size-option.active { color: #fff; background-color: #0d6efd; border-color: #0d6efd; }
   </style>
@@ -129,6 +130,7 @@
         <a href="#" class="font-size-option" data-size="16">16</a>
         <a href="#" class="font-size-option" data-size="18">18</a>
         <a href="#" class="font-size-option" data-size="20">20</a>
+        <span class="font-size-unit">px</span>
       </span>
     </div>
     <div class="form-check form-switch">
