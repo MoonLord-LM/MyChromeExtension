@@ -45,11 +45,11 @@ if (isNativeMethod(EventTarget.prototype.addEventListener)) {
     EventTarget.prototype.originalAddEventListener = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (type, listener, useCapture = false) {
         if (this.disableEventTypeList && this.disableEventTypeList[type]) {
-            console.log('MyChromeExtension addEventListener skiped, type has been disabled by target: ' + type);
+            console.log('MyChromeExtension addEventListener skipped, type has been disabled by target: ' + type);
             return;
         }
         if (document.disableEventTypeList && document.disableEventTypeList[type]) {
-            console.log('MyChromeExtension addEventListener skiped, type has been disabled by document: ' + type);
+            console.log('MyChromeExtension addEventListener skipped, type has been disabled by document: ' + type);
             return;
         }
 
@@ -84,7 +84,7 @@ if (isNativeMethod(EventTarget.prototype.removeEventListener)) {
                 break;
             }
         }
-        if (this.eventListenerList[type].length == 0) delete this.eventListenerList[type];
+        if (this.eventListenerList[type].length === 0) delete this.eventListenerList[type];
     };
 }
 EventTarget.prototype.getEventListeners = function (type) {
