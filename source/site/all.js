@@ -117,7 +117,7 @@ chrome.storage.onChanged.addListener((changes) => {
 // 禁止检测失焦事件
 var disallowBlurEventFlag = 'MyChromeExtension-disallow-blur-event-flag';
 var stopLeaveEvent = function (e) { e.stopImmediatePropagation(); return true; };
-var stopVisibilityEvent = function (e) { if (document.visibilityState === 'hidden') { e.stopImmediatePropagation(); } };
+var stopVisibilityHiddenEvent = function (e) { if (document.visibilityState === 'hidden') { e.stopImmediatePropagation(); } };
 var leaveEvents = ['blur', 'focusout', 'pagehide'];
 var visibilityEvents = ['visibilitychange'];
 var disallowBlurEvent = function (root) {
@@ -133,7 +133,7 @@ var disallowBlurEvent = function (root) {
             target.addEventListener(event, stopLeaveEvent, true);
         });
         visibilityEvents.forEach(event => {
-            target.addEventListener(event, stopVisibilityEvent, true);
+            target.addEventListener(event, stopVisibilityHiddenEvent, true);
         });
     });
 
@@ -156,7 +156,7 @@ var allowBlurEvent = function (root) {
             target.removeEventListener(event, stopLeaveEvent, true);
         });
         visibilityEvents.forEach(event => {
-            target.removeEventListener(event, stopVisibilityEvent, true);
+            target.removeEventListener(event, stopVisibilityHiddenEvent, true);
         });
     });
 
