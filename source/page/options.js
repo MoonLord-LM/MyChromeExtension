@@ -46,8 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ['youtubeHideVideoEndRecommend', 'youtube.com'],
       ['allAllowTextSelect', '*'],
       ['allDisallowBlurEvent', '*'],
-      ['allHideWatermark', '*'],
       ['allLimitFontSize', '*'],
+      ['allHideWatermark', '*'],
       ['allNoImageMode', '*'],
       ['allShowPassword', '*']
     ]);

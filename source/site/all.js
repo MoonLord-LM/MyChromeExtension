@@ -146,6 +146,83 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 
+// 显示明文密码
+var showPassword = function () {
+    document.querySelectorAll('input[type="password"]').forEach(input => {
+        input.setAttribute('type', 'passwordShowedByMyChromeExtension');
+    });
+};
+var hidePassword = function () {
+    document.querySelectorAll('input[type="passwordShowedByMyChromeExtension"]').forEach(input => {
+        input.setAttribute('type', 'password');
+    });
+};
+chrome.storage.sync.get(['allShowPassword'], data => {
+    console.log('chrome.storage.sync.get.allShowPassword: ', data);
+    if (data.allShowPassword) {
+        document.addEventListener('DOMContentLoaded', function () {
+            requestAnimationFrame(showPassword);
+        });
+        showPassword();
+    } else {
+        document.addEventListener('DOMContentLoaded', function () {
+            requestAnimationFrame(hidePassword);
+        });
+        hidePassword();
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allShowPassword) {
+        console.log('chrome.storage.onChanged.allShowPassword: ', changes.allShowPassword);
+        if (changes.allShowPassword.newValue) {
+            showPassword();
+        }
+        else {
+            hidePassword();
+        }
+    }
+});
+
+
+
+// 无图模式
+var noImageModeStyle = document.createElement('style');
+noImageModeStyle.id = 'noImageModeStyle';
+noImageModeStyle.textContent = `
+    img {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    * {
+        background-image: none !important;
+        border-image: none !important;
+    }
+`;
+chrome.storage.sync.get(['allNoImageMode'], data => {
+    console.log('chrome.storage.sync.get.allNoImageMode: ', data);
+    if (data.allNoImageMode) {
+        if (!document.documentElement.contains(noImageModeStyle)) {
+            document.documentElement.appendChild(noImageModeStyle);
+        }
+    } else {
+        noImageModeStyle.remove();
+    }
+});
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.allNoImageMode) {
+        console.log('chrome.storage.onChanged.allNoImageMode: ', changes.allNoImageMode);
+        if (changes.allNoImageMode.newValue) {
+            if (!document.documentElement.contains(noImageModeStyle)) {
+                document.documentElement.appendChild(noImageModeStyle);
+            }
+        } else {
+            noImageModeStyle.remove();
+        }
+    }
+});
+
+
+
 // 统一字体大小
 var limitFontSizeStyle = document.createElement('style');
 limitFontSizeStyle.id = 'limitFontSizeStyle';
@@ -309,83 +386,5 @@ chrome.storage.onChanged.addListener((changes) => {
         }
     }
 });
-
-
-
-// 无图模式
-var noImageModeStyle = document.createElement('style');
-noImageModeStyle.id = 'noImageModeStyle';
-noImageModeStyle.textContent = `
-    img {
-        display: none !important;
-        visibility: hidden !important;
-    }
-    * {
-        background-image: none !important;
-        border-image: none !important;
-    }
-`;
-chrome.storage.sync.get(['allNoImageMode'], data => {
-    console.log('chrome.storage.sync.get.allNoImageMode: ', data);
-    if (data.allNoImageMode) {
-        if (!document.documentElement.contains(noImageModeStyle)) {
-            document.documentElement.appendChild(noImageModeStyle);
-        }
-    } else {
-        noImageModeStyle.remove();
-    }
-});
-chrome.storage.onChanged.addListener((changes) => {
-    if (changes.allNoImageMode) {
-        console.log('chrome.storage.onChanged.allNoImageMode: ', changes.allNoImageMode);
-        if (changes.allNoImageMode.newValue) {
-            if (!document.documentElement.contains(noImageModeStyle)) {
-                document.documentElement.appendChild(noImageModeStyle);
-            }
-        } else {
-            noImageModeStyle.remove();
-        }
-    }
-});
-
-
-
-// 显示明文密码
-var showPassword = function () {
-    document.querySelectorAll('input[type="password"]').forEach(input => {
-        input.setAttribute('type', 'passwordShowedByMyChromeExtension');
-    });
-};
-var hidePassword = function () {
-    document.querySelectorAll('input[type="passwordShowedByMyChromeExtension"]').forEach(input => {
-        input.setAttribute('type', 'password');
-    });
-};
-chrome.storage.sync.get(['allShowPassword'], data => {
-    console.log('chrome.storage.sync.get.allShowPassword: ', data);
-    if (data.allShowPassword) {
-        document.addEventListener('DOMContentLoaded', function () {
-            requestAnimationFrame(showPassword);
-        });
-        showPassword();
-    } else {
-        document.addEventListener('DOMContentLoaded', function () {
-            requestAnimationFrame(hidePassword);
-        });
-        hidePassword();
-    }
-});
-chrome.storage.onChanged.addListener((changes) => {
-    if (changes.allShowPassword) {
-        console.log('chrome.storage.onChanged.allShowPassword: ', changes.allShowPassword);
-        if (changes.allShowPassword.newValue) {
-            showPassword();
-        }
-        else {
-            hidePassword();
-        }
-    }
-});
-
 
 
