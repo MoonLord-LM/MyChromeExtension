@@ -55,9 +55,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // 获取所有配置项的数组（用于向后兼容）
     var configs = Array.from(configAndSites.keys());
 
+    // 统一字体大小的可选值
+    var limitFontSizeOptions = [8, 10, 12, 14, 16, 18, 20];
+    var updateLimitFontSizeUI = function (value) {
+        var size = limitFontSizeOptions.indexOf(Number(value)) === -1 ? 0 : Number(value);
+        var element = document.getElementById('allLimitFontSize');
+        if (element) {
+            element.checked = size > 0;
+        }
+        var optionsElement = document.getElementById('allLimitFontSizeOptions');
+        if (optionsElement) {
+            optionsElement.classList.toggle('disabled', size === 0);
+            optionsElement.querySelectorAll('.font-size-option').forEach(option => {
+                option.classList.toggle('active', Number(option.dataset.size) === size);
+            });
+        }
+    };
+
     // 加载并展示配置
     configs.forEach(config => {
-        if (config === 'allHideWatermark') {
+        if (config === 'allLimitFontSize') {
+            chrome.storage.sync.get([config], data => {
+                updateLimitFontSizeUI(data[config]);
+            });
+        } else if (config === 'allHideWatermark') {
             // 特殊处理水印白名单开关
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                 var currentTab = tabs[0];
@@ -233,6 +254,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 });
+            } else if (config === 'allLimitFontSize') {
+                element.addEventListener('change', (e) => {
+                    var value = e.target.checked ? 14 : 0;
+                    console.log('chrome.storage.sync.set.allLimitFontSize: ', value);
+                    chrome.storage.sync.set({ allLimitFontSize: value });
+                });
             } else {
                 element.addEventListener('change', (e) => {
                     var update = {};
@@ -243,6 +270,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    var limitFontSizeOptionsElement = document.getElementById('allLimitFontSizeOptions');
+    if (limitFontSizeOptionsElement) {
+        limitFontSizeOptionsElement.querySelectorAll('.font-size-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.preventDefault();
+                var value = Number(option.dataset.size);
+                console.log('chrome.storage.sync.set.allLimitFontSize: ', value);
+                chrome.storage.sync.set({ allLimitFontSize: value });
+            });
+        });
+    }
     var element = document.getElementById('allHideWatermarkSites');
     if (element) {
         // 定义一个函数来处理文本框内容变化
@@ -319,6 +357,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 监听配置变化
     chrome.storage.onChanged.addListener((changes) => {
         Object.entries(changes).forEach(([key, { newValue }]) => {
+            if (key === 'allLimitFontSize') {
+                updateLimitFontSizeUI(newValue);
+                return;
+            }
             var element = document.getElementById(key);
             if (element) {
                 if (element.nodeName.toLocaleLowerCase() === 'input' && element.type === 'checkbox') {
@@ -403,6 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
             configAndSites.forEach((site, config) => {
                 update[config] = (site !== '*');
             });
+            update.allLimitFontSize = 0;
             console.log('chrome.storage.sync.set: ', update);
             chrome.storage.sync.set(update);
         });

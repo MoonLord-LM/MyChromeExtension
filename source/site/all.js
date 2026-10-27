@@ -44,7 +44,7 @@ allowTextSelectStyle.textContent = `
 var mouseCopyEvents = ['copy', 'select', 'selectstart', 'selectionchange', 'contextmenu', 'dragstart'];
 var keyBoardCopyEvents = ['keydown'];
 var stopMouseEvent = function (e) { e.stopImmediatePropagation(); return true; };
-var stopKeyBoardEvent = function (e) { if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) { e.stopImmediatePropagation(); } }
+var stopKeyBoardCopyEvent = function (e) { if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) { e.stopImmediatePropagation(); } }
 
 var enableTextSelect = function (root) {
     if (!root) { root = document; }
@@ -55,7 +55,7 @@ var enableTextSelect = function (root) {
         root.addEventListener(event, stopMouseEvent, true);
     });
     keyBoardCopyEvents.forEach(event => {
-        root.addEventListener(event, stopKeyBoardEvent, true);
+        root.addEventListener(event, stopKeyBoardCopyEvent, true);
     });
 
     root.querySelectorAll('*').forEach(element => {
@@ -72,7 +72,7 @@ var disableTextSelect = function (root) {
         root.removeEventListener(event, stopMouseEvent, true);
     });
     keyBoardCopyEvents.forEach(event => {
-        root.removeEventListener(event, stopKeyBoardEvent, true);
+        root.removeEventListener(event, stopKeyBoardCopyEvent, true);
     });
 
     root.querySelectorAll('*').forEach(element => {
@@ -149,31 +149,30 @@ chrome.storage.onChanged.addListener((changes) => {
 // 统一字体大小
 var limitFontSizeStyle = document.createElement('style');
 limitFontSizeStyle.id = 'limitFontSizeStyle';
-limitFontSizeStyle.textContent = `
+var limitFontSizeOptions = [8, 10, 12, 14, 16, 18, 20];
+var applyLimitFontSize = function (value) {
+    var size = Number(value);
+    if (limitFontSizeOptions.indexOf(size) === -1) {
+        limitFontSizeStyle.remove();
+        return;
+    }
+    limitFontSizeStyle.textContent = `
     * {
-        font-size: 14px !important;
+        font-size: ${size}px !important;
     }
 `;
+    if (!document.documentElement.contains(limitFontSizeStyle)) {
+        document.documentElement.appendChild(limitFontSizeStyle);
+    }
+};
 chrome.storage.sync.get(['allLimitFontSize'], data => {
     console.log('chrome.storage.sync.get.allLimitFontSize: ', data);
-    if (data.allLimitFontSize) {
-        if (!document.documentElement.contains(limitFontSizeStyle)) {
-            document.documentElement.appendChild(limitFontSizeStyle);
-        }
-    } else {
-        limitFontSizeStyle.remove();
-    }
+    applyLimitFontSize(data.allLimitFontSize);
 });
 chrome.storage.onChanged.addListener((changes) => {
     if (changes.allLimitFontSize) {
         console.log('chrome.storage.onChanged.allLimitFontSize: ', changes.allLimitFontSize);
-        if (changes.allLimitFontSize.newValue) {
-            if (!document.documentElement.contains(limitFontSizeStyle)) {
-                document.documentElement.appendChild(limitFontSizeStyle);
-            }
-        } else {
-            limitFontSizeStyle.remove();
-        }
+        applyLimitFontSize(changes.allLimitFontSize.newValue);
     }
 });
 

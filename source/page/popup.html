@@ -30,6 +30,10 @@
     .btn-success { background-color: #198754; border-color: #198754; }
     a { color: #0d6efd; text-decoration: none; }
     a:hover { text-decoration: underline; }
+    .font-size-options { display: inline-flex; flex-wrap: wrap; gap: 3px; margin-left: auto; }
+    .font-size-options.disabled { opacity: .5; pointer-events: none; }
+    .font-size-option { min-width: 20px; padding: 0 2px; font-size: 12px; line-height: 18px; text-align: center; border: 1px solid #ced4da; border-radius: .25rem; }
+    .font-size-option.active { color: #fff; background-color: #0d6efd; border-color: #0d6efd; }
   </style>
 </head>
 
@@ -112,6 +116,15 @@
       <label class="form-check-label fw-medium" for="allLimitFontSize">
         统一字体大小
       </label>
+      <span class="font-size-options disabled" id="allLimitFontSizeOptions">
+        <a href="#" class="font-size-option" data-size="8">8</a>
+        <a href="#" class="font-size-option" data-size="10">10</a>
+        <a href="#" class="font-size-option" data-size="12">12</a>
+        <a href="#" class="font-size-option" data-size="14">14</a>
+        <a href="#" class="font-size-option" data-size="16">16</a>
+        <a href="#" class="font-size-option" data-size="18">18</a>
+        <a href="#" class="font-size-option" data-size="20">20</a>
+      </span>
     </div>
     <div class="form-check form-switch">
       <input class="form-check-input" type="checkbox" id="allNoImageMode">
