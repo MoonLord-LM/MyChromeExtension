@@ -40,22 +40,30 @@ allowTextSelectStyle.textContent = `
         user-select: text !important;
     }
 `;
-
+var allowTextSelectStyles = new WeakMap();
+var stopMouseCopyEvent = function (e) { e.stopImmediatePropagation(); return true; };
+var stopKeyBoardCopyEvent = function (e) { if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) { e.stopImmediatePropagation(); } }
 var mouseCopyEvents = ['copy', 'select', 'selectstart', 'selectionchange', 'contextmenu', 'dragstart'];
 var keyBoardCopyEvents = ['keydown'];
-var stopMouseEvent = function (e) { e.stopImmediatePropagation(); return true; };
-var stopKeyBoardCopyEvent = function (e) { if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) { e.stopImmediatePropagation(); } }
-
 var enableTextSelect = function (root) {
     if (!root) { root = document; }
-    if (!root.documentElement) { return; }
 
-    root.documentElement.appendChild(allowTextSelectStyle);
-    mouseCopyEvents.forEach(event => {
-        root.addEventListener(event, stopMouseEvent, true);
-    });
-    keyBoardCopyEvents.forEach(event => {
-        root.addEventListener(event, stopKeyBoardCopyEvent, true);
+    var styleHost = root.documentElement || root;
+    var style = allowTextSelectStyles.get(root);
+    if (!style || !styleHost.contains(style)) {
+        style = allowTextSelectStyle.cloneNode(true);
+        styleHost.appendChild(style);
+        allowTextSelectStyles.set(root, style);
+    }
+
+    var targets = root.defaultView ? [root.defaultView, root] : [root];
+    targets.forEach(target => {
+        mouseCopyEvents.forEach(event => {
+            target.addEventListener(event, stopMouseCopyEvent, true);
+        });
+        keyBoardCopyEvents.forEach(event => {
+            target.addEventListener(event, stopKeyBoardCopyEvent, true);
+        });
     });
 
     root.querySelectorAll('*').forEach(element => {
@@ -67,12 +75,21 @@ var enableTextSelect = function (root) {
 var disableTextSelect = function (root) {
     if (!root) { root = document; }
 
-    allowTextSelectStyle.remove();
-    mouseCopyEvents.forEach(event => {
-        root.removeEventListener(event, stopMouseEvent, true);
-    });
-    keyBoardCopyEvents.forEach(event => {
-        root.removeEventListener(event, stopKeyBoardCopyEvent, true);
+    var styleHost = root.documentElement || root;
+    var style = allowTextSelectStyles.get(root);
+    if (style && styleHost.contains(style)) {
+        style.remove();
+    }
+    allowTextSelectStyles.delete(root);
+
+    var targets = root.defaultView ? [root.defaultView, root] : [root];
+    targets.forEach(target => {
+        mouseCopyEvents.forEach(event => {
+            target.removeEventListener(event, stopMouseCopyEvent, true);
+        });
+        keyBoardCopyEvents.forEach(event => {
+            target.removeEventListener(event, stopKeyBoardCopyEvent, true);
+        });
     });
 
     root.querySelectorAll('*').forEach(element => {
@@ -103,10 +120,22 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 // 禁止检测失焦事件
+var stopLeaveEvent = function (e) { e.stopImmediatePropagation(); return true; };
+var stopVisibilityEvent = function (e) { if (document.visibilityState === 'hidden') { e.stopImmediatePropagation(); } };
+var leaveEvents = ['blur', 'focusout', 'pagehide'];
+var visibilityEvents = ['visibilitychange'];
 var disallowBlurEvent = function (root) {
     if (!root) { root = document; }
 
-    root.addEventListener('blur', stopMouseEvent, true);
+    var targets = root.defaultView ? [root.defaultView, root] : [root];
+    targets.forEach(target => {
+        leaveEvents.forEach(event => {
+            target.addEventListener(event, stopLeaveEvent, true);
+        });
+        visibilityEvents.forEach(event => {
+            target.addEventListener(event, stopVisibilityEvent, true);
+        });
+    });
 
     root.querySelectorAll('*').forEach(element => {
         if (element.shadowRoot) {
@@ -117,7 +146,15 @@ var disallowBlurEvent = function (root) {
 var allowBlurEvent = function (root) {
     if (!root) { root = document; }
 
-    root.removeEventListener('blur', stopMouseEvent, true);
+    var targets = root.defaultView ? [root.defaultView, root] : [root];
+    targets.forEach(target => {
+        leaveEvents.forEach(event => {
+            target.removeEventListener(event, stopLeaveEvent, true);
+        });
+        visibilityEvents.forEach(event => {
+            target.removeEventListener(event, stopVisibilityEvent, true);
+        });
+    });
 
     root.querySelectorAll('*').forEach(element => {
         if (element.shadowRoot) {
@@ -147,26 +184,42 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 // 显示明文密码
-var showPassword = function () {
-    document.querySelectorAll('input[type="password"]').forEach(input => {
+var showPassword = function (root) {
+    if (!root) { root = document; }
+
+    root.querySelectorAll('input[type="password"]').forEach(input => {
         input.setAttribute('type', 'passwordShowedByMyChromeExtension');
     });
+
+    root.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            showPassword(element.shadowRoot);
+        }
+    });
 };
-var hidePassword = function () {
-    document.querySelectorAll('input[type="passwordShowedByMyChromeExtension"]').forEach(input => {
+var hidePassword = function (root) {
+    if (!root) { root = document; }
+
+    root.querySelectorAll('input[type="passwordShowedByMyChromeExtension"]').forEach(input => {
         input.setAttribute('type', 'password');
+    });
+
+    root.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            hidePassword(element.shadowRoot);
+        }
     });
 };
 chrome.storage.sync.get(['allShowPassword'], data => {
     console.log('chrome.storage.sync.get.allShowPassword: ', data);
     if (data.allShowPassword) {
         document.addEventListener('DOMContentLoaded', function () {
-            requestAnimationFrame(showPassword);
+            requestAnimationFrame(function () { showPassword(); });
         });
         showPassword();
     } else {
         document.addEventListener('DOMContentLoaded', function () {
-            requestAnimationFrame(hidePassword);
+            requestAnimationFrame(function () { hidePassword(); });
         });
         hidePassword();
     }
@@ -189,20 +242,37 @@ chrome.storage.onChanged.addListener((changes) => {
 var limitFontSizeStyle = document.createElement('style');
 limitFontSizeStyle.id = 'limitFontSizeStyle';
 var limitFontSizeOptions = [8, 10, 12, 14, 16, 18, 20];
-var applyLimitFontSize = function (value) {
+var limitFontSizeStyles = new WeakMap();
+var applyLimitFontSize = function (value, root) {
+    if (!root) { root = document; }
+
     var size = Number(value);
+    var styleHost = root.documentElement || root;
+    var style = limitFontSizeStyles.get(root);
+
     if (limitFontSizeOptions.indexOf(size) === -1) {
-        limitFontSizeStyle.remove();
-        return;
-    }
-    limitFontSizeStyle.textContent = `
+        if (style && styleHost.contains(style)) {
+            style.remove();
+        }
+        limitFontSizeStyles.delete(root);
+    } else {
+        if (!style || !styleHost.contains(style)) {
+            style = limitFontSizeStyle.cloneNode(true);
+            styleHost.appendChild(style);
+            limitFontSizeStyles.set(root, style);
+        }
+        style.textContent = `
     * {
         font-size: ${size}px !important;
     }
 `;
-    if (!document.documentElement.contains(limitFontSizeStyle)) {
-        document.documentElement.appendChild(limitFontSizeStyle);
     }
+
+    root.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            applyLimitFontSize(value, element.shadowRoot);
+        }
+    });
 };
 chrome.storage.sync.get(['allLimitFontSize'], data => {
     console.log('chrome.storage.sync.get.allLimitFontSize: ', data);
@@ -230,26 +300,40 @@ noImageModeStyle.textContent = `
         border-image: none !important;
     }
 `;
-chrome.storage.sync.get(['allNoImageMode'], data => {
-    console.log('chrome.storage.sync.get.allNoImageMode: ', data);
-    if (data.allNoImageMode) {
-        if (!document.documentElement.contains(noImageModeStyle)) {
-            document.documentElement.appendChild(noImageModeStyle);
+var noImageModeStyles = new WeakMap();
+var applyNoImageMode = function (enabled, root) {
+    if (!root) { root = document; }
+
+    var styleHost = root.documentElement || root;
+    var style = noImageModeStyles.get(root);
+
+    if (enabled) {
+        if (!style || !styleHost.contains(style)) {
+            style = noImageModeStyle.cloneNode(true);
+            styleHost.appendChild(style);
+            noImageModeStyles.set(root, style);
         }
     } else {
-        noImageModeStyle.remove();
+        if (style && styleHost.contains(style)) {
+            style.remove();
+        }
+        noImageModeStyles.delete(root);
     }
+
+    root.querySelectorAll('*').forEach(element => {
+        if (element.shadowRoot) {
+            applyNoImageMode(enabled, element.shadowRoot);
+        }
+    });
+};
+chrome.storage.sync.get(['allNoImageMode'], data => {
+    console.log('chrome.storage.sync.get.allNoImageMode: ', data);
+    applyNoImageMode(!!data.allNoImageMode);
 });
 chrome.storage.onChanged.addListener((changes) => {
     if (changes.allNoImageMode) {
         console.log('chrome.storage.onChanged.allNoImageMode: ', changes.allNoImageMode);
-        if (changes.allNoImageMode.newValue) {
-            if (!document.documentElement.contains(noImageModeStyle)) {
-                document.documentElement.appendChild(noImageModeStyle);
-            }
-        } else {
-            noImageModeStyle.remove();
-        }
+        applyNoImageMode(!!changes.allNoImageMode.newValue);
     }
 });
 
