@@ -117,3 +117,39 @@ EventTarget.prototype.enableEventListeners = function (type) {
 };
 
 
+
+/*
+覆盖 JS 原生的 document.visibilityState 和 document.hidden 属性，以及 document.hasFocus() 和 window.hasFocus() 方法
+
+让页面始终认为自己是可见、有焦点的状态
+*/
+var disallowBlurEventFlag = 'MyChromeExtension-disallow-blur-event-flag';
+var isDisallowBlurEvent = function () {
+    return !!(document.documentElement && document.documentElement.hasAttribute(disallowBlurEventFlag));
+};
+var originalVisibilityState = Object.getOwnPropertyDescriptor(Document.prototype, 'visibilityState');
+var originalHidden = Object.getOwnPropertyDescriptor(Document.prototype, 'hidden');
+var originalDocumentHasFocus = Document.prototype.hasFocus;
+var originalWindowHasFocus = Window.prototype.hasFocus;
+Object.defineProperty(Document.prototype, 'visibilityState', {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return isDisallowBlurEvent() ? 'visible' : originalVisibilityState.get.call(this);
+    }
+});
+Object.defineProperty(Document.prototype, 'hidden', {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return isDisallowBlurEvent() ? false : originalHidden.get.call(this);
+    }
+});
+Document.prototype.hasFocus = function () {
+    return isDisallowBlurEvent() ? true : originalDocumentHasFocus.call(this);
+};
+Window.prototype.hasFocus = function () {
+    return isDisallowBlurEvent() ? true : originalWindowHasFocus.call(this);
+};
+
+
