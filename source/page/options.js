@@ -46,10 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
       ['youtubeHideVideoEndRecommend', 'youtube.com'],
       ['allAllowTextSelect', '*'],
       ['allDisallowBlurEvent', '*'],
-      ['allLimitFontSize', '*'],
-      ['allHideWatermark', '*'],
+      ['allShowPassword', '*'],
       ['allNoImageMode', '*'],
-      ['allShowPassword', '*']
+      ['allLimitFontSize', '*'],
+      ['allHideWatermark', '*']
     ]);
 
     // 获取所有配置项的数组（用于向后兼容）
