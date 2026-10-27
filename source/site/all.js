@@ -30,17 +30,6 @@ showLoadedFile();
 
 
 // 允许选中和复制文本
-var allowTextSelectStyle = document.createElement('style');
-allowTextSelectStyle.id = 'allowTextSelectStyle';
-allowTextSelectStyle.textContent = `
-    * {
-        -webkit-user-select: text !important;
-        -moz-user-select: text !important;
-        -ms-user-select: text !important;
-        user-select: text !important;
-    }
-`;
-var allowTextSelectStyles = new WeakMap();
 var stopMouseCopyEvent = function (e) { e.stopImmediatePropagation(); return true; };
 var stopKeyBoardCopyEvent = function (e) { if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) { e.stopImmediatePropagation(); } }
 var mouseCopyEvents = ['copy', 'select', 'selectstart', 'selectionchange', 'contextmenu', 'dragstart'];
@@ -49,11 +38,18 @@ var enableTextSelect = function (root) {
     if (!root) { root = document; }
 
     var styleHost = root.documentElement || root;
-    var style = allowTextSelectStyles.get(root);
-    if (!style || !styleHost.contains(style)) {
-        style = allowTextSelectStyle.cloneNode(true);
+    if (!styleHost.querySelector('#allowTextSelectStyle')) {
+        var style = document.createElement('style');
+        style.id = 'allowTextSelectStyle';
+        style.textContent = `
+    * {
+        -webkit-user-select: text !important;
+        -moz-user-select: text !important;
+        -ms-user-select: text !important;
+        user-select: text !important;
+    }
+`;
         styleHost.appendChild(style);
-        allowTextSelectStyles.set(root, style);
     }
 
     var targets = root.defaultView ? [root.defaultView, root] : [root];
@@ -76,11 +72,10 @@ var disableTextSelect = function (root) {
     if (!root) { root = document; }
 
     var styleHost = root.documentElement || root;
-    var style = allowTextSelectStyles.get(root);
-    if (style && styleHost.contains(style)) {
+    var style = styleHost.querySelector('#allowTextSelectStyle');
+    if (style) {
         style.remove();
     }
-    allowTextSelectStyles.delete(root);
 
     var targets = root.defaultView ? [root.defaultView, root] : [root];
     targets.forEach(target => {
@@ -239,27 +234,23 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 // 统一字体大小
-var limitFontSizeStyle = document.createElement('style');
-limitFontSizeStyle.id = 'limitFontSizeStyle';
 var limitFontSizeOptions = [8, 10, 12, 14, 16, 18, 20];
-var limitFontSizeStyles = new WeakMap();
 var applyLimitFontSize = function (value, root) {
     if (!root) { root = document; }
 
     var size = Number(value);
     var styleHost = root.documentElement || root;
-    var style = limitFontSizeStyles.get(root);
+    var style = styleHost.querySelector('#limitFontSizeStyle');
 
     if (limitFontSizeOptions.indexOf(size) === -1) {
-        if (style && styleHost.contains(style)) {
+        if (style) {
             style.remove();
         }
-        limitFontSizeStyles.delete(root);
     } else {
-        if (!style || !styleHost.contains(style)) {
-            style = limitFontSizeStyle.cloneNode(true);
+        if (!style) {
+            style = document.createElement('style');
+            style.id = 'limitFontSizeStyle';
             styleHost.appendChild(style);
-            limitFontSizeStyles.set(root, style);
         }
         style.textContent = `
     * {
@@ -288,9 +279,17 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 // 无图模式
-var noImageModeStyle = document.createElement('style');
-noImageModeStyle.id = 'noImageModeStyle';
-noImageModeStyle.textContent = `
+var applyNoImageMode = function (enabled, root) {
+    if (!root) { root = document; }
+
+    var styleHost = root.documentElement || root;
+    var style = styleHost.querySelector('#noImageModeStyle');
+
+    if (enabled) {
+        if (!style) {
+            style = document.createElement('style');
+            style.id = 'noImageModeStyle';
+            style.textContent = `
     img {
         display: none !important;
         visibility: hidden !important;
@@ -300,24 +299,10 @@ noImageModeStyle.textContent = `
         border-image: none !important;
     }
 `;
-var noImageModeStyles = new WeakMap();
-var applyNoImageMode = function (enabled, root) {
-    if (!root) { root = document; }
-
-    var styleHost = root.documentElement || root;
-    var style = noImageModeStyles.get(root);
-
-    if (enabled) {
-        if (!style || !styleHost.contains(style)) {
-            style = noImageModeStyle.cloneNode(true);
             styleHost.appendChild(style);
-            noImageModeStyles.set(root, style);
         }
-    } else {
-        if (style && styleHost.contains(style)) {
-            style.remove();
-        }
-        noImageModeStyles.delete(root);
+    } else if (style) {
+        style.remove();
     }
 
     root.querySelectorAll('*').forEach(element => {
