@@ -60,19 +60,6 @@
             "run_at": "document_start"
         },
         {
-            "matches": [ "http://youtube.com/*", "https://youtube.com/*", "http://*.youtube.com/*", "https://*.youtube.com/*" ],
-            "js": [ "site/www.youtube.com.js" ],
-            "all_frames": true,
-            "run_at": "document_start"
-        },
-        {
-            "matches": [ "http://zhihu.com/*", "https://zhihu.com/*", "http://*.zhihu.com/*", "https://*.zhihu.com/*" ],
-            "js": [ "site/www.zhihu.com.js" ],
-            "all_frames": true,
-            "run_at": "document_start"
-        },
-
-        {
             "matches": [ "http://bilibili.com/*", "https://bilibili.com/*", "http://*.bilibili.com/*", "https://*.bilibili.com/*" ],
             "js": [ "tmp/www.bilibili.com.js" ],
             "all_frames": true,

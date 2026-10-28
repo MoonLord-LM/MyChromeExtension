@@ -36,14 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 配置清单
     var configAndSites = new Map([
-      ['v2exHideBackgroundImage', 'v2ex.com'],
-      ['v2exHideBackgroundColor', 'v2ex.com'],
       ['v2exHideLogo', 'v2ex.com'],
-      ['zhihuTitleFontFix', 'zhihu.com'],
-      ['zhihuWideScreenFix', 'zhihu.com'],
-      ['zhihuHideLogo', 'zhihu.com'],
-      ['zhihuReduceLineSpacing', 'zhihu.com'],
-      ['youtubeHideVideoEndRecommend', 'youtube.com'],
       ['allAllowTextSelect', '*'],
       ['allDisallowBlurEvent', '*'],
       ['allShowPassword', '*'],
