@@ -21,8 +21,10 @@ Object.assign(copyVideoLinkButton.style, {
     boxShadow: '0 2px 8px rgba(0, 0, 0, .25)'
 });
 
+
+
+// 每次点击都重新扫描当前 DOM，不使用缓存
 copyVideoLinkButton.addEventListener('click', async () => {
-    // 每次点击都重新扫描当前 DOM，不使用缓存
     var bvSet = new Set();
     document.querySelectorAll('a[href]').forEach(a => {
         var match = a.href.match(/\/video\/(BV[0-9A-Za-z]+)/);
@@ -66,6 +68,8 @@ copyVideoLinkButton.addEventListener('click', async () => {
 
     setTimeout(() => { copyVideoLinkButton.textContent = '复制视频链接'; }, 2000);
 });
+
+
 
 // 读取设置
 chrome.storage.sync.get(['bilibiliCopyVideoLink'], data => {
