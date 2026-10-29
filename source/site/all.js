@@ -187,7 +187,7 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 
-// 显示明文密码
+// 密码框显示明文密码
 var showPassword = function (root) {
     if (!root) { root = document; }
 
