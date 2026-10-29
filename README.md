@@ -1,7 +1,7 @@
 # MyChromeExtension
 
 A Chrome extension for improving the web browsing experience  
-一个优化网页浏览体验的 Chrome 浏览器插件  
+一个优化网页浏览体验的谷歌浏览器插件  
 
 ## [功能清单]
 
