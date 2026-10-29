@@ -1,4 +1,30 @@
 # MyChromeExtension
 
-A Chrome browser extension for web page optimizations  
-一个 Chrome 浏览器插件，提供网页优化  
+A Chrome extension that makes websites easier to use  
+一个让网页更好用的 Chrome 浏览器插件  
+
+## [功能清单]
+
+| 适用范围 | 功能 | 说明 |
+| --- | --- | --- |
+| 所有网站 | 始终允许右键菜单和复制文本 | 允许右键菜单，允许文字的选中、复制和拖拽 |
+| 所有网站 | 始终保持页面活跃焦点状态 | 保持页面活跃状态，屏蔽失去焦点、页面隐藏等事件 |
+| 所有网站 | 密码框显示明文密码 | 将密码框的密码内容以明文显示 |
+| 所有网站 | 统一字体大小 | 统一整个网页的字体大小，可以设定为 8-20px 的指定值 |
+| 所有网站 | 无图模式 | 隐藏图片、背景图、边框图 |
+| www.bilibili.com | 复制视频链接按钮 | 在页面右下角显示按钮，一键复制当前页面所有视频链接 |
+| www.youtube.com | 复制视频链接按钮 | 在页面右下角显示按钮，一键复制当前页面所有视频链接 |
+| www.v2ex.com | 隐藏 Logo | 隐藏页面顶部 Logo |
+
+## [工程结构]
+
+```
+MyChromeExtension/
+├── source/                             # 插件源代码
+│   ├── assets/                         # 图标文件
+│   ├── page/                           # 插件展示页面
+│   ├── site/                           # 插件功能脚本
+│   └── manifest.json                   # 插件基本配置
+├── LLM.md                              # 提示信息
+└── README.md                           # 工程说明
+```
