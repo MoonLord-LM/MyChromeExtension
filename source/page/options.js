@@ -130,22 +130,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 全部禁用
-    var clearAllConfig = document.getElementById('clearAllConfig');
-    if (clearAllConfig) {
-        clearAllConfig.addEventListener('click', (e) => {
-            console.log('chrome.storage.sync.clear');
-            chrome.storage.sync.clear();
+    // 全部开启
+    var enableAllConfig = document.getElementById('enableAllConfig');
+    if (enableAllConfig) {
+        enableAllConfig.addEventListener('click', (e) => {
+            var update = {};
+            configs.forEach(config => {
+                update[config] = true;
+            });
+            update.allLimitFontSize = 14;
+            console.log('chrome.storage.sync.set: ', update);
+            chrome.storage.sync.set(update);
         });
     }
 
-    // 还原默认
-    var resetAllConfig = document.getElementById('resetAllConfig');
-    if (resetAllConfig) {
-        resetAllConfig.addEventListener('click', (e) => {
+    // 全部关闭
+    var disableAllConfig = document.getElementById('disableAllConfig');
+    if (disableAllConfig) {
+        disableAllConfig.addEventListener('click', (e) => {
             var update = {};
-            configAndSites.forEach((site, config) => {
-                update[config] = (site !== '*');
+            configs.forEach(config => {
+                update[config] = false;
             });
             update.allLimitFontSize = 0;
             console.log('chrome.storage.sync.set: ', update);
