@@ -8,7 +8,7 @@ copyVideoLinkButton.id = 'copyVideoLinkButton';
 copyVideoLinkButton.textContent = '复制视频链接';
 Object.assign(copyVideoLinkButton.style, {
     position: 'fixed',
-    right: '30px',
+    right: '20px',
     bottom: '240px',
     zIndex: '999999',
     padding: '10px 16px',
