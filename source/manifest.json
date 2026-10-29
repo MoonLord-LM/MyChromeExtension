@@ -60,7 +60,7 @@
             "run_at": "document_start"
         },
         {
-            "matches": [ "https://space.bilibili.com/*" ],
+            "matches": [ "http://space.bilibili.com/*", "https://space.bilibili.com/*" ],
             "js": [ "site/space.bilibili.com.js" ],
             "run_at": "document_end"
         }
