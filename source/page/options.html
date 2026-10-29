@@ -7,7 +7,7 @@
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; padding: 8px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; font-size: 14px; color: #212529; }
-    .card { background-color: #f8f9fa; border: 0; border-radius: 6px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.075); }
+    .card { background-color: #f8f9fa; border: 0; border-radius: 6px; padding: 16px 16px 8px; box-shadow: 0 1px 2px rgba(0,0,0,.075); }
     .card-subtitle { margin: 0 0 8px; padding-bottom: 8px; font-size: 13px; font-weight: 600; color: rgba(33,37,41,.75); border-bottom: 1px solid #dee2e6; }
     .form-check { display: flex; align-items: center; min-height: 1.5rem; margin-bottom: 2px; }
     .form-check.form-switch { position: relative; padding-left: 2.75em; }
@@ -28,6 +28,7 @@
     .py-1 { padding-top: .25rem; padding-bottom: .25rem; }
     .btn-outline-secondary { background-color: transparent; border-color: #ced4da; color: #6c757d; }
     .btn-outline-secondary:hover { background-color: #e9ecef; }
+    .btn-group { display: flex; align-items: center; gap: 6px; padding-top: .5rem; }
     a { color: #0d6efd; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .font-size-options { display: inline-flex; flex-wrap: wrap; gap: 3px; margin-left: auto; }
@@ -105,7 +106,7 @@
     </div>
 
     <!-- 以下是批量操作按钮 -->
-    <div class="border-top mt-2 pt-2">
+    <div class="border-top mt-2 btn-group">
       <button id="enableAllConfig" class="btn btn-outline-secondary btn-sm py-1">
         全部开启
       </button>
