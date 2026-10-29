@@ -29,7 +29,7 @@ showLoadedFile();
 
 
 
-// 允许选中和复制文本
+// 始终允许右键菜单和复制文本
 var stopMouseCopyEvent = function (e) { e.stopImmediatePropagation(); return true; };
 var stopKeyBoardCopyEvent = function (e) { if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) { e.stopImmediatePropagation(); } }
 var mouseCopyEvents = ['copy', 'select', 'selectstart', 'selectionchange', 'contextmenu', 'dragstart'];
@@ -114,7 +114,7 @@ chrome.storage.onChanged.addListener((changes) => {
 
 
 
-// 禁止检测失焦事件
+// 始终保持页面活跃焦点状态
 var disallowBlurEventFlag = 'MyChromeExtension-disallow-blur-event-flag';
 var stopLeaveEvent = function (e) { e.stopImmediatePropagation(); return true; };
 var stopVisibilityHiddenEvent = function (e) { if (document.visibilityState === 'hidden') { e.stopImmediatePropagation(); } };
