@@ -64,24 +64,6 @@
             "js": [ "tmp/www.bilibili.com.js" ],
             "all_frames": true,
             "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://asmroger.top/*", "https://asmroger.top/*" ],
-            "js": [ "tmp/asmroger.top.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://watchadsontape.com/*", "https://watchadsontape.com/*" ],
-            "js": [ "tmp/watchadsontape.com.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://bigwarp.cc/*", "https://bigwarp.cc/*" ],
-            "js": [ "tmp/bigwarp.cc.js" ],
-            "all_frames": true,
-            "run_at": "document_end"
         }
     ]
 }
