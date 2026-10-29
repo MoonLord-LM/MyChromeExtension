@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var configAndSites = new Map([
       ['v2exHideLogo', 'v2ex.com'],
       ['bilibiliCopyVideoLink', 'space.bilibili.com'],
+      ['youtubeCopyVideoLink', 'www.youtube.com'],
       ['allAllowTextSelect', '*'],
       ['allDisallowBlurEvent', '*'],
       ['allShowPassword', '*'],
