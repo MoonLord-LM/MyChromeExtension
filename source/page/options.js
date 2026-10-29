@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 配置清单
     var configAndSites = new Map([
       ['v2exHideLogo', 'v2ex.com'],
+      ['bilibiliCopyVideoLink', 'bilibili.com'],
       ['allAllowTextSelect', '*'],
       ['allDisallowBlurEvent', '*'],
       ['allShowPassword', '*'],
