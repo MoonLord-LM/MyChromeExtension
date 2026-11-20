@@ -256,7 +256,7 @@ var runOnce = function () {
             }
             var uuid = pending.uuid;
             var requestBody = pending.request || {};
-            var currentPrompt = '现在，你是一个 OpenAI 的 API 端点。收到以下的 JSON 请求，给我回复 JSON 响应。注意严格按照 JSON 格式，并将完整 JSON 放在 ```json 代码块中，代码块内保留所有转义字符原样。\n'
+            var currentPrompt = '你是一个 LLM 的 Chat Completions API 服务，使用 OpenAI API 协议，并且支持 tools 工具调用。处理以下的 JSON 请求。回复符合 OpenAI API 协议的 JSON 响应。\n'
                 + JSON.stringify(requestBody, null, 2);
             startNewChat(generation, function () {
                 var previousResponse = getLastAssistantResponse();
@@ -300,6 +300,23 @@ var runOnce = function () {
                                 } catch (error) {
                                     console.log('MyChromeExtension doubao.com: 回复不是合法 JSON，跳过本轮', error);
                                     return;
+                                }
+                                // 兼容处理：部分模型会把 tool_calls.function.arguments 输出为对象，OpenAI 协议要求为 JSON 字符串
+                                if (responseBody && responseBody.choices) {
+                                    for (var choiceIndex = 0; choiceIndex < responseBody.choices.length; choiceIndex++) {
+                                        var choice = responseBody.choices[choiceIndex];
+                                        var message = choice && (choice.message || choice.delta);
+                                        if (message && message.tool_calls) {
+                                            for (var toolIndex = 0; toolIndex < message.tool_calls.length; toolIndex++) {
+                                                var toolCall = message.tool_calls[toolIndex];
+                                                if (toolCall && toolCall.function && toolCall.function.arguments
+                                                    && typeof toolCall.function.arguments === 'object') {
+                                                    toolCall.function.arguments = JSON.stringify(toolCall.function.arguments);
+                                                    console.log('MyChromeExtension doubao.com: 已将 tool_calls.function.arguments 由对象转为字符串');
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 var responseData = {
                                     uuid: uuid,
