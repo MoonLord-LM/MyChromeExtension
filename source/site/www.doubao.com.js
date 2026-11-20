@@ -302,46 +302,10 @@ var runOnce = function () {
                                     console.log('MyChromeExtension doubao.com: 回复不是合法 JSON，跳过本轮', error);
                                     return;
                                 }
-                                // local.php 的 handle_request 要求 response 为非 null 值；数组为原始流式行，可原样透传
-                                if (!responseBody || typeof responseBody !== 'object') {
+                                if (!responseBody || typeof responseBody !== 'object' || Array.isArray(responseBody)) {
                                     isBusy = false;
                                     console.log('MyChromeExtension doubao.com: 回复不是 JSON 对象，跳过本轮');
                                     return;
-                                }
-                                // 按 local.php output_chat_completion_stream 的规则规整响应，补齐非流式响应缺失的协议字段
-                                if (!Array.isArray(responseBody)) {
-                                    if (!responseBody.id) {
-                                        responseBody.id = 'chatcmpl-' + Date.now().toString(16);
-                                    }
-                                    if (!responseBody.object) {
-                                        responseBody.object = 'chat.completion';
-                                    }
-                                    if (typeof responseBody.created !== 'number') {
-                                        responseBody.created = Math.floor(Date.now() / 1000);
-                                    }
-                                    if (!responseBody.model) {
-                                        responseBody.model = 'WebModel';
-                                    }
-                                    if (responseBody.choices && responseBody.choices.length > 0) {
-                                        for (var choiceIndex = 0; choiceIndex < responseBody.choices.length; choiceIndex++) {
-                                            var choice = responseBody.choices[choiceIndex];
-                                            var message = choice && (choice.message || choice.delta);
-                                            if (message && message.tool_calls && message.tool_calls.length > 0) {
-                                                if (choice.finish_reason !== 'tool_calls') {
-                                                    choice.finish_reason = 'tool_calls';
-                                                }
-                                                // 部分模型会把 arguments 输出为对象，OpenAI 协议要求为 JSON 字符串
-                                                for (var toolIndex = 0; toolIndex < message.tool_calls.length; toolIndex++) {
-                                                    var toolCall = message.tool_calls[toolIndex];
-                                                    if (toolCall && toolCall.function && toolCall.function.arguments
-                                                        && typeof toolCall.function.arguments === 'object') {
-                                                        toolCall.function.arguments = JSON.stringify(toolCall.function.arguments);
-                                                        console.log('MyChromeExtension doubao.com: 已将 tool_calls.function.arguments 由对象转为字符串');
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
                                 }
                                 var responseData = {
                                     hash: requestHash,
