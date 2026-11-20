@@ -7,6 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     var url = new URL(currentTab.url);
                     configAndSites.forEach((site, config) => {
+                        if (site !== '*') {
+                            var element = document.getElementById(config);
+                            if (element && element.parentElement) {
+                                element.parentElement.style.display = 'none';
+                            }
+                        }
+                    });
+                    configAndSites.forEach((site, config) => {
                         if (url.protocol === 'chrome-extension:' || site === '*' || url.hostname === site || url.hostname.endsWith('.' + site)) {
                             var element = document.getElementById(config);
                             if (element && element.parentElement) {
