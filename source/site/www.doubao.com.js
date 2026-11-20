@@ -254,7 +254,7 @@ var runOnce = function () {
                 isBusy = false;
                 return;
             }
-            var uuid = pending.uuid;
+            var requestHash = pending.hash;
             var requestBody = pending.request || {};
             var currentPrompt = '你是一个 LLM 的 Chat Completions API 服务，使用 OpenAI API 协议，并且支持 tools 工具调用。处理以下的 JSON 请求。回复符合 OpenAI API 协议的 JSON 响应。\n'
                 + JSON.stringify(requestBody, null, 2);
@@ -287,8 +287,8 @@ var runOnce = function () {
                             }
                             sendButton.click();
                             waitForResponse(previousText, generation, function (text) {
-                                isBusy = false;
                                 if (!text) {
+                                    isBusy = false;
                                     console.log('MyChromeExtension doubao.com: 等待回复超时');
                                     return;
                                 }
@@ -298,6 +298,7 @@ var runOnce = function () {
                                 try {
                                     responseBody = JSON.parse(jsonText);
                                 } catch (error) {
+                                    isBusy = false;
                                     console.log('MyChromeExtension doubao.com: 回复不是合法 JSON，跳过本轮', error);
                                     return;
                                 }
@@ -319,7 +320,7 @@ var runOnce = function () {
                                     }
                                 }
                                 var responseData = {
-                                    uuid: uuid,
+                                    hash: requestHash,
                                     prompt: currentPrompt,
                                     text: text,
                                     time: Date.now()
@@ -331,7 +332,7 @@ var runOnce = function () {
                                 fetch(proxyBaseUrl + '/v1/request/handle', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ uuid: uuid, response: responseBody })
+                                    body: JSON.stringify({ hash: requestHash, response: responseBody })
                                 })
                                     .then(function (resp) {
                                         if (!resp.ok) {
@@ -341,9 +342,11 @@ var runOnce = function () {
                                     })
                                     .then(function (result) {
                                         console.log('MyChromeExtension doubao.com: 响应已提交', result);
+                                        isBusy = false;
                                     })
                                     .catch(function (error) {
                                         console.log('MyChromeExtension doubao.com: 提交响应失败', error);
+                                        isBusy = false;
                                     });
                             });
                         };
