@@ -68,11 +68,6 @@
             "matches": [ "http://www.youtube.com/*", "https://www.youtube.com/*" ],
             "js": [ "site/www.youtube.com.js" ],
             "run_at": "document_end"
-        },
-        {
-            "matches": [ "http://doubao.com/*", "https://doubao.com/*", "http://*.doubao.com/*", "https://*.doubao.com/*" ],
-            "js": [ "site/www.doubao.com.js" ],
-            "run_at": "document_end"
         }
     ]
 }
